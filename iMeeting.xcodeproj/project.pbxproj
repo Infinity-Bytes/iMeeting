@@ -1,0 +1,262 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D77563F014BCD00100A112A7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77563EF14BCD00100A112A7 /* UIKit.framework */; };
+		D77563F214BCD00100A112A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77563F114BCD00100A112A7 /* Foundation.framework */; };
+		D77563F414BCD00100A112A7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77563F314BCD00100A112A7 /* CoreGraphics.framework */; };
+		D77563FA14BCD00100A112A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D77563F814BCD00100A112A7 /* InfoPlist.strings */; };
+		D77563FC14BCD00100A112A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D77563FB14BCD00100A112A7 /* main.m */; };
+		D775640014BCD00100A112A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D77563FF14BCD00100A112A7 /* AppDelegate.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D77563EB14BCD00100A112A7 /* iMeeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMeeting.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D77563EF14BCD00100A112A7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		D77563F114BCD00100A112A7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D77563F314BCD00100A112A7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		D77563F714BCD00100A112A7 /* iMeeting-Info.plist */ = {isa = PBXFileReference; path = "iMeeting-Info.plist"; sourceTree = "<group>"; };
+		D77563F914BCD00100A112A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D77563FB14BCD00100A112A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D77563FD14BCD00100A112A7 /* iMeeting-Prefix.pch */ = {isa = PBXFileReference; path = "iMeeting-Prefix.pch"; sourceTree = "<group>"; };
+		D77563FE14BCD00100A112A7 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		D77563FF14BCD00100A112A7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D77563E814BCD00100A112A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D77563F014BCD00100A112A7 /* UIKit.framework in Frameworks */,
+				D77563F214BCD00100A112A7 /* Foundation.framework in Frameworks */,
+				D77563F414BCD00100A112A7 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D77563E014BCD00100A112A7 = {
+			isa = PBXGroup;
+			children = (
+				D77563F514BCD00100A112A7 /* iMeeting */,
+				D77563EE14BCD00100A112A7 /* Frameworks */,
+				D77563EC14BCD00100A112A7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D77563EC14BCD00100A112A7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D77563EB14BCD00100A112A7 /* iMeeting.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D77563EE14BCD00100A112A7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D77563EF14BCD00100A112A7 /* UIKit.framework */,
+				D77563F114BCD00100A112A7 /* Foundation.framework */,
+				D77563F314BCD00100A112A7 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D77563F514BCD00100A112A7 /* iMeeting */ = {
+			isa = PBXGroup;
+			children = (
+				D77563FE14BCD00100A112A7 /* AppDelegate.h */,
+				D77563FF14BCD00100A112A7 /* AppDelegate.m */,
+				D77563F614BCD00100A112A7 /* Supporting Files */,
+			);
+			path = iMeeting;
+			sourceTree = "<group>";
+		};
+		D77563F614BCD00100A112A7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D77563F714BCD00100A112A7 /* iMeeting-Info.plist */,
+				D77563F814BCD00100A112A7 /* InfoPlist.strings */,
+				D77563FB14BCD00100A112A7 /* main.m */,
+				D77563FD14BCD00100A112A7 /* iMeeting-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D77563EA14BCD00100A112A7 /* iMeeting */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D775640314BCD00100A112A7 /* Build configuration list for PBXNativeTarget "iMeeting" */;
+			buildPhases = (
+				D77563E714BCD00100A112A7 /* Sources */,
+				D77563E814BCD00100A112A7 /* Frameworks */,
+				D77563E914BCD00100A112A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iMeeting;
+			productName = iMeeting;
+			productReference = D77563EB14BCD00100A112A7 /* iMeeting.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D77563E214BCD00100A112A7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = INEGI;
+			};
+			buildConfigurationList = D77563E514BCD00100A112A7 /* Build configuration list for PBXProject "iMeeting" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D77563E014BCD00100A112A7;
+			productRefGroup = D77563EC14BCD00100A112A7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D77563EA14BCD00100A112A7 /* iMeeting */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D77563E914BCD00100A112A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D77563FA14BCD00100A112A7 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D77563E714BCD00100A112A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D77563FC14BCD00100A112A7 /* main.m in Sources */,
+				D775640014BCD00100A112A7 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D77563F814BCD00100A112A7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D77563F914BCD00100A112A7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D775640114BCD00100A112A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D775640214BCD00100A112A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D775640414BCD00100A112A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iMeeting/iMeeting-Prefix.pch";
+				INFOPLIST_FILE = "iMeeting/iMeeting-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		D775640514BCD00100A112A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iMeeting/iMeeting-Prefix.pch";
+				INFOPLIST_FILE = "iMeeting/iMeeting-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D77563E514BCD00100A112A7 /* Build configuration list for PBXProject "iMeeting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D775640114BCD00100A112A7 /* Debug */,
+				D775640214BCD00100A112A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D775640314BCD00100A112A7 /* Build configuration list for PBXNativeTarget "iMeeting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D775640414BCD00100A112A7 /* Debug */,
+				D775640514BCD00100A112A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D77563E214BCD00100A112A7 /* Project object */;
+}
