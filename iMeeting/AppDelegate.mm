@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "ControladorScannner.h"
 
 @implementation AppDelegate
 
@@ -21,9 +22,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    ControladorScannner * controladorScanner =  [[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]]; 
     // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+       
+    [[self window] addSubview: [controladorScanner view]];
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 

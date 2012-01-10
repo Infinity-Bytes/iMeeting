@@ -11,21 +11,59 @@
 		D77563F214BCD00100A112A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77563F114BCD00100A112A7 /* Foundation.framework */; };
 		D77563F414BCD00100A112A7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77563F314BCD00100A112A7 /* CoreGraphics.framework */; };
 		D77563FA14BCD00100A112A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D77563F814BCD00100A112A7 /* InfoPlist.strings */; };
-		D77563FC14BCD00100A112A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D77563FB14BCD00100A112A7 /* main.m */; };
-		D775640014BCD00100A112A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D77563FF14BCD00100A112A7 /* AppDelegate.m */; };
+		D77563FC14BCD00100A112A7 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = D77563FB14BCD00100A112A7 /* main.mm */; };
+		D775640014BCD00100A112A7 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = D77563FF14BCD00100A112A7 /* AppDelegate.mm */; };
+		D775642014BCD41D00A112A7 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D775641A14BCD20D00A112A7 /* libZXingWidget.a */; };
+		D775642214BCD44A00A112A7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D775642114BCD44A00A112A7 /* AudioToolbox.framework */; };
+		D775642514BCD46C00A112A7 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D775642314BCD46C00A112A7 /* CoreMedia.framework */; };
+		D775642614BCD46C00A112A7 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D775642414BCD46C00A112A7 /* CoreVideo.framework */; };
+		D775642814BCD47800A112A7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D775642714BCD47800A112A7 /* AVFoundation.framework */; };
+		D775642A14BCD4C200A112A7 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D775642914BCD4C200A112A7 /* libiconv.dylib */; };
+		D775643714BCD7BC00A112A7 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D775643514BCD7BC00A112A7 /* AddressBook.framework */; };
+		D775643814BCD7BC00A112A7 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D775643614BCD7BC00A112A7 /* AddressBookUI.framework */; };
+		D775643D14BCDC3100A112A7 /* ControladorScannner.mm in Sources */ = {isa = PBXBuildFile; fileRef = D775643B14BCDC3100A112A7 /* ControladorScannner.mm */; };
+		D775643E14BCDC3100A112A7 /* ControladorScannner.xib in Resources */ = {isa = PBXBuildFile; fileRef = D775643C14BCDC3100A112A7 /* ControladorScannner.xib */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D775641914BCD20D00A112A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D775641114BCD20C00A112A7 /* ZXingWidget.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = ZXingWidget;
+		};
+		D775641D14BCD21C00A112A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D775641114BCD20C00A112A7 /* ZXingWidget.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = ZXingWidget;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		D77563EB14BCD00100A112A7 /* iMeeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMeeting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D77563EF14BCD00100A112A7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D77563F114BCD00100A112A7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D77563F314BCD00100A112A7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		D77563F714BCD00100A112A7 /* iMeeting-Info.plist */ = {isa = PBXFileReference; path = "iMeeting-Info.plist"; sourceTree = "<group>"; };
+		D77563F714BCD00100A112A7 /* iMeeting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iMeeting-Info.plist"; sourceTree = "<group>"; };
 		D77563F914BCD00100A112A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D77563FB14BCD00100A112A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D77563FD14BCD00100A112A7 /* iMeeting-Prefix.pch */ = {isa = PBXFileReference; path = "iMeeting-Prefix.pch"; sourceTree = "<group>"; };
-		D77563FE14BCD00100A112A7 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
-		D77563FF14BCD00100A112A7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D77563FB14BCD00100A112A7 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		D77563FD14BCD00100A112A7 /* iMeeting-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMeeting-Prefix.pch"; sourceTree = "<group>"; };
+		D77563FE14BCD00100A112A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D77563FF14BCD00100A112A7 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		D775641114BCD20C00A112A7 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
+		D775642114BCD44A00A112A7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		D775642314BCD46C00A112A7 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		D775642414BCD46C00A112A7 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		D775642714BCD47800A112A7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		D775642914BCD4C200A112A7 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		D775643514BCD7BC00A112A7 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		D775643614BCD7BC00A112A7 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		D775643A14BCDC3100A112A7 /* ControladorScannner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControladorScannner.h; sourceTree = "<group>"; };
+		D775643B14BCDC3100A112A7 /* ControladorScannner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ControladorScannner.mm; sourceTree = "<group>"; };
+		D775643C14BCDC3100A112A7 /* ControladorScannner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControladorScannner.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,9 +71,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D775643714BCD7BC00A112A7 /* AddressBook.framework in Frameworks */,
+				D775643814BCD7BC00A112A7 /* AddressBookUI.framework in Frameworks */,
+				D775642A14BCD4C200A112A7 /* libiconv.dylib in Frameworks */,
+				D775642814BCD47800A112A7 /* AVFoundation.framework in Frameworks */,
+				D775642514BCD46C00A112A7 /* CoreMedia.framework in Frameworks */,
+				D775642614BCD46C00A112A7 /* CoreVideo.framework in Frameworks */,
+				D775642214BCD44A00A112A7 /* AudioToolbox.framework in Frameworks */,
+				D77563F414BCD00100A112A7 /* CoreGraphics.framework in Frameworks */,
+				D775642014BCD41D00A112A7 /* libZXingWidget.a in Frameworks */,
 				D77563F014BCD00100A112A7 /* UIKit.framework in Frameworks */,
 				D77563F214BCD00100A112A7 /* Foundation.framework in Frameworks */,
-				D77563F414BCD00100A112A7 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,6 +91,13 @@
 		D77563E014BCD00100A112A7 = {
 			isa = PBXGroup;
 			children = (
+				D775643514BCD7BC00A112A7 /* AddressBook.framework */,
+				D775643614BCD7BC00A112A7 /* AddressBookUI.framework */,
+				D775642914BCD4C200A112A7 /* libiconv.dylib */,
+				D775642714BCD47800A112A7 /* AVFoundation.framework */,
+				D775642314BCD46C00A112A7 /* CoreMedia.framework */,
+				D775642414BCD46C00A112A7 /* CoreVideo.framework */,
+				D775642114BCD44A00A112A7 /* AudioToolbox.framework */,
 				D77563F514BCD00100A112A7 /* iMeeting */,
 				D77563EE14BCD00100A112A7 /* Frameworks */,
 				D77563EC14BCD00100A112A7 /* Products */,
@@ -62,6 +115,7 @@
 		D77563EE14BCD00100A112A7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D775641114BCD20C00A112A7 /* ZXingWidget.xcodeproj */,
 				D77563EF14BCD00100A112A7 /* UIKit.framework */,
 				D77563F114BCD00100A112A7 /* Foundation.framework */,
 				D77563F314BCD00100A112A7 /* CoreGraphics.framework */,
@@ -72,8 +126,10 @@
 		D77563F514BCD00100A112A7 /* iMeeting */ = {
 			isa = PBXGroup;
 			children = (
+				D775643F14BCDC3800A112A7 /* Vista */,
+				D775643914BCDAAA00A112A7 /* Controlador */,
 				D77563FE14BCD00100A112A7 /* AppDelegate.h */,
-				D77563FF14BCD00100A112A7 /* AppDelegate.m */,
+				D77563FF14BCD00100A112A7 /* AppDelegate.mm */,
 				D77563F614BCD00100A112A7 /* Supporting Files */,
 			);
 			path = iMeeting;
@@ -84,10 +140,35 @@
 			children = (
 				D77563F714BCD00100A112A7 /* iMeeting-Info.plist */,
 				D77563F814BCD00100A112A7 /* InfoPlist.strings */,
-				D77563FB14BCD00100A112A7 /* main.m */,
+				D77563FB14BCD00100A112A7 /* main.mm */,
 				D77563FD14BCD00100A112A7 /* iMeeting-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D775641214BCD20C00A112A7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D775641A14BCD20D00A112A7 /* libZXingWidget.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D775643914BCDAAA00A112A7 /* Controlador */ = {
+			isa = PBXGroup;
+			children = (
+				D775643A14BCDC3100A112A7 /* ControladorScannner.h */,
+				D775643B14BCDC3100A112A7 /* ControladorScannner.mm */,
+			);
+			name = Controlador;
+			sourceTree = "<group>";
+		};
+		D775643F14BCDC3800A112A7 /* Vista */ = {
+			isa = PBXGroup;
+			children = (
+				D775643C14BCDC3100A112A7 /* ControladorScannner.xib */,
+			);
+			name = Vista;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -104,6 +185,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D775641E14BCD21C00A112A7 /* PBXTargetDependency */,
 			);
 			name = iMeeting;
 			productName = iMeeting;
@@ -129,6 +211,12 @@
 			mainGroup = D77563E014BCD00100A112A7;
 			productRefGroup = D77563EC14BCD00100A112A7 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D775641214BCD20C00A112A7 /* Products */;
+					ProjectRef = D775641114BCD20C00A112A7 /* ZXingWidget.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D77563EA14BCD00100A112A7 /* iMeeting */,
@@ -136,12 +224,23 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		D775641A14BCD20D00A112A7 /* libZXingWidget.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libZXingWidget.a;
+			remoteRef = D775641914BCD20D00A112A7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		D77563E914BCD00100A112A7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				D77563FA14BCD00100A112A7 /* InfoPlist.strings in Resources */,
+				D775643E14BCDC3100A112A7 /* ControladorScannner.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,12 +251,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D77563FC14BCD00100A112A7 /* main.m in Sources */,
-				D775640014BCD00100A112A7 /* AppDelegate.m in Sources */,
+				D77563FC14BCD00100A112A7 /* main.mm in Sources */,
+				D775640014BCD00100A112A7 /* AppDelegate.mm in Sources */,
+				D775643D14BCDC3100A112A7 /* ControladorScannner.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D775641E14BCD21C00A112A7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ZXingWidget;
+			targetProxy = D775641D14BCD21C00A112A7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D77563F814BCD00100A112A7 /* InfoPlist.strings */ = {
@@ -190,8 +298,14 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/cpp/core/src\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-lstdc++",
+					"-ObjC",
+				);
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ZXingWidget/Classes\"";
 			};
 			name = Debug;
 		};
@@ -207,9 +321,15 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/cpp/core/src\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = (
+					"-lstdc++",
+					"-ObjC",
+				);
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ZXingWidget/Classes\"";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -255,6 +375,7 @@
 				D775640514BCD00100A112A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
