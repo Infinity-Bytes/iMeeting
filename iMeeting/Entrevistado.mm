@@ -12,7 +12,7 @@
 
 @synthesize nombre;
 @synthesize identificador;
-@synthesize voto;
+@synthesize asistio;
 @synthesize telefono;
 
 

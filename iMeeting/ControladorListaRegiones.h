@@ -1,46 +1,53 @@
 //
-//  PlantaTratadoraDeAgua.h
+//  ControladorPlantasTratadoras.h
 //  INAGUAPP
 //
 //  Created by Jesus Cagide on 07/12/11.
 //  Copyright (c) 2011 INEGI. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "CeldaEncargadoPorRegion.h"
+#import "iDelegadoControladorLista.h"
+#import "iDelegadoControladorNavegacion.h"
 
 /**
- Entidad que representa a las plantas tratadoras de agua del estado de Aguascalientes
+ Controlador de vista que representa el listado de las diferentes administradores del estado
  */
-@interface ControladorListaRegiones : NSObject
+@interface ControladorListaRegiones : UIViewController<UITableViewDelegate, UITableViewDataSource>
 {
     /**
-     Nombre de la planta tratadora de agua
+     Referencia a la tabla que contiene el listado en cuestión
      */
-    NSString * _nombre;
+    UITableView *_tablaDatos;
     
     /**
-     Localidad a la que pertence la planta tratadora de agua
+     Conjunto encargados por region
      */
-    NSString * _localidad;
+    NSDictionary * _encargadosPorRegion;
     
     /**
-     Municipio al que pertenece la planta tratadora de agua
+     Referencia al patrón de la celda que se usa en el listado
      */
-    NSString * _municipio;
+    CeldaEncargadoPorRegion * _celda;
     
     /**
-     Capacidad en Lps de tratamiento que tiene la planta tratadora de agua
+     Referencia al NIB que contiene el patrón de las celdas del listado
+     @see _celda
      */
-    NSString * _capacidad;
-    NSMutableArray * _tipoDePlanta;
+    UINib *_cellNib;
+    
 }
 
+@property(nonatomic, retain) IBOutlet  UITableView *tablaDatos;
+@property(nonatomic, retain) IBOutlet  CeldaEncargadoPorRegion* celda;
+@property(nonatomic, retain) NSDictionary * encargadosPorRegion;
+@property (nonatomic, retain) UINib *cellNib;
 
-@property(nonatomic, retain)  NSString * nombre;
-@property(nonatomic, retain)  NSString * localidad;
-@property(nonatomic, retain)  NSString * municipio;
-@property(nonatomic, retain)  NSString * capacidad;
-@property(nonatomic, retain)  NSMutableArray * tipoDePlanta;
+@property (nonatomic, retain) NSString *identificador;
+//Delegados
 
+@property (nonatomic, assign) id<iDelegadoControladorLista> delegadoControladorLista;
+@property (nonatomic, assign) id<iDelegadoControladorNavegacion> delegadoControladorNavegacion;
 
 @end

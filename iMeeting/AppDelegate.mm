@@ -12,20 +12,38 @@
 @implementation AppDelegate
 
 @synthesize window = _window;
+@synthesize controladorPestanias=_controladorPestanias;
 
 - (void)dealloc
 {
     [_window release];
+    [_controladorPestanias release];
     [super dealloc];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    ControladorScannner * controladorScanner =  [[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]]; 
+    //ControladorScannner * controladorScanner =  [[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]]; 
     // Override point for customization after application launch.
-       
-    [[self window] addSubview: [controladorScanner view]];
+    [ self setControladorPestanias: [CustomTabBarController new]];
+    
+    ControladorScannner * controladorScanner1 =  [[[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]] autorelease]; 
+    controladorScanner1.tabBarItem.title = @"Grupos";
+    controladorScanner1.tabBarItem.image = [UIImage imageNamed:@"112-group.png"];
+    
+    UIViewController * controlador = [[self controladorPestanias] viewControllerWithTabTitle:@"Scanner" image:nil];
+    
+    ControladorScannner * controladorScanner2 =  [[[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]] autorelease]; 
+    controladorScanner2.tabBarItem.title = @"Detalles";
+    controladorScanner2.tabBarItem.image = [UIImage imageNamed:@"123-id-card.png"];
+    
+    [[self controladorPestanias] setViewControllers:
+     [NSArray arrayWithObjects:controladorScanner1, controlador, controladorScanner2,nil]];
+    
+    [[self controladorPestanias] addCenterButtonWithImage:[UIImage imageNamed:@"cameraTabBarItem.png"] highlightImage:nil];
+    
+    [[self window] addSubview: [self.controladorPestanias view]];
     [self.window makeKeyAndVisible];
     
     return YES;

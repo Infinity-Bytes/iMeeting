@@ -38,6 +38,9 @@
 -(void)establecerEntrevistador:(Entrevistador*)entrevistador
 {
     _entrevistador = entrevistador;
+    
+    self.nombreEntrevistador.text = [_entrevistador nombre];
+    self.zona.text = [_entrevistador zona];
 }
 
 
@@ -59,15 +62,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-     self.cellNib = [UINib nibWithNibName:@"CeldaDetalleGrafica" bundle:nil];
-    
+    self.cellNib = [UINib nibWithNibName:@"CeldaDetalleGrafica" bundle:nil];
     
     self.colores = [[NSArray alloc] initWithObjects:
                     [UIColor colorWithPatternImage: [UIImage imageNamed:@"azul.png"] ],
                 [UIColor colorWithPatternImage: [UIImage imageNamed:@"naranja.png"] ],nil];
     
-    self.nombreEntrevistador.text = [_entrevistador nombre];
-    self.zona.text = [_entrevistador zona];
+   
     
     _datosEntrevistador = [[NSMutableDictionary alloc] init];
     

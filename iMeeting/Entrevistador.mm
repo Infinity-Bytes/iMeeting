@@ -14,8 +14,14 @@
 @synthesize zona;
 @synthesize entrevistados;
 
+@synthesize personasEntrevistadas;
+@synthesize personasSinEntrevistar;
+
 -(void) dealloc
 {
+    [self.personasEntrevistadas release]; self.personasEntrevistadas = nil;
+    [self.personasSinEntrevistar release]; self.personasSinEntrevistar = nil;
+    
     [self.permiso release]; self.permiso = nil;
     [self.zona release]; self.zona= nil;
     [self.entrevistados release]; self.entrevistados = nil;

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ControladorListaRegiones.h"
+#import "Entrevistador.h"
 
 /**
  Celda personalizada que representa la información más importante de las plantas tratadoras de agua
@@ -32,19 +32,18 @@
     /**
      Referencia a la planta tratadora de agua que representa la celda
      */
-    ControladorListaRegiones * _plantaTratadora;
-    
+    Entrevistador * _entrevistador;
 
 }
 
 /**
  Método de asignación de la planta tratadora de agua a representar
  */
--(void)establecerPlantaTratadora:(ControladorListaRegiones*) planta;
+-(void)establecerEntrevistador:(Entrevistador*) entrevistador;
 
 @property(nonatomic, retain) IBOutlet UILabel * etiquetaNombre;
 @property(nonatomic, retain) IBOutlet UILabel * capacidad;
 @property(nonatomic, retain) IBOutlet UIImageView * graficaBarra;
-@property(nonatomic, assign) ControladorListaRegiones * plantaTratadora;
+@property(nonatomic, assign) Entrevistador * entrevistador;
 
 @end

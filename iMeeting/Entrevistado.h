@@ -13,6 +13,6 @@
 @property(nonatomic, retain) NSString *identificador;
 @property(nonatomic, retain) NSString *nombre;
 @property(nonatomic, retain) NSString *telefono;
-@property(nonatomic, assign) BOOL voto;
+@property(nonatomic, assign) BOOL asistio;
 
 @end
