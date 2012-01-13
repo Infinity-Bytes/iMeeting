@@ -18,6 +18,8 @@
 @synthesize colores;
 @synthesize detallesDeGrafica;
 
+@synthesize delegadoControladorNavegacion;
+
 -(void)dealloc
 {
      self.nombreEntrevistador = nil;
@@ -25,20 +27,19 @@
      self.tablaDatos = nil;
     
     [self.celdaDetalleGrafica release]; self.celdaDetalleGrafica = nil;
-    
     [self.colores release]; self.colores = nil;
     [self.detallesDeGrafica release]; self.detallesDeGrafica = nil;
     [self.cellNib release]; self.cellNib = nil;
 
     [_datosEntrevistador release];
-       
+    self.delegadoControladorNavegacion = nil;
+    
     [super dealloc];
 }
 
 -(void)establecerEntrevistador:(Entrevistador*)entrevistador
 {
     _entrevistador = entrevistador;
-    
     self.nombreEntrevistador.text = [_entrevistador nombre];
     self.zona.text = [_entrevistador zona];
 }
@@ -189,6 +190,21 @@
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString * identificador=@"";
+    if (indexPath.section ==0 )
+    {
+        switch (indexPath.row) 
+        {
+            case 0:
+                identificador = @"personasEntrevistadas";
+                break;
+            case 1:
+                identificador = @"personasSinEntrevistar";
+                break;
+        }
+        [[self delegadoControladorNavegacion] mostrarPanelSiguienteSegunEntrevistador:_entrevistador bajoIdentificador:identificador usandoControlNavegacion:self.navigationController];
+    }
+    
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

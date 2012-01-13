@@ -1,13 +1,7 @@
-//
-//  ControlMaestro.m
-//  iMeeting
-//
-//  Created by Jesus Cagide on 12/01/12.
-//  Copyright (c) 2012 INEGI. All rights reserved.
-//
 
 #import "ControlMaestro.h"
 #import "ControladorDetalleEntrevistador.h"
+#import "ControladorListaPersonas.m"
 #import "DetalleGrafica.h"
 
 @implementation ControlMaestro
@@ -29,6 +23,7 @@
         ControladorDetalleEntrevistador * controladorDetalle = [[ControladorDetalleEntrevistador alloc] initWithNibName:@"ControladorDetalleEntrevistador" bundle:[NSBundle mainBundle]];
         
         [controladorDetalle establecerEntrevistador:entrevistador];
+        [controladorDetalle setDelegadoControladorNavegacion:self];
         
         DetalleGrafica *personasEntrevistadas = [DetalleGrafica new];
         
@@ -51,11 +46,19 @@
         [personasEntrevistadas release];
         [personasNoEntrevistadas release];
     
-    }
-    if ([identificador isEqualToString:@"DetalleEntrevistador"]) {
+    }else
+    {
+        ControladorListaPersonas * controladorListaPersonas = [[ControladorListaPersonas alloc] initWithNibName:@"ControladorListaPersonas" bundle:[NSBundle mainBundle]];
         
+        if ([identificador isEqualToString:@"personasEntrevistadas"])
+            [controladorListaPersonas setDatos:[entrevistador personasEntrevistadas]];
+        
+        if ([identificador isEqualToString:@"personasSinEntrevistar"])
+            [controladorListaPersonas setDatos:[entrevistador personasSinEntrevistar]];
+        
+        [controlNavegacion pushViewController:controlNavegacion animated:YES];
+        [controladorListaPersonas release];
     }
-
 }
 
 

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Entrevistador.h"
 #import "CeldaDetalleGrafica.h"
+#import "iDelegadoControladorNavegacion.h"
 
 @interface ControladorDetalleEntrevistador : UIViewController<UITableViewDelegate, UITableViewDataSource>
 {
@@ -31,6 +32,6 @@
 @property (nonatomic, retain) UINib *cellNib;
 
 
-
+@property (nonatomic, assign) id<iDelegadoControladorNavegacion> delegadoControladorNavegacion;
 
 @end
