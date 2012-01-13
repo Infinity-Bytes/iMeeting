@@ -44,6 +44,9 @@
 @property(nonatomic, retain) IBOutlet UILabel * etiquetaNombre;
 @property(nonatomic, retain) IBOutlet UILabel * capacidad;
 @property(nonatomic, retain) IBOutlet UIImageView * graficaBarra;
+
+@property(nonatomic, retain) IBOutlet UILabel * porcentaje;
+
 @property(nonatomic, assign) Entrevistador * entrevistador;
 
 @end
