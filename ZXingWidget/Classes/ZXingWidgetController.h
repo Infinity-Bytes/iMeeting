@@ -60,6 +60,7 @@
 @property (nonatomic, retain) NSURL *soundToPlay;
 @property (nonatomic, retain) ParsedResult *result;
 @property (nonatomic, retain) OverlayView *overlayView;
+@property (nonatomic, retain) Decoder* decoderReference;
 
 - (id)initWithDelegate:(id<ZXingDelegate>)delegate showCancel:(BOOL)shouldShowCancel OneDMode:(BOOL)shouldUseoOneDMode;
 
@@ -67,6 +68,7 @@
 - (void)setTorch:(BOOL)status;
 - (BOOL)torchIsOn;
 
+-(void)restartServices;
 @end
 
 @protocol ZXingDelegate

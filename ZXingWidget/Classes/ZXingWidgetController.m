@@ -51,7 +51,7 @@
 @synthesize overlayView;
 @synthesize oneDMode, showCancel, isStatusBarHidden;
 @synthesize readers;
-
+@synthesize decoderReference;
 
 - (id)initWithDelegate:(id<ZXingDelegate>)scanDelegate showCancel:(BOOL)shouldShowCancel OneDMode:(BOOL)shouldUseoOneDMode {
   self = [super init];
@@ -84,6 +84,8 @@
   [soundToPlay release];
   [overlayView release];
   [readers release];
+  self.decoderReference = nil;
+    
   [super dealloc];
 }
 
@@ -262,8 +264,7 @@
   [self presentResultPoints:[twoDResult points] forImage:image usingSubset:subset];
   // now, in a selector, call the delegate to give this overlay time to show the points
   [self performSelector:@selector(notifyDelegate:) withObject:[[twoDResult text] copy] afterDelay:0.0];
-  decoder.delegate = nil; // LARS
-  //decoding = YES;[overlayView setPoints:nil];wasCancelled = NO;
+   decoder.delegate = nil; // LARS
 }
 
 - (void)notifyDelegate:(id)text {
@@ -448,6 +449,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
   cropRect.origin.x = 0.0;  
   cropRect.origin.y = 0.0;
   decoding = [d decodeImage:scrn cropRect:cropRect] == YES ? NO : YES;
+  [self setDecoderReference:d];
   [d release];
   [scrn release];
 } 
@@ -518,5 +520,12 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 #endif
   return NO;
 }
+
+-(void)restartServices
+{
+    self.decoderReference.delegate = self;
+    decoding = YES;[overlayView setPoints:nil];wasCancelled = NO;
+}
+
 
 @end

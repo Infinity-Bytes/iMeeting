@@ -166,7 +166,8 @@
 		D7951E4314BF75CC003593E6 /* ControladorListaRegiones.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControladorListaRegiones.h; sourceTree = "<group>"; };
 		D7951E4414BF75CD003593E6 /* ControladorListaRegiones.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ControladorListaRegiones.mm; sourceTree = "<group>"; };
 		D7951E4714BF8EE7003593E6 /* iServicioGestorDatos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioGestorDatos.h; sourceTree = "<group>"; };
-		D7951E4814BF8F0A003593E6 /* iServicioOperaciones.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioOperaciones.h; sourceTree = "<group>"; };
+		D7A5193214C0C357003AE69B /* iServicioBusqueda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioBusqueda.h; sourceTree = "<group>"; };
+		D7A5193314C0C499003AE69B /* iDelegadoControladorScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iDelegadoControladorScanner.h; sourceTree = "<group>"; };
 		F12986FB14BFAE900043C634 /* iMeeting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = iMeeting.entitlements; sourceTree = "<group>"; };
 		F12986FD14BFB1900043C634 /* CloudMe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudMe.h; sourceTree = "<group>"; };
 		F12986FE14BFB1900043C634 /* CloudMe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudMe.m; sourceTree = "<group>"; };
@@ -382,6 +383,7 @@
 			children = (
 				D7951E4114BF7258003593E6 /* iDelegadoControladorNavegacion.h */,
 				D7951E4214BF731A003593E6 /* iDelegadoControladorLista.h */,
+				D7A5193314C0C499003AE69B /* iDelegadoControladorScanner.h */,
 			);
 			name = Protocolo;
 			sourceTree = "<group>";
@@ -390,7 +392,7 @@
 			isa = PBXGroup;
 			children = (
 				D7951E4714BF8EE7003593E6 /* iServicioGestorDatos.h */,
-				D7951E4814BF8F0A003593E6 /* iServicioOperaciones.h */,
+				D7A5193214C0C357003AE69B /* iServicioBusqueda.h */,
 			);
 			name = Protocolo;
 			sourceTree = "<group>";

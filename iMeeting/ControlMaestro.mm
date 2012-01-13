@@ -62,4 +62,12 @@
 }
 
 
+-(NSString*) obtenerEntrevistado:(NSString*)identificador
+{
+    return @"Hola soy un UialerView";
+}
+-(void) notificarRespuesta:(BOOL)respuesta
+{
+}
+
 @end

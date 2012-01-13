@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "iDelegadoControladorLista.h"
 #import "iDelegadoControladorNavegacion.h"
+#import "iDelegadoControladorScanner.h"
+
 @interface ControlMaestro : NSObject<iDelegadoControladorLista, iDelegadoControladorNavegacion>
 
 

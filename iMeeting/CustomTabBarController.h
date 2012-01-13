@@ -25,11 +25,13 @@
 //  THE SOFTWARE
 
 #import "ZXingWidgetController.h"
+#import "iDelegadoControladorScanner.h"
 
 
-@interface CustomTabBarController : UITabBarController<ZXingDelegate>
+@interface CustomTabBarController : UITabBarController<ZXingDelegate, UIAlertViewDelegate>
 {
     UIButton* button;
+    ZXingWidgetController *widController;
 }
 
 // Create a view controller and setup it's tab bar item with a title and image
@@ -46,5 +48,14 @@
 - (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result;
 
 - (void)zxingControllerDidCancel:(ZXingWidgetController*)controller;
+
+
+#pragma mark -
+#pragma mark UIAlertView
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+
+
+@property(nonatomic, assign) id<iDelegadoControladorScanner> delegadoControladorScanner;
 
 @end

@@ -29,10 +29,25 @@
 
 @implementation CustomTabBarController
 
+@synthesize delegadoControladorScanner;
+
+-(void)viewDidLoad
+{
+    widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
+    
+    [widController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    QRCodeReader* qrcodeReader = [[QRCodeReader alloc] init];
+    NSSet *readers = [[NSSet alloc ] initWithObjects:qrcodeReader,nil];
+    [qrcodeReader release];
+    widController.readers = readers;
+    [readers release];
+}
 
 -(void)dealloc
 {
     [button release];
+    [widController release];
+    self.delegadoControladorScanner = nil;
     [super dealloc];
 }
 
@@ -71,17 +86,8 @@
 
 - (IBAction)cmdScanner:(id)sender {
     
-    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
-    
-    [widController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
-    QRCodeReader* qrcodeReader = [[QRCodeReader alloc] init];
-    NSSet *readers = [[NSSet alloc ] initWithObjects:qrcodeReader,nil];
-    [qrcodeReader release];
-    widController.readers = readers;
-    [readers release];
-    
     [self presentModalViewController:widController animated:YES ];
-    [widController release];
+    
 }
 
 
@@ -90,13 +96,29 @@
 
 - (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result {
     if (self.isViewLoaded) {
-        UIAlertView* alertView = [[[UIAlertView alloc] initWithTitle:@"Resultado" message:result delegate:nil cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Aceptar", nil] autorelease];
+        
+        
+        NSString * texto = [delegadoControladorScanner obtenerEntrevistado:result];
+        
+        UIAlertView* alertView = [[[UIAlertView alloc] initWithTitle:result message:texto delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Aceptar", nil] autorelease];
         [alertView show];
     }
 }
 
 - (void)zxingControllerDidCancel:(ZXingWidgetController*)controller {
     [self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark -
+#pragma mark UIAlertView
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+        [delegadoControladorScanner notificarRespuesta: !buttonIndex];
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex;
+{
+    [widController restartServices];
 }
 
 @end
