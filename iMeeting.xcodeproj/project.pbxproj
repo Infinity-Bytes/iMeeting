@@ -127,6 +127,7 @@
 		D7951E4414BF75CD003593E6 /* ControladorListaRegiones.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ControladorListaRegiones.mm; sourceTree = "<group>"; };
 		D7951E4714BF8EE7003593E6 /* iServicioGestorDatos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioGestorDatos.h; sourceTree = "<group>"; };
 		D7951E4814BF8F0A003593E6 /* iServicioOperaciones.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioOperaciones.h; sourceTree = "<group>"; };
+		F12986FB14BFAE900043C634 /* iMeeting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = iMeeting.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +190,7 @@
 		D77563F514BCD00100A112A7 /* iMeeting */ = {
 			isa = PBXGroup;
 			children = (
+				F12986FB14BFAE900043C634 /* iMeeting.entitlements */,
 				D78DD95914BE278C00C6B0D3 /* Utilidades */,
 				D78DD94D14BE220F00C6B0D3 /* Servicio */,
 				D78DD94C14BE21A500C6B0D3 /* ControladorNegocio */,
@@ -474,7 +476,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -494,6 +497,8 @@
 					"-lstdc++",
 					"-ObjC",
 				);
+				PROVISIONING_PROFILE = "002EE82C-9D18-44ED-BA36-5534809D5288";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "002EE82C-9D18-44ED-BA36-5534809D5288";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ZXingWidget/Classes\"";
 			};
@@ -504,7 +509,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -518,6 +524,8 @@
 					"-lstdc++",
 					"-ObjC",
 				);
+				PROVISIONING_PROFILE = "002EE82C-9D18-44ED-BA36-5534809D5288";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "002EE82C-9D18-44ED-BA36-5534809D5288";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ZXingWidget/Classes\"";
 				VALIDATE_PRODUCT = YES;
@@ -527,10 +535,15 @@
 		D775640414BCD00100A112A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = iMeeting/iMeeting.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iMeeting/iMeeting-Prefix.pch";
 				INFOPLIST_FILE = "iMeeting/iMeeting-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "002EE82C-9D18-44ED-BA36-5534809D5288";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "002EE82C-9D18-44ED-BA36-5534809D5288";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -538,10 +551,15 @@
 		D775640514BCD00100A112A7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = iMeeting/iMeeting.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iMeeting/iMeeting-Prefix.pch";
 				INFOPLIST_FILE = "iMeeting/iMeeting-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "002EE82C-9D18-44ED-BA36-5534809D5288";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "002EE82C-9D18-44ED-BA36-5534809D5288";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

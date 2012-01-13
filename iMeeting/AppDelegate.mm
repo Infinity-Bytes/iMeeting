@@ -23,6 +23,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    NSURL *ubiq = [[NSFileManager defaultManager] 
+                   URLForUbiquityContainerIdentifier:nil];
+    if (ubiq) {
+        NSLog(@"iCloud access at %@", ubiq);
+        // TODO: Load document... 
+    } else {
+        NSLog(@"No iCloud access");
+    }
+    
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     //ControladorScannner * controladorScanner =  [[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]]; 
     // Override point for customization after application launch.
