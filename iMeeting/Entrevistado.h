@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Entrevistado : NSObject
+#import "Persona.h"
 
-@property(nonatomic, retain) NSString *identificador;
-@property(nonatomic, retain) NSString *nombre;
+@interface Entrevistado : Persona
+
 @property(nonatomic, retain) NSString *telefono;
 @property(nonatomic, assign) BOOL asistio;
 

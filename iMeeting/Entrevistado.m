@@ -10,17 +10,15 @@
 
 @implementation Entrevistado
 
-@synthesize nombre;
-@synthesize identificador;
 @synthesize asistio;
 @synthesize telefono;
 
 
 -(void)dealloc
 {
-    [self.nombre release]; self.nombre = nil;
-    [self.identificador release]; self.identificador =nil;
-    [self.telefono release]; self.telefono=nil;
+    [self setTelefono: nil];
+    [self setAsistio: FALSE];
+    
     [super dealloc];
 }
 

@@ -19,12 +19,13 @@
 
 -(void) dealloc
 {
-    [self.personasEntrevistadas release]; self.personasEntrevistadas = nil;
-    [self.personasSinEntrevistar release]; self.personasSinEntrevistar = nil;
+    [self setPersonasEntrevistadas: nil];
+    [self setPersonasSinEntrevistar: nil];
     
-    [self.permiso release]; self.permiso = nil;
-    [self.zona release]; self.zona= nil;
-    [self.entrevistados release]; self.entrevistados = nil;
+    [self setPermiso: nil];
+    [self setZona: nil];
+    [self setEntrevistados: nil];
+
     [super dealloc];
 }
 @end

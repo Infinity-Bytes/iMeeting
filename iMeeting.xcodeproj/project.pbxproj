@@ -28,8 +28,8 @@
 		D775643814BCD7BC00A112A7 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D775643614BCD7BC00A112A7 /* AddressBookUI.framework */; };
 		D775643D14BCDC3100A112A7 /* ControladorScannner.mm in Sources */ = {isa = PBXBuildFile; fileRef = D775643B14BCDC3100A112A7 /* ControladorScannner.mm */; };
 		D775643E14BCDC3100A112A7 /* ControladorScannner.xib in Resources */ = {isa = PBXBuildFile; fileRef = D775643C14BCDC3100A112A7 /* ControladorScannner.xib */; };
-		D78DD95014BE224E00C6B0D3 /* Entrevistador.mm in Sources */ = {isa = PBXBuildFile; fileRef = D78DD94F14BE224E00C6B0D3 /* Entrevistador.mm */; };
-		D78DD95314BE240A00C6B0D3 /* Entrevistado.mm in Sources */ = {isa = PBXBuildFile; fileRef = D78DD95214BE240A00C6B0D3 /* Entrevistado.mm */; };
+		D78DD95014BE224E00C6B0D3 /* Entrevistador.m in Sources */ = {isa = PBXBuildFile; fileRef = D78DD94F14BE224E00C6B0D3 /* Entrevistador.m */; };
+		D78DD95314BE240A00C6B0D3 /* Entrevistado.m in Sources */ = {isa = PBXBuildFile; fileRef = D78DD95214BE240A00C6B0D3 /* Entrevistado.m */; };
 		D78DD95714BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.mm in Sources */ = {isa = PBXBuildFile; fileRef = D78DD95514BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.mm */; };
 		D78DD95814BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.xib in Resources */ = {isa = PBXBuildFile; fileRef = D78DD95614BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.xib */; };
 		D78DD95C14BE28AF00C6B0D3 /* FondoCelda.mm in Sources */ = {isa = PBXBuildFile; fileRef = D78DD95B14BE28AF00C6B0D3 /* FondoCelda.mm */; };
@@ -50,6 +50,8 @@
 		F129870114BFB1900043C634 /* CloudMe.m in Sources */ = {isa = PBXBuildFile; fileRef = F12986FE14BFB1900043C634 /* CloudMe.m */; };
 		F129870214BFB1900043C634 /* NoteSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = F129870014BFB1900043C634 /* NoteSheet.m */; };
 		F129873614BFB7240043C634 /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F129873014BFB6F80043C634 /* libsbjson-ios.a */; };
+		F129874D14BFD3B50043C634 /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874C14BFD3B50043C634 /* Meeting.m */; };
+		F129875014BFD47C0043C634 /* Persona.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874F14BFD47C0043C634 /* Persona.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,9 +136,9 @@
 		D775643B14BCDC3100A112A7 /* ControladorScannner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ControladorScannner.mm; sourceTree = "<group>"; };
 		D775643C14BCDC3100A112A7 /* ControladorScannner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControladorScannner.xib; sourceTree = "<group>"; };
 		D78DD94E14BE224E00C6B0D3 /* Entrevistador.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entrevistador.h; sourceTree = "<group>"; };
-		D78DD94F14BE224E00C6B0D3 /* Entrevistador.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Entrevistador.mm; sourceTree = "<group>"; };
+		D78DD94F14BE224E00C6B0D3 /* Entrevistador.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entrevistador.m; sourceTree = "<group>"; };
 		D78DD95114BE240A00C6B0D3 /* Entrevistado.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entrevistado.h; sourceTree = "<group>"; };
-		D78DD95214BE240A00C6B0D3 /* Entrevistado.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Entrevistado.mm; sourceTree = "<group>"; };
+		D78DD95214BE240A00C6B0D3 /* Entrevistado.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entrevistado.m; sourceTree = "<group>"; };
 		D78DD95414BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControladorDetalleEntrevistador.h; sourceTree = "<group>"; };
 		D78DD95514BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ControladorDetalleEntrevistador.mm; sourceTree = "<group>"; };
 		D78DD95614BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControladorDetalleEntrevistador.xib; sourceTree = "<group>"; };
@@ -171,6 +173,10 @@
 		F12986FF14BFB1900043C634 /* NoteSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteSheet.h; sourceTree = "<group>"; };
 		F129870014BFB1900043C634 /* NoteSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteSheet.m; sourceTree = "<group>"; };
 		F129872114BFB6F80043C634 /* SBJson.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SBJson.xcodeproj; path = "json-framework/SBJson.xcodeproj"; sourceTree = "<group>"; };
+		F129874B14BFD3B50043C634 /* Meeting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meeting.h; sourceTree = "<group>"; };
+		F129874C14BFD3B50043C634 /* Meeting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meeting.m; sourceTree = "<group>"; };
+		F129874E14BFD47C0043C634 /* Persona.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Persona.h; sourceTree = "<group>"; };
+		F129874F14BFD47C0043C634 /* Persona.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Persona.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -303,9 +309,13 @@
 			isa = PBXGroup;
 			children = (
 				D78DD94E14BE224E00C6B0D3 /* Entrevistador.h */,
-				D78DD94F14BE224E00C6B0D3 /* Entrevistador.mm */,
+				D78DD94F14BE224E00C6B0D3 /* Entrevistador.m */,
 				D78DD95114BE240A00C6B0D3 /* Entrevistado.h */,
-				D78DD95214BE240A00C6B0D3 /* Entrevistado.mm */,
+				D78DD95214BE240A00C6B0D3 /* Entrevistado.m */,
+				F129874B14BFD3B50043C634 /* Meeting.h */,
+				F129874C14BFD3B50043C634 /* Meeting.m */,
+				F129874E14BFD47C0043C634 /* Persona.h */,
+				F129874F14BFD47C0043C634 /* Persona.m */,
 			);
 			name = modelo;
 			sourceTree = "<group>";
@@ -399,7 +409,7 @@
 		F129872214BFB6F80043C634 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F129872C14BFB6F80043C634 /* SBJson */,
+				F129872C14BFB6F80043C634 /* SBJson.framework */,
 				F129872E14BFB6F80043C634 /* SBJsonTests.octest */,
 				F129873014BFB6F80043C634 /* libsbjson-ios.a */,
 				F129873214BFB6F80043C634 /* sbjson-iosTests.octest */,
@@ -473,7 +483,7 @@
 			remoteRef = D775641914BCD20D00A112A7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		F129872C14BFB6F80043C634 /* SBJson */ = {
+		F129872C14BFB6F80043C634 /* SBJson.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = SBJson.framework;
@@ -536,8 +546,8 @@
 				D77563FC14BCD00100A112A7 /* main.mm in Sources */,
 				D775640014BCD00100A112A7 /* AppDelegate.mm in Sources */,
 				D775643D14BCDC3100A112A7 /* ControladorScannner.mm in Sources */,
-				D78DD95014BE224E00C6B0D3 /* Entrevistador.mm in Sources */,
-				D78DD95314BE240A00C6B0D3 /* Entrevistado.mm in Sources */,
+				D78DD95014BE224E00C6B0D3 /* Entrevistador.m in Sources */,
+				D78DD95314BE240A00C6B0D3 /* Entrevistado.m in Sources */,
 				D78DD95714BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.mm in Sources */,
 				D78DD95C14BE28AF00C6B0D3 /* FondoCelda.mm in Sources */,
 				D78DD96614BE2E4400C6B0D3 /* CeldaDetalleGrafica.mm in Sources */,
@@ -549,6 +559,8 @@
 				F129870114BFB1900043C634 /* CloudMe.m in Sources */,
 				F129870214BFB1900043C634 /* NoteSheet.m in Sources */,
 				83BFC60014BFAD6F00B0EE47 /* ControladorListaPersonas.mm in Sources */,
+				F129874D14BFD3B50043C634 /* Meeting.m in Sources */,
+				F129875014BFD47C0043C634 /* Persona.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
