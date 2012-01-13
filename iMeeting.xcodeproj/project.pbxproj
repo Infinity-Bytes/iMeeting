@@ -45,6 +45,8 @@
 		D7951E3C14BF46A3003593E6 /* cameraTabBarItem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7951E3614BF46A3003593E6 /* cameraTabBarItem@2x.png */; };
 		D7951E3F14BF6F1E003593E6 /* ControlMaestro.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7951E3E14BF6F1E003593E6 /* ControlMaestro.mm */; };
 		D7951E4514BF75CE003593E6 /* ControladorListaRegiones.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7951E4414BF75CD003593E6 /* ControladorListaRegiones.mm */; };
+		F129870114BFB1900043C634 /* CloudMe.m in Sources */ = {isa = PBXBuildFile; fileRef = F12986FE14BFB1900043C634 /* CloudMe.m */; };
+		F129870214BFB1900043C634 /* NoteSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = F129870014BFB1900043C634 /* NoteSheet.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +125,10 @@
 		D7951E4714BF8EE7003593E6 /* iServicioGestorDatos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioGestorDatos.h; sourceTree = "<group>"; };
 		D7951E4814BF8F0A003593E6 /* iServicioOperaciones.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioOperaciones.h; sourceTree = "<group>"; };
 		F12986FB14BFAE900043C634 /* iMeeting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = iMeeting.entitlements; sourceTree = "<group>"; };
+		F12986FD14BFB1900043C634 /* CloudMe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudMe.h; sourceTree = "<group>"; };
+		F12986FE14BFB1900043C634 /* CloudMe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudMe.m; sourceTree = "<group>"; };
+		F12986FF14BFB1900043C634 /* NoteSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteSheet.h; sourceTree = "<group>"; };
+		F129870014BFB1900043C634 /* NoteSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteSheet.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +180,7 @@
 		D77563EE14BCD00100A112A7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F12986FC14BFB17B0043C634 /* iCloudMe */,
 				D775641114BCD20C00A112A7 /* ZXingWidget.xcodeproj */,
 				D77563EF14BCD00100A112A7 /* UIKit.framework */,
 				D77563F114BCD00100A112A7 /* Foundation.framework */,
@@ -331,6 +338,17 @@
 			name = Protocolo;
 			sourceTree = "<group>";
 		};
+		F12986FC14BFB17B0043C634 /* iCloudMe */ = {
+			isa = PBXGroup;
+			children = (
+				F12986FD14BFB1900043C634 /* CloudMe.h */,
+				F12986FE14BFB1900043C634 /* CloudMe.m */,
+				F12986FF14BFB1900043C634 /* NoteSheet.h */,
+				F129870014BFB1900043C634 /* NoteSheet.m */,
+			);
+			name = iCloudMe;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -436,6 +454,8 @@
 				D7951E2814BF4017003593E6 /* CustomTabBarController.mm in Sources */,
 				D7951E3F14BF6F1E003593E6 /* ControlMaestro.mm in Sources */,
 				D7951E4514BF75CE003593E6 /* ControladorListaRegiones.mm in Sources */,
+				F129870114BFB1900043C634 /* CloudMe.m in Sources */,
+				F129870214BFB1900043C634 /* NoteSheet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
