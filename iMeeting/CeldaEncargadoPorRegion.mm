@@ -14,7 +14,7 @@
 @synthesize capacidad = _capacidad;
 @synthesize graficaBarra = _graficaBarra;
 @synthesize entrevistador = _entrevistador;
-
+@synthesize porcentaje;
 
 -(void) dealloc 
 {
@@ -24,7 +24,7 @@
     [_graficaBarra release];
     
     self.entrevistador=nil;
-    
+    self.porcentaje = nil;
     [super dealloc];
 }
 
@@ -57,5 +57,6 @@
 	[[self graficaBarra] setFrame:bar];
     [[self capacidad ] setText:[NSString stringWithFormat:@"%d", [capacidad floatValue] ]];
     [[self etiquetaNombre] setText: self.entrevistador.nombre ];
+    [[self porcentaje] setText:[NSString stringWithFormat: @"%.2f%%", ancho]];
 }
 @end
