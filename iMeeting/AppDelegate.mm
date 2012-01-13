@@ -61,7 +61,9 @@
             NSError* error;
             NSString * definicionMeeting = [NSString stringWithContentsOfFile: archivoDefinicionMeeting usedEncoding:&encoding error:&error];
             id definicion = [definicionMeeting JSONValue];
-            int i = 0;
+            if([definicion isKindOfClass: [NSDictionary class]]) {
+                
+            }
         }
     }
 }

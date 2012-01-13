@@ -2,25 +2,29 @@
     "nombreMeeting": "Meeting1",
     "personal" : [
 	{
-	    "permiso": "Ejecutivo",
+	    "tipo": "Ejecutivo",
 	    "identificador": "0001",
 	    "nombre": "Persona1",
 	    "personal": [
 		{
-		    "permiso": "Capturador",
+		    "tipo": "Entrevistador",
 		    "identificador": "0002",
 		    "nombre": "Persona1-1",
 		    "zona": "01",
-		    "personal": [
+		    "telefono": "tel-0002",
+		    "personas": [
 			{
 			    "identificador": "0003",
-			    "nombre": "Persona1-1-1"
+			    "nombre": "Persona1-1-1",
+			    "telefono": "tel-0003"
 			}, {
 			    "identificador": "0004",
-			    "nombre": "Persona1-1-2"
+			    "nombre": "Persona1-1-2",
+			    "telefono": "tel-0004"
 			}, {
 			    "identificador": "0005",
-			    "nombre": "Persona1-1-3"
+			    "nombre": "Persona1-1-3",
+			    "telefono": "tel-0005"
 			}
 		    ]
 		}
