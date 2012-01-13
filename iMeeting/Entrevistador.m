@@ -12,18 +12,20 @@
 
 @synthesize permiso;
 @synthesize zona;
-@synthesize entrevistados;
+@synthesize personas;
 
+@synthesize entrevistados;
 @synthesize personasEntrevistadas;
 @synthesize personasSinEntrevistar;
 
 -(void) dealloc
 {
-    [self setPersonasEntrevistadas: nil];
-    [self setPersonasSinEntrevistar: nil];
-    
     [self setPermiso: nil];
     [self setZona: nil];
+    [self setPersonas: nil];
+    
+    [self setPersonasEntrevistadas: nil];
+    [self setPersonasSinEntrevistar: nil];
     [self setEntrevistados: nil];
 
     [super dealloc];

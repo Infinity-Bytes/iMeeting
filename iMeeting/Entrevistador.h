@@ -13,9 +13,11 @@
 
 @property(nonatomic, retain) NSArray* personasEntrevistadas;
 @property(nonatomic, retain) NSArray* personasSinEntrevistar;
-@property(nonatomic, retain) NSArray* entrevistados;
+@property(nonatomic, retain) NSArray* entrevistados; // TODO Eliminar
+
+
 @property(nonatomic, retain) NSString *permiso;
 @property(nonatomic, retain) NSString *zona;
-
+@property(nonatomic, retain) NSString *personas;
 
 @end

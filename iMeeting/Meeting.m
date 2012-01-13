@@ -13,6 +13,14 @@
 @synthesize nombreMeeting;
 @synthesize personal;
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        [self setNombreMeeting: @""];
+        [self setPersonal: [NSArray array]];
+    }
+    return self;
+}
 
 - (void)dealloc {
     [self setNombreMeeting: nil];

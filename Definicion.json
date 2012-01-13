@@ -1,11 +1,11 @@
 {
     "nombreMeeting": "Meeting1",
-    "personal" : [
+    "personas" : [
 	{
-	    "tipo": "Ejecutivo",
+	    "tipo": "Entrevistador",
 	    "identificador": "0001",
 	    "nombre": "Persona1",
-	    "personal": [
+	    "personas": [
 		{
 		    "tipo": "Entrevistador",
 		    "identificador": "0002",
