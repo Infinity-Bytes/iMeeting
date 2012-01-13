@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ControladorScannner.h"
+#import "SBJson.h"
 
 @implementation AppDelegate
 
@@ -23,15 +24,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
-    NSURL *ubiq = [[NSFileManager defaultManager] 
-                   URLForUbiquityContainerIdentifier:nil];
-    if (ubiq) {
-        NSLog(@"iCloud access at %@", ubiq);
-        // TODO: Load document... 
-    } else {
-        NSLog(@"No iCloud access");
-    }
+    [self inicializaMeeting];
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     //ControladorScannner * controladorScanner =  [[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]]; 
@@ -57,6 +50,48 @@
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+- (void) inicializaMeeting {
+    // Lectura de archivos de configuración de Meetings
+    NSArray * archivosDefinicionMeetings = [AppDelegate definicionMeetings];
+    if( [archivosDefinicionMeetings count] > 0 ) {
+        for(NSString * archivoDefinicionMeeting in archivosDefinicionMeetings) {
+            NSStringEncoding encoding;
+            NSError* error;
+            NSString * definicionMeeting = [NSString stringWithContentsOfFile: archivoDefinicionMeeting usedEncoding:&encoding error:&error];
+            id definicion = [definicionMeeting JSONValue];
+            int i = 0;
+        }
+    }
+}
+
++ (NSArray *) definicionMeetings {
+    
+    NSMutableArray *retval = [NSMutableArray array];
+    
+    // Get public docs dir
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *publicDocumentsDir = [paths objectAtIndex:0];   
+    
+    // Get contents of documents directory
+    NSError *error;
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:publicDocumentsDir error:&error];
+    if (files == nil) {
+        NSLog(@"Error reading contents of documents directory: %@", [error localizedDescription]);
+        return retval;
+    }
+    
+    // Add all sbzs to a list    
+    for (NSString *file in files) {
+        if ([file.pathExtension compare:@"json" options:NSCaseInsensitiveSearch] == NSOrderedSame) {        
+            NSString *fullPath = [publicDocumentsDir stringByAppendingPathComponent:file];
+            [retval addObject:fullPath];
+        }
+    }
+    
+    return retval;
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

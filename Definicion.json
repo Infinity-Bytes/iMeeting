@@ -1,0 +1,30 @@
+{
+    "nombreMeeting": "Meeting1",
+    "personal" : [
+	{
+	    "permiso": "Ejecutivo",
+	    "identificador": "0001",
+	    "nombre": "Persona1",
+	    "personal": [
+		{
+		    "permiso": "Capturador",
+		    "identificador": "0002",
+		    "nombre": "Persona1-1",
+		    "zona": "01",
+		    "personal": [
+			{
+			    "identificador": "0003",
+			    "nombre": "Persona1-1-1"
+			}, {
+			    "identificador": "0004",
+			    "nombre": "Persona1-1-2"
+			}, {
+			    "identificador": "0005",
+			    "nombre": "Persona1-1-3"
+			}
+		    ]
+		}
+	    ]
+	}
+    ]
+}

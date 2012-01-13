@@ -14,6 +14,9 @@
     CustomTabBarController *_controladorPestanias;
 }
 
+- (void) inicializaMeeting;
++ (NSArray *) definicionMeetings;
+
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, retain) CustomTabBarController *controladorPestanias;
 
