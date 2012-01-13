@@ -1,7 +1,7 @@
 
 #import "ControlMaestro.h"
 #import "ControladorDetalleEntrevistador.h"
-#import "ControladorListaPersonas.m"
+#import "ControladorListaPersonas.h"
 #import "DetalleGrafica.h"
 
 @implementation ControlMaestro

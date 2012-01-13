@@ -10,7 +10,7 @@
 		838D516B14BE62C500DF03BD /* CeldaEncargadoPorRegion.mm in Sources */ = {isa = PBXBuildFile; fileRef = 838D516614BE62C500DF03BD /* CeldaEncargadoPorRegion.mm */; };
 		838D516C14BE62C500DF03BD /* CeldaEncargadoPorRegion.xib in Resources */ = {isa = PBXBuildFile; fileRef = 838D516714BE62C500DF03BD /* CeldaEncargadoPorRegion.xib */; };
 		838D516D14BE62C500DF03BD /* ControladorListaRegiones.xib in Resources */ = {isa = PBXBuildFile; fileRef = 838D516814BE62C500DF03BD /* ControladorListaRegiones.xib */; };
-		83BFC60014BFAD6F00B0EE47 /* ControladorListaPersonas.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BFC5FE14BFAD6F00B0EE47 /* ControladorListaPersonas.m */; };
+		83BFC60014BFAD6F00B0EE47 /* ControladorListaPersonas.mm in Sources */ = {isa = PBXBuildFile; fileRef = 83BFC5FE14BFAD6F00B0EE47 /* ControladorListaPersonas.mm */; };
 		83BFC60114BFAD6F00B0EE47 /* ControladorListaPersonas.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83BFC5FF14BFAD6F00B0EE47 /* ControladorListaPersonas.xib */; };
 		D77563F014BCD00100A112A7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77563EF14BCD00100A112A7 /* UIKit.framework */; };
 		D77563F214BCD00100A112A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77563F114BCD00100A112A7 /* Foundation.framework */; };
@@ -72,7 +72,7 @@
 		838D516714BE62C500DF03BD /* CeldaEncargadoPorRegion.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CeldaEncargadoPorRegion.xib; sourceTree = "<group>"; };
 		838D516814BE62C500DF03BD /* ControladorListaRegiones.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControladorListaRegiones.xib; sourceTree = "<group>"; };
 		83BFC5FD14BFAD6F00B0EE47 /* ControladorListaPersonas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControladorListaPersonas.h; sourceTree = "<group>"; };
-		83BFC5FE14BFAD6F00B0EE47 /* ControladorListaPersonas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControladorListaPersonas.m; sourceTree = "<group>"; };
+		83BFC5FE14BFAD6F00B0EE47 /* ControladorListaPersonas.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ControladorListaPersonas.mm; sourceTree = "<group>"; };
 		83BFC5FF14BFAD6F00B0EE47 /* ControladorListaPersonas.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControladorListaPersonas.xib; sourceTree = "<group>"; };
 		D77563EB14BCD00100A112A7 /* iMeeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMeeting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D77563EF14BCD00100A112A7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -235,7 +235,7 @@
 				D78DD95414BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.h */,
 				D78DD95514BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.mm */,
 				83BFC5FD14BFAD6F00B0EE47 /* ControladorListaPersonas.h */,
-				83BFC5FE14BFAD6F00B0EE47 /* ControladorListaPersonas.m */,
+				83BFC5FE14BFAD6F00B0EE47 /* ControladorListaPersonas.mm */,
 			);
 			name = ControladorVista;
 			sourceTree = "<group>";
@@ -445,7 +445,7 @@
 				D7951E2814BF4017003593E6 /* CustomTabBarController.mm in Sources */,
 				D7951E3F14BF6F1E003593E6 /* ControlMaestro.mm in Sources */,
 				D7951E4514BF75CE003593E6 /* ControladorListaRegiones.mm in Sources */,
-				83BFC60014BFAD6F00B0EE47 /* ControladorListaPersonas.m in Sources */,
+				83BFC60014BFAD6F00B0EE47 /* ControladorListaPersonas.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
