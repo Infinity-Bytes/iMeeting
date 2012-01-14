@@ -27,7 +27,7 @@
     [_cellNib release];
     [_encargadosPorRegion release];
     
-    [self.identificador release]; self.identificador=nil;
+    self.identificador=nil;
     self.delegadoControladorLista = nil;
     self.delegadoControladorNavegacion = nil;
 }

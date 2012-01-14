@@ -50,6 +50,9 @@
                     }
                     
                     NSArray * personasInteres = [persona personas];
+                    [persona setPersonasEntrevistadas: [[NSMutableArray new] autorelease]];
+                    [persona setPersonasSinEntrevistar: [[NSMutableArray new] autorelease]];
+                    
                     for(id personaInterna in personasInteres) {
                         BOOL personaInternaAsistio = [personaInterna asistio];
                         
