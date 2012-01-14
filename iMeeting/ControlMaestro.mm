@@ -133,9 +133,9 @@
     _ultimoEntrevistado = (Entrevistado *)([servicioBusqueda buscarPersonaPorIdentificador: identificador]);
     if(_ultimoEntrevistado) {
         BOOL asistio = [_ultimoEntrevistado asistio];
-        return asistio ? [NSString stringWithFormat:@"Persona ya votó: %@", [_ultimoEntrevistado nombre]] : [NSString stringWithFormat:@"Registrar voto de: %@", [_ultimoEntrevistado nombre]];
+        return asistio ? [NSString stringWithFormat:@"Persona ya asistió: %@", [_ultimoEntrevistado nombre]] : [NSString stringWithFormat:@"Registrar asistencia de: %@", [_ultimoEntrevistado nombre]];
     } else {
-        return @"Codigo no identificado";
+        return @"Código no identificado";
     }
 }
 

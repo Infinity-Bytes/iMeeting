@@ -75,7 +75,7 @@
 							<object class="IBUILabel" id="372296355">
 								<reference key="NSNextResponder" ref="60473358"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{-82, 25}, {185, 20}}</string>
+								<string key="NSFrame">{{-58, 25}, {185, 20}}</string>
 								<reference key="NSSuperview" ref="60473358"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="50007556"/>
@@ -85,7 +85,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">Total Personas:</string>
+								<string key="IBUIText">Personas a su cargo:</string>
 								<reference key="IBUITextColor" ref="823470283"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
@@ -104,7 +104,7 @@
 							<object class="IBUILabel" id="50007556">
 								<reference key="NSNextResponder" ref="60473358"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{111, 27}, {87, 18}}</string>
+								<string key="NSFrame">{{135, 27}, {87, 18}}</string>
 								<reference key="NSSuperview" ref="60473358"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="565686476"/>
@@ -282,9 +282,9 @@
 						<reference key="object" ref="723423353"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="345343305"/>
-							<reference ref="372296355"/>
-							<reference ref="50007556"/>
 							<reference ref="565686476"/>
+							<reference ref="50007556"/>
+							<reference ref="372296355"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
