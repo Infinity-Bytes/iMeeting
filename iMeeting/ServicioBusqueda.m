@@ -21,7 +21,7 @@
 }
 
 -(Entrevistador *) buscarEntrevistadorPorIdentificador:(NSString *)identificador {
-    return nil;
+    return  [_personalMeeting objectForKey: identificador];
 }
 
 -(Entrevistador *) buscaraEntrevitador:(Entrevistador *)entrevistador {
@@ -29,7 +29,7 @@
 }
 
 -(Persona *) buscarPersonaPorIdentificador:(NSString *)identificador {
-    return nil;
+    return  [_personalMeeting objectForKey: identificador];
 }
 
 @end
