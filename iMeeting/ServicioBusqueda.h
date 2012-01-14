@@ -12,7 +12,9 @@
 
 @interface ServicioBusqueda : NSObject <iServicioBusqueda>
 {
-    NSDictionary * _personalMeeting;
+    
 }
+
+@property (nonatomic, retain) NSDictionary * personalMeeting;
 
 @end

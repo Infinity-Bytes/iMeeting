@@ -15,13 +15,13 @@
 
 - (void)dealloc {
     [self setPersonalMeeting: nil];
-    [_personalMeeting release]; _personalMeeting = nil;
+    [self setPersonalMeeting: nil];
     
     [super dealloc];
 }
 
 -(Entrevistador *) buscarEntrevistadorPorIdentificador:(NSString *)identificador {
-    return  [_personalMeeting objectForKey: identificador];
+    return  [self.personalMeeting objectForKey: identificador];
 }
 
 -(Entrevistador *) buscaraEntrevitador:(Entrevistador *)entrevistador {
@@ -29,7 +29,7 @@
 }
 
 -(Persona *) buscarPersonaPorIdentificador:(NSString *)identificador {
-    return  [_personalMeeting objectForKey: identificador];
+    return  [self.personalMeeting objectForKey: identificador];
 }
 
 @end

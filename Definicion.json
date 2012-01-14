@@ -2,12 +2,12 @@
     "nombreMeeting": "Meeting1",
     "personas" : [
 	{
-	    "tipo": "Entrevistador",
+	    "tipo": "Sergio Luna",
 	    "identificador": "0001",
 	    "nombre": "Persona1",
 	    "personas": [
 		{
-		    "tipo": "Entrevistador",
+		    "tipo": "Jesus",
 		    "identificador": "0002",
 		    "nombre": "Persona1-1",
 		    "zona": "01",

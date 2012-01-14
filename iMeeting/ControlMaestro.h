@@ -14,7 +14,7 @@
 #import "iDelegadoControladorScanner.h"
 #import "iServicioBusqueda.h"
 
-@interface ControlMaestro : NSObject<iDelegadoControladorLista, iDelegadoControladorNavegacion>
+@interface ControlMaestro : NSObject<iDelegadoControladorLista, iDelegadoControladorNavegacion, iDelegadoControladorScanner>
 {
     Meeting * _meeting;
     Entrevistado * _ultimoEntrevistado;

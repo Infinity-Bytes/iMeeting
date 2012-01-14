@@ -17,6 +17,6 @@
 -(Entrevistador *) buscaraEntrevitador:(Entrevistador *)entrevistador;
 -(Persona *) buscarPersonaPorIdentificador:(NSString *)identificador;
 
-@property (nonatomic, retain) NSArray * personalMeeting;
+@property (nonatomic, retain) NSDictionary * personalMeeting;
 
 @end

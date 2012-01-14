@@ -26,7 +26,7 @@
 -(void) asignarMeeting: (Meeting *) meeting {
     _meeting = [meeting retain];
     
-    [servicioBusqueda setPersonalMeeting: [_meeting personal]];
+    [servicioBusqueda setPersonalMeeting: [_meeting conjuntoPersonas]];
 }
 
 #pragma Delegado Control Lista
@@ -128,14 +128,18 @@
 -(NSString *) obtenerEntrevistado:(NSString *)identificador
 {
     _ultimoEntrevistado = (Entrevistado *)([servicioBusqueda buscarPersonaPorIdentificador: identificador]);
-    BOOL asistio = [_ultimoEntrevistado asistio];
-    return asistio ? [NSString stringWithFormat:@"Persona ya votó: %@", [_ultimoEntrevistado nombre]] : [NSString stringWithFormat:@"Registrar voto de: %@", [_ultimoEntrevistado nombre]];
+    if(_ultimoEntrevistado) {
+        BOOL asistio = [_ultimoEntrevistado asistio];
+        return asistio ? [NSString stringWithFormat:@"Persona ya votó: %@", [_ultimoEntrevistado nombre]] : [NSString stringWithFormat:@"Registrar voto de: %@", [_ultimoEntrevistado nombre]];
+    } else {
+        return @"Codigo no identificado";
+    }
 }
 
 -(void) notificarRespuesta:(BOOL)respuesta
 {
-    if(![_ultimoEntrevistado asistio]) {
-        [_ultimoEntrevistado setAsistio: respuesta];
+    if(_ultimoEntrevistado && ![_ultimoEntrevistado asistio]) {
+        [_ultimoEntrevistado setAsistio: !respuesta];
         
         // TODO Notificar para generacion de archivo y envio posterior a iCloud
     }

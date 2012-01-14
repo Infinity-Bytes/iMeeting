@@ -39,6 +39,7 @@
     //ControladorScannner * controladorScanner =  [[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]]; 
     // Override point for customization after application launch.
     [ self setControladorPestanias: [[CustomTabBarController new] autorelease]  ];
+    [[self controladorPestanias] setDelegadoControladorScanner: controlMaestro];
     
     ControladorListaRegiones * controladorListaRegiones =  [[[ControladorListaRegiones alloc] initWithNibName:@"ControladorListaRegiones" bundle:[NSBundle mainBundle]] autorelease]; 
     [controladorListaRegiones setIdentificador:@"ListaRegiones"];
