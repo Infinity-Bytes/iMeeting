@@ -668,14 +668,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = iMeeting/iMeeting.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iMeeting/iMeeting-Prefix.pch";
 				INFOPLIST_FILE = "iMeeting/iMeeting-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "002EE82C-9D18-44ED-BA36-5534809D5288";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "002EE82C-9D18-44ED-BA36-5534809D5288";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ZXingWidget/Classes\" \"$(SRCROOT)/json-framework/Classes\"";
 				WRAPPER_EXTENSION = app;
 			};
@@ -685,14 +684,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = iMeeting/iMeeting.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iMeeting/iMeeting-Prefix.pch";
 				INFOPLIST_FILE = "iMeeting/iMeeting-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "002EE82C-9D18-44ED-BA36-5534809D5288";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "002EE82C-9D18-44ED-BA36-5534809D5288";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ZXingWidget/Classes\" \"$(SRCROOT)/json-framework/Classes\"";
 				WRAPPER_EXTENSION = app;
 			};
