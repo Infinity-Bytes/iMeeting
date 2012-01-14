@@ -12,12 +12,14 @@
 
 @synthesize nombreMeeting;
 @synthesize personal;
+@synthesize conjuntoPersonas;
 
 - (id)init {
     self = [super init];
     if (self) {
         [self setNombreMeeting: @""];
         [self setPersonal: [NSArray array]];
+        [self setConjuntoPersonas: [[NSDictionary new] autorelease]];
     }
     return self;
 }
@@ -25,6 +27,7 @@
 - (void)dealloc {
     [self setNombreMeeting: nil];
     [self setPersonal: nil];
+    [self setConjuntoPersonas: nil];
     
     [super dealloc];
 }

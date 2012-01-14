@@ -51,16 +51,15 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     //recargar cada vez que sea visible exigira los datos al controlador
-    [self setEncargadosPorRegion:[[self delegadoControladorLista] obtenerDatosSeparadosPorRegiones] ];
+    [self setEncargadosPorRegion:[[self delegadoControladorLista] obtenerDatosSeparadosPorRegionesUsandoDefinicionOrden: [[NSMutableArray new] autorelease] ]];
     [[self tablaDatos] reloadData];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:@"Regiones"];
     
-    [[self view ] setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"fondo_txtu2.png"] ]];
+    //[[self view ] setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"fondo_txtu2.png"] ]];
     self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Atrás" style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
     self.cellNib = [UINib nibWithNibName:@"CeldaEncargadoPorRegion" bundle:nil];
 }

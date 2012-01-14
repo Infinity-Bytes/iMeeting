@@ -178,7 +178,7 @@
 				<real value="49" key="IBUIRowHeight"/>
 			</object>
 			<object class="IBUIView" id="950288198">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIImageView" id="382717359">
@@ -186,17 +186,21 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrameSize">{162, 49}</string>
 						<reference key="NSSuperview" ref="950288198"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:567</string>
 						<float key="IBUIAlpha">0.80000001192092896</float>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">degradado.png</string>
+							<string key="NSResourceName">azul.png</string>
 						</object>
 					</object>
 				</array>
 				<string key="NSFrameSize">{320, 49}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="382717359"/>
 				<string key="NSReuseIdentifierKey">_NS:196</string>
 				<reference key="IBUIBackgroundColor" ref="934131205"/>
@@ -244,6 +248,14 @@
 						<reference key="destination" ref="950288198"/>
 					</object>
 					<int key="connectionID">17</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">porcentaje</string>
+						<reference key="source" ref="723423353"/>
+						<reference key="destination" ref="565686476"/>
+					</object>
+					<int key="connectionID">19</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -329,7 +341,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">18</int>
+			<int key="maxID">19</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -340,6 +352,7 @@
 						<string key="capacidad">UILabel</string>
 						<string key="etiquetaNombre">UILabel</string>
 						<string key="graficaBarra">UIImageView</string>
+						<string key="porcentaje">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="capacidad">
@@ -353,6 +366,10 @@
 						<object class="IBToOneOutletInfo" key="graficaBarra">
 							<string key="name">graficaBarra</string>
 							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="porcentaje">
+							<string key="name">porcentaje</string>
+							<string key="candidateClassName">UILabel</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -389,8 +406,8 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">degradado.png</string>
-			<string key="NS.object.0">{1, 57}</string>
+			<string key="NS.key.0">azul.png</string>
+			<string key="NS.object.0">{1, 56}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">933</string>
 	</data>

@@ -6,12 +6,70 @@
 
 @implementation ControlMaestro
 
+@synthesize servicioBusqueda;
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        _ultimoEntrevistado = nil;
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [_meeting release]; _meeting = nil;
+    [self setServicioBusqueda: nil];
+    [super dealloc];
+}
+
+
+-(void) asignarMeeting: (Meeting *) meeting {
+    _meeting = [meeting retain];
+    
+    [servicioBusqueda setPersonalMeeting: [_meeting personal]];
+}
 
 #pragma Delegado Control Lista
--(NSDictionary *)obtenerDatosSeparadosPorRegiones
+-(NSDictionary *)obtenerDatosSeparadosPorRegionesUsandoDefinicionOrden: (NSMutableArray * ) definicionOrden;
 {
-    return [NSDictionary new];
+    NSMutableDictionary * salida = [[NSMutableDictionary new] autorelease];
+    NSMutableSet * zonas = [NSMutableSet new];
+    
+    if(_meeting) {
+        for(id idPersona in [_meeting conjuntoPersonas]) {
+            id persona = [[_meeting conjuntoPersonas] objectForKey: idPersona];
+            if([persona respondsToSelector: @selector(zona)]) {
+                NSString * zona = [persona performSelector:@selector(zona)];
+                if (zona) {
+                    NSMutableArray * personasPorZona = [salida objectForKey: zona];
+                    if(!personasPorZona) {
+                        personasPorZona = [NSMutableArray new];
+                        [salida setObject:personasPorZona forKey: zona];
+                    } else {
+                        [personasPorZona retain];
+                    }
+                    
+                    [personasPorZona addObject: persona];
+                    [personasPorZona release];
+                    
+                    [zonas addObject:zona];
+                    
+                    
+                    // TODO Desacoplar de un solo nivel
+                } else {
+                    int i = 0;
+                }
+            }
+        }
+        
+        // TODO Orden alfabético
+        NSEnumerator * it_zonas = [zonas objectEnumerator];
+        id zonaInteres = nil;
+        while(zonaInteres = [it_zonas nextObject]) {
+            [definicionOrden addObject: zonaInteres];
+        }
+    }
+    return salida;
 }
 
 #pragma Delegado Control Navegacion
@@ -19,7 +77,7 @@
 -(void) mostrarPanelSiguienteSegunEntrevistador:(Entrevistador*)entrevistador bajoIdentificador:(NSString*) identificador  usandoControlNavegacion: (UINavigationController*) controlNavegacion
 {
     if ([identificador isEqualToString:@"ListaRegiones"]) {
-         
+        
         ControladorDetalleEntrevistador * controladorDetalle = [[ControladorDetalleEntrevistador alloc] initWithNibName:@"ControladorDetalleEntrevistador" bundle:[NSBundle mainBundle]];
         
         [controladorDetalle establecerEntrevistador:entrevistador];
@@ -27,14 +85,14 @@
         
         DetalleGrafica *personasEntrevistadas = [DetalleGrafica new];
         
-        [personasEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.entrevistados.count]];
-        [personasEntrevistadas setPorcentaje: (entrevistador.personasEntrevistadas.count *100 ) / entrevistador.entrevistados.count]; 
+        [personasEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.personas.count]];
+        [personasEntrevistadas setPorcentaje: (entrevistador.personasEntrevistadas.count *100 ) / entrevistador.personas.count]; 
         [personasEntrevistadas setNombreLeyenda:@"Si"];
         
         DetalleGrafica *personasNoEntrevistadas = [DetalleGrafica new];
         
-        [personasNoEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.entrevistados.count]];
-        [personasNoEntrevistadas setPorcentaje: (entrevistador.personasSinEntrevistar.count *100 ) / entrevistador.entrevistados.count]; 
+        [personasNoEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.personas.count]];
+        [personasNoEntrevistadas setPorcentaje: (entrevistador.personasSinEntrevistar.count *100 ) / entrevistador.personas.count]; 
         [personasNoEntrevistadas setNombreLeyenda:@"No"];
         
         
@@ -45,7 +103,7 @@
         [controladorDetalle release];
         [personasEntrevistadas release];
         [personasNoEntrevistadas release];
-    
+        
     }else
     {
         ControladorListaPersonas * controladorListaPersonas = [[ControladorListaPersonas alloc] initWithNibName:@"ControladorListaPersonas" bundle:[NSBundle mainBundle]];
@@ -62,12 +120,20 @@
 }
 
 
--(NSString*) obtenerEntrevistado:(NSString*)identificador
+-(NSString *) obtenerEntrevistado:(NSString *)identificador
 {
-    return @"Hola soy un UialerView";
+    _ultimoEntrevistado = (Entrevistado *)([servicioBusqueda buscarPersonaPorIdentificador: identificador]);
+    BOOL asistio = [_ultimoEntrevistado asistio];
+    return asistio ? [NSString stringWithFormat:@"Persona ya votó: %@", [_ultimoEntrevistado nombre]] : [NSString stringWithFormat:@"Registrar voto de: %@", [_ultimoEntrevistado nombre]];
 }
+
 -(void) notificarRespuesta:(BOOL)respuesta
 {
+    if(![_ultimoEntrevistado asistio]) {
+        [_ultimoEntrevistado setAsistio: respuesta];
+        
+        // TODO Notificar para generacion de archivo y envio posterior a iCloud
+    }
 }
 
 @end

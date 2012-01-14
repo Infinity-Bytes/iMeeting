@@ -7,14 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "Persona.h"
+#import "Entrevistador.h"
 
 @protocol iServicioBusqueda <NSObject>
 
+-(Entrevistador *) buscarEntrevistadorPorIdentificador:(NSString *)identificador;
+-(Entrevistador *) buscaraEntrevitador:(Entrevistador *)entrevistador;
+-(Persona *) buscarPersonaPorIdentificador:(NSString *)identificador;
 
--(Entrevistador*) buscarEntrevistadorPorIdentificador:(NSString*)identificador;
--(Entrevistador*) buscaraEntrevitador:(Entrevistador*)entrevistador;
-
--(Persona*) buscarPersonaPorIdentificador:(NSString*)identificador;
+@property (nonatomic, retain) NSArray * personalMeeting;
 
 @end

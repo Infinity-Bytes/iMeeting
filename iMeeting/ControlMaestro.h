@@ -7,19 +7,29 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#import "Meeting.h"
 #import "iDelegadoControladorLista.h"
 #import "iDelegadoControladorNavegacion.h"
 #import "iDelegadoControladorScanner.h"
+#import "iServicioBusqueda.h"
 
 @interface ControlMaestro : NSObject<iDelegadoControladorLista, iDelegadoControladorNavegacion>
+{
+    Meeting * _meeting;
+    Entrevistado * _ultimoEntrevistado;
+}
 
+-(void) asignarMeeting: (Meeting *) meeting;
 
 #pragma Delegado Control Lista
--(NSDictionary *)obtenerDatosSeparadosPorRegiones;
+-(NSDictionary *)obtenerDatosSeparadosPorRegionesUsandoDefinicionOrden: (NSMutableArray * ) definicionOrden;
 
 #pragma Delegado Control Navegacion
 //un selector para desglosar informacion en detalle grafica asi mismo elegir a que ventana lo llevara la seleccion
 -(void) mostrarPanelSiguienteSegunEntrevistador:(Entrevistador*)entrevistador bajoIdentificador:(NSString*) identificador  usandoControlNavegacion: (UINavigationController*) controlNavegacion;
 
+
+@property (nonatomic, retain) id<iServicioBusqueda> servicioBusqueda;
 
 @end

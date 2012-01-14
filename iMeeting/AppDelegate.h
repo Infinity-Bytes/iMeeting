@@ -7,15 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+
+#import "ControlMaestro.h"
 #import "Meeting.h"
 #import "CustomTabBarController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
     CustomTabBarController *_controladorPestanias;
+    ControlMaestro * controlMaestro;
 }
 
-- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia;
+- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia usandoAcumulador: (NSMutableDictionary *) acumulador;
 - (Meeting *) generaMeetingDePOCOs: (NSDictionary *) objetoPlano;
 - (void) inicializaMeeting;
 + (NSArray *) definicionMeetings;

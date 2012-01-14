@@ -14,7 +14,6 @@
 @synthesize zona;
 @synthesize personas;
 
-@synthesize entrevistados;
 @synthesize personasEntrevistadas;
 @synthesize personasSinEntrevistar;
 
@@ -26,7 +25,6 @@
     
     [self setPersonasEntrevistadas: nil];
     [self setPersonasSinEntrevistar: nil];
-    [self setEntrevistados: nil];
 
     [super dealloc];
 }

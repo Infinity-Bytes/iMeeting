@@ -11,6 +11,8 @@
 #import "SBJson.h"
 #import "Entrevistado.h"
 #import "Entrevistador.h"
+#import "ControladorListaRegiones.h"
+#import "ServicioBusqueda.h"
 
 @implementation AppDelegate
 
@@ -21,21 +23,30 @@
 {
     [_window release];
     [_controladorPestanias release];
+    [controlMaestro release];
+    
     [super dealloc];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    controlMaestro  = [ControlMaestro new];
+    [controlMaestro setServicioBusqueda:[[ServicioBusqueda new] autorelease] ];
+    
     [self inicializaMeeting];
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     //ControladorScannner * controladorScanner =  [[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]]; 
     // Override point for customization after application launch.
-    [ self setControladorPestanias: [CustomTabBarController new]];
+    [ self setControladorPestanias: [[CustomTabBarController new] autorelease]  ];
     
-    ControladorScannner * controladorScanner1 =  [[[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]] autorelease]; 
-    controladorScanner1.tabBarItem.title = @"Grupos";
-    controladorScanner1.tabBarItem.image = [UIImage imageNamed:@"112-group.png"];
+    ControladorListaRegiones * controladorListaRegiones =  [[[ControladorListaRegiones alloc] initWithNibName:@"ControladorListaRegiones" bundle:[NSBundle mainBundle]] autorelease]; 
+    controladorListaRegiones.tabBarItem.title = @"Personas";
+    controladorListaRegiones.tabBarItem.image = [UIImage imageNamed:@"112-group.png"];
+    [controladorListaRegiones setDelegadoControladorLista:controlMaestro];
+    [controladorListaRegiones setDelegadoControladorNavegacion:controlMaestro];
+
+    
     
     UIViewController * controlador = [[self controladorPestanias] viewControllerWithTabTitle:@"Scanner" image:nil];
     
@@ -44,7 +55,8 @@
     controladorScanner2.tabBarItem.image = [UIImage imageNamed:@"123-id-card.png"];
     
     [[self controladorPestanias] setViewControllers:
-     [NSArray arrayWithObjects:controladorScanner1, controlador, controladorScanner2,nil]];
+     
+     [NSArray arrayWithObjects:controladorListaRegiones, controlador, controladorScanner2,nil]];
     
     [[self controladorPestanias] addCenterButtonWithImage:[UIImage imageNamed:@"cameraTabBarItem.png"] highlightImage:nil];
     
@@ -65,7 +77,7 @@
             id definicion = [definicionMeeting JSONValue];
             if([definicion isKindOfClass: [NSDictionary class]]) {
                 Meeting * meetingInteres = [self generaMeetingDePOCOs: definicion];
-                int i = 0;
+                [controlMaestro asignarMeeting: meetingInteres];
             }
         }
     }
@@ -106,9 +118,10 @@
     if([_nombreMeeting isKindOfClass: [NSString class]]) { 
         [salida setNombreMeeting: _nombreMeeting];
     }
+    NSMutableDictionary * conjuntoPersonal = [NSMutableDictionary new];
+    [salida setPersonal: [self procesaPersonas: objetoPlano usandoAcumulador: conjuntoPersonal]];
+    [salida setConjuntoPersonas: conjuntoPersonal];
     
-    [salida setPersonal: [self procesaPersonas: objetoPlano]];
-        
     return salida;
 }
 
@@ -118,7 +131,7 @@
     }
 }
 
-- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia {
+- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia usandoAcumulador: (NSMutableDictionary *) acumulador {
     NSMutableArray * contenedorPersonal = [NSMutableArray new];
     
     id _personal = [objetoReferencia objectForKey:@"personas"];
@@ -146,12 +159,17 @@
                     
                     if( [personaInteres respondsToSelector: @selector(setPersonas:)] ) {
                         
-                        [personaInteres performSelector: @selector(setPersonas:) withObject: [self procesaPersonas: persona]];
+                        [personaInteres performSelector: @selector(setPersonas:) withObject: [self procesaPersonas: persona usandoAcumulador: acumulador]];
                     }
                     
                     if(personaInteres) {
                         if([personaInteres isKindOfClass: [Persona class]]) {
                             [contenedorPersonal addObject: personaInteres];
+                            
+                            NSString * identificador = [personaInteres performSelector: @selector(identificador)];
+                            if(identificador && [identificador length]) {
+                                [acumulador setObject:personaInteres forKey: identificador];
+                            }
                         }
                         
                         [personaInteres release];

@@ -52,6 +52,7 @@
 		F129873614BFB7240043C634 /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F129873014BFB6F80043C634 /* libsbjson-ios.a */; };
 		F129874D14BFD3B50043C634 /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874C14BFD3B50043C634 /* Meeting.m */; };
 		F129875014BFD47C0043C634 /* Persona.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874F14BFD47C0043C634 /* Persona.m */; };
+		F1B2BAF314C12A7C00C3370F /* ServicioBusqueda.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BAF214C12A7C00C3370F /* ServicioBusqueda.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -178,6 +179,8 @@
 		F129874C14BFD3B50043C634 /* Meeting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meeting.m; sourceTree = "<group>"; };
 		F129874E14BFD47C0043C634 /* Persona.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Persona.h; sourceTree = "<group>"; };
 		F129874F14BFD47C0043C634 /* Persona.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Persona.m; sourceTree = "<group>"; };
+		F1B2BAF114C12A7C00C3370F /* ServicioBusqueda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicioBusqueda.h; sourceTree = "<group>"; };
+		F1B2BAF214C12A7C00C3370F /* ServicioBusqueda.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicioBusqueda.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -335,6 +338,8 @@
 			isa = PBXGroup;
 			children = (
 				D7951E4614BF8EA9003593E6 /* Protocolo */,
+				F1B2BAF114C12A7C00C3370F /* ServicioBusqueda.h */,
+				F1B2BAF214C12A7C00C3370F /* ServicioBusqueda.m */,
 			);
 			name = Servicio;
 			sourceTree = "<group>";
@@ -563,6 +568,7 @@
 				83BFC60014BFAD6F00B0EE47 /* ControladorListaPersonas.mm in Sources */,
 				F129874D14BFD3B50043C634 /* Meeting.m in Sources */,
 				F129875014BFD47C0043C634 /* Persona.m in Sources */,
+				F1B2BAF314C12A7C00C3370F /* ServicioBusqueda.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
