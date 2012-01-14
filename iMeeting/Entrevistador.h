@@ -11,8 +11,8 @@
 
 @interface Entrevistador : Entrevistado
 
-@property(nonatomic, retain) NSArray* personasEntrevistadas;
-@property(nonatomic, retain) NSArray* personasSinEntrevistar;
+@property(nonatomic, retain) NSMutableArray* personasEntrevistadas;
+@property(nonatomic, retain) NSMutableArray* personasSinEntrevistar;
 
 
 @property(nonatomic, retain) NSString *permiso;

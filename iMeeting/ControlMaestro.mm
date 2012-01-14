@@ -49,15 +49,20 @@
                         [personasPorZona retain];
                     }
                     
+                    NSArray * personasInteres = [persona personas];
+                    for(id personaInterna in personasInteres) {
+                        BOOL personaInternaAsistio = [personaInterna asistio];
+                        
+                        if(personaInternaAsistio)
+                            [[persona personasEntrevistadas] addObject: personaInterna];
+                        else
+                            [[persona personasSinEntrevistar] addObject: personaInterna];
+                    }
+                    
                     [personasPorZona addObject: persona];
                     [personasPorZona release];
                     
                     [zonas addObject:zona];
-                    
-                    
-                    // TODO Desacoplar de un solo nivel
-                } else {
-                    int i = 0;
                 }
             }
         }
@@ -98,7 +103,7 @@
         
         [controladorDetalle setDetallesDeGrafica:[[NSArray alloc] initWithObjects:personasEntrevistadas,personasNoEntrevistadas, nil]];
         
-        [controlNavegacion pushViewController:controlNavegacion animated:YES];
+        [controlNavegacion pushViewController:controladorDetalle animated:YES];
         
         [controladorDetalle release];
         [personasEntrevistadas release];
@@ -114,7 +119,7 @@
         if ([identificador isEqualToString:@"personasSinEntrevistar"])
             [controladorListaPersonas setDatos:[entrevistador personasSinEntrevistar]];
         
-        [controlNavegacion pushViewController:controlNavegacion animated:YES];
+        [controlNavegacion pushViewController:controladorListaPersonas animated:YES];
         [controladorListaPersonas release];
     }
 }

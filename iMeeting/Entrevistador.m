@@ -17,6 +17,15 @@
 @synthesize personasEntrevistadas;
 @synthesize personasSinEntrevistar;
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        [self setPersonasEntrevistadas: [NSMutableArray new]];
+        [self setPersonasSinEntrevistar: [NSMutableArray new]];
+    }
+    return self;
+}
+
 -(void) dealloc
 {
     [self setPermiso: nil];

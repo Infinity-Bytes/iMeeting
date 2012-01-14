@@ -41,10 +41,15 @@
     [ self setControladorPestanias: [[CustomTabBarController new] autorelease]  ];
     
     ControladorListaRegiones * controladorListaRegiones =  [[[ControladorListaRegiones alloc] initWithNibName:@"ControladorListaRegiones" bundle:[NSBundle mainBundle]] autorelease]; 
+    [controladorListaRegiones setIdentificador:@"ListaRegiones"];
     controladorListaRegiones.tabBarItem.title = @"Personas";
     controladorListaRegiones.tabBarItem.image = [UIImage imageNamed:@"112-group.png"];
     [controladorListaRegiones setDelegadoControladorLista:controlMaestro];
     [controladorListaRegiones setDelegadoControladorNavegacion:controlMaestro];
+    
+    UINavigationController *controladorNavegacionPersonas = [[[UINavigationController alloc] initWithRootViewController:controladorListaRegiones] autorelease];
+    controladorNavegacionPersonas.navigationBar.tintColor=[UIColor blackColor];
+
 
     
     
@@ -54,9 +59,12 @@
     controladorScanner2.tabBarItem.title = @"Detalles";
     controladorScanner2.tabBarItem.image = [UIImage imageNamed:@"123-id-card.png"];
     
+   
+    
+    
     [[self controladorPestanias] setViewControllers:
      
-     [NSArray arrayWithObjects:controladorListaRegiones, controlador, controladorScanner2,nil]];
+     [NSArray arrayWithObjects:controladorNavegacionPersonas, controlador, controladorScanner2,nil]];
     
     [[self controladorPestanias] addCenterButtonWithImage:[UIImage imageNamed:@"cameraTabBarItem.png"] highlightImage:nil];
     

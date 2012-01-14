@@ -14,7 +14,7 @@
 @synthesize zona;
 @synthesize tablaDatos;
 @synthesize celdaDetalleGrafica;
-@synthesize cellNib;
+@synthesize cellNib = _cellNib;
 @synthesize colores;
 @synthesize detallesDeGrafica;
 
@@ -26,10 +26,10 @@
      self.zona = nil;
      self.tablaDatos = nil;
     
-    [self.celdaDetalleGrafica release]; self.celdaDetalleGrafica = nil;
-    [self.colores release]; self.colores = nil;
-    [self.detallesDeGrafica release]; self.detallesDeGrafica = nil;
-    [self.cellNib release]; self.cellNib = nil;
+     self.celdaDetalleGrafica = nil;
+     self.colores = nil;
+     self.detallesDeGrafica = nil;
+     self.cellNib = nil;
 
     [_datosEntrevistador release];
     self.delegadoControladorNavegacion = nil;
@@ -40,8 +40,6 @@
 -(void)establecerEntrevistador:(Entrevistador*)entrevistador
 {
     _entrevistador = entrevistador;
-    self.nombreEntrevistador.text = [_entrevistador nombre];
-    self.zona.text = [_entrevistador zona];
 }
 
 
@@ -49,6 +47,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.cellNib = [UINib nibWithNibName:@"CeldaDetalleGrafica" bundle:nil];
     }
     return self;
 }
@@ -63,7 +62,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.cellNib = [UINib nibWithNibName:@"CeldaDetalleGrafica" bundle:nil];
+    
     
     self.colores = [[NSArray alloc] initWithObjects:
                     [UIColor colorWithPatternImage: [UIImage imageNamed:@"azul.png"] ],
@@ -75,6 +74,9 @@
     
     if([[_entrevistador telefono ] length] >0)
         [_datosEntrevistador setObject:[_entrevistador telefono ] forKey:@"Telefono"];
+    
+    self.nombreEntrevistador.text = [_entrevistador nombre];
+    self.zona.text = [_entrevistador zona];
     
 }
 
