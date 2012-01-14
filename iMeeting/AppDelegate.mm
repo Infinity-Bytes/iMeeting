@@ -130,7 +130,7 @@
                     Persona * personaInteres = nil;
                     
                     id _tipoPersona = [persona objectForKey: @"tipo"];
-                    if([_tipoPersona isKindOfClass: [NSString class]] && [_tipoPersona count] > 0) {
+                    if([_tipoPersona isKindOfClass: [NSString class]] && [_tipoPersona length] > 0) {
                         personaInteres = [NSClassFromString(_tipoPersona) new];
                     } else {
                         personaInteres = [Entrevistado new];
