@@ -60,9 +60,7 @@
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
+{    
     
     self.colores = [[NSArray alloc] initWithObjects:
                     [UIColor colorWithPatternImage: [UIImage imageNamed:@"azul.png"] ],
@@ -77,6 +75,9 @@
     
     self.nombreEntrevistador.text = [_entrevistador nombre];
     self.zona.text = [_entrevistador zona];
+        
+    [super viewDidLoad];
+
     
 }
 

@@ -47,6 +47,7 @@
 		D7951E3C14BF46A3003593E6 /* cameraTabBarItem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7951E3614BF46A3003593E6 /* cameraTabBarItem@2x.png */; };
 		D7951E3F14BF6F1E003593E6 /* ControlMaestro.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7951E3E14BF6F1E003593E6 /* ControlMaestro.mm */; };
 		D7951E4514BF75CE003593E6 /* ControladorListaRegiones.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7951E4414BF75CD003593E6 /* ControladorListaRegiones.mm */; };
+		F11D97DC14C1FB1500ECAB12 /* 100pxl_invest.png in Resources */ = {isa = PBXBuildFile; fileRef = F11D97DB14C1FB1500ECAB12 /* 100pxl_invest.png */; };
 		F129870114BFB1900043C634 /* CloudMe.m in Sources */ = {isa = PBXBuildFile; fileRef = F12986FE14BFB1900043C634 /* CloudMe.m */; };
 		F129870214BFB1900043C634 /* NoteSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = F129870014BFB1900043C634 /* NoteSheet.m */; };
 		F129873614BFB7240043C634 /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F129873014BFB6F80043C634 /* libsbjson-ios.a */; };
@@ -169,6 +170,7 @@
 		D7951E4714BF8EE7003593E6 /* iServicioGestorDatos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioGestorDatos.h; sourceTree = "<group>"; };
 		D7A5193214C0C357003AE69B /* iServicioBusqueda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioBusqueda.h; sourceTree = "<group>"; };
 		D7A5193314C0C499003AE69B /* iDelegadoControladorScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iDelegadoControladorScanner.h; sourceTree = "<group>"; };
+		F11D97DB14C1FB1500ECAB12 /* 100pxl_invest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 100pxl_invest.png; path = recursos/100pxl_invest.png; sourceTree = SOURCE_ROOT; };
 		F12986FB14BFAE900043C634 /* iMeeting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = iMeeting.entitlements; sourceTree = "<group>"; };
 		F12986FD14BFB1900043C634 /* CloudMe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudMe.h; sourceTree = "<group>"; };
 		F12986FE14BFB1900043C634 /* CloudMe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudMe.m; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 		D78DD95D14BE290500C6B0D3 /* Recursos */ = {
 			isa = PBXGroup;
 			children = (
+				F11D97DB14C1FB1500ECAB12 /* 100pxl_invest.png */,
 				D7951E3114BF46A3003593E6 /* 112-group.png */,
 				D7951E3214BF46A3003593E6 /* 112-group@2x.png */,
 				D7951E3314BF46A3003593E6 /* 123-id-card.png */,
@@ -540,6 +543,7 @@
 				D7951E3B14BF46A3003593E6 /* cameraTabBarItem.png in Resources */,
 				D7951E3C14BF46A3003593E6 /* cameraTabBarItem@2x.png in Resources */,
 				83BFC60114BFAD6F00B0EE47 /* ControladorListaPersonas.xib in Resources */,
+				F11D97DC14C1FB1500ECAB12 /* 100pxl_invest.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

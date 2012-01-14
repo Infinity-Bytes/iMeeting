@@ -93,13 +93,13 @@
         
         DetalleGrafica *personasEntrevistadas = [DetalleGrafica new];
         
-        [personasEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.personas.count]];
+        [personasEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.personasEntrevistadas.count]];
         [personasEntrevistadas setPorcentaje: (entrevistador.personasEntrevistadas.count *100 ) / entrevistador.personas.count]; 
         [personasEntrevistadas setNombreLeyenda:@"Si"];
         
         DetalleGrafica *personasNoEntrevistadas = [DetalleGrafica new];
         
-        [personasNoEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.personas.count]];
+        [personasNoEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.personasSinEntrevistar.count]];
         [personasNoEntrevistadas setPorcentaje: (entrevistador.personasSinEntrevistar.count *100 ) / entrevistador.personas.count]; 
         [personasNoEntrevistadas setNombreLeyenda:@"No"];
         
