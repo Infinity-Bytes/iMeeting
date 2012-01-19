@@ -24,12 +24,24 @@
     [_window release];
     [_controladorPestanias release];
     [controlMaestro release];
+    [servicioGestorDatos release];
     
     [super dealloc];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    servicioGestorDatos = [ServicioGestorDatos new];
+    
+    NSURL *ubiq = [[NSFileManager defaultManager] 
+                   URLForUbiquityContainerIdentifier:nil];
+    if (ubiq) {
+        NSLog(@"iCloud access at %@", ubiq);
+        [servicioGestorDatos cargaMeetings];
+    } else {
+        NSLog(@"No iCloud access");
+    }
+    
     controlMaestro  = [ControlMaestro new];
     [controlMaestro setServicioBusqueda:[[ServicioBusqueda new] autorelease] ];
     

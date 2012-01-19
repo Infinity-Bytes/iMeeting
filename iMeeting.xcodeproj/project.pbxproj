@@ -54,6 +54,8 @@
 		F129874D14BFD3B50043C634 /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874C14BFD3B50043C634 /* Meeting.m */; };
 		F129875014BFD47C0043C634 /* Persona.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874F14BFD47C0043C634 /* Persona.m */; };
 		F1B2BAF314C12A7C00C3370F /* ServicioBusqueda.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BAF214C12A7C00C3370F /* ServicioBusqueda.m */; };
+		F1BC448A14C89C170089E264 /* ServicioGestorDatos.m in Sources */ = {isa = PBXBuildFile; fileRef = F1BC448914C89C170089E264 /* ServicioGestorDatos.m */; };
+		F1BC448D14C8A3810089E264 /* Documento.m in Sources */ = {isa = PBXBuildFile; fileRef = F1BC448C14C8A3810089E264 /* Documento.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,6 +185,10 @@
 		F129874F14BFD47C0043C634 /* Persona.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Persona.m; sourceTree = "<group>"; };
 		F1B2BAF114C12A7C00C3370F /* ServicioBusqueda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicioBusqueda.h; sourceTree = "<group>"; };
 		F1B2BAF214C12A7C00C3370F /* ServicioBusqueda.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicioBusqueda.m; sourceTree = "<group>"; };
+		F1BC448814C89C170089E264 /* ServicioGestorDatos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicioGestorDatos.h; sourceTree = "<group>"; };
+		F1BC448914C89C170089E264 /* ServicioGestorDatos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicioGestorDatos.m; sourceTree = "<group>"; };
+		F1BC448B14C8A3810089E264 /* Documento.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Documento.h; sourceTree = "<group>"; };
+		F1BC448C14C8A3810089E264 /* Documento.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Documento.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -342,6 +348,8 @@
 				D7951E4614BF8EA9003593E6 /* Protocolo */,
 				F1B2BAF114C12A7C00C3370F /* ServicioBusqueda.h */,
 				F1B2BAF214C12A7C00C3370F /* ServicioBusqueda.m */,
+				F1BC448814C89C170089E264 /* ServicioGestorDatos.h */,
+				F1BC448914C89C170089E264 /* ServicioGestorDatos.m */,
 			);
 			name = Servicio;
 			sourceTree = "<group>";
@@ -351,6 +359,8 @@
 			children = (
 				D78DD95A14BE28AF00C6B0D3 /* FondoCelda.h */,
 				D78DD95B14BE28AF00C6B0D3 /* FondoCelda.mm */,
+				F1BC448B14C8A3810089E264 /* Documento.h */,
+				F1BC448C14C8A3810089E264 /* Documento.m */,
 			);
 			name = Utilidades;
 			sourceTree = "<group>";
@@ -573,6 +583,8 @@
 				F129874D14BFD3B50043C634 /* Meeting.m in Sources */,
 				F129875014BFD47C0043C634 /* Persona.m in Sources */,
 				F1B2BAF314C12A7C00C3370F /* ServicioBusqueda.m in Sources */,
+				F1BC448A14C89C170089E264 /* ServicioGestorDatos.m in Sources */,
+				F1BC448D14C8A3810089E264 /* Documento.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
