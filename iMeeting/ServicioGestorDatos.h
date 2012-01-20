@@ -17,7 +17,7 @@
 - (void)queryDidFinishGathering:(NSNotification *)notification;
 - (void)loadData:(NSMetadataQuery *)query;
 
-@property (nonatomic, retain) id<iServicioGestorDatosDelegate> delegado;
+@property (nonatomic, assign) id<iServicioGestorDatosDelegate> delegado;
 @property (nonatomic, retain) NSMetadataQuery * metaDataQuery;
 
 @end

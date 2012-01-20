@@ -20,11 +20,6 @@
     if (self) {
         [self setMetaDataQuery: nil];
         [self setDelegado: nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(cargaMeetings) 
-                                                     name: UIApplicationDidBecomeActiveNotification 
-                                                   object:nil];
     }
     return self;
 }

@@ -7,10 +7,14 @@
 @implementation ControlMaestro
 
 @synthesize servicioBusqueda;
+@synthesize servicioGestorDatos;
 
 - (id)init {
     self = [super init];
     if (self) {
+        [self setServicioGestorDatos: nil];
+        [self setServicioBusqueda: nil];
+        
         _ultimoEntrevistado = nil;
     }
     return self;
@@ -18,7 +22,10 @@
 
 - (void)dealloc {
     [_meeting release]; _meeting = nil;
+    
+    [self setServicioGestorDatos: nil];
     [self setServicioBusqueda: nil];
+    
     [super dealloc];
 }
 
@@ -146,6 +153,19 @@
         
         // TODO Notificar para generacion de archivo y envio posterior a iCloud
     }
+}
+
+#pragma Delegado Gestor Datos
+- (void) numeroDeElementosAProcesar: (int) elementosAprocesar {
+    
+}
+
+- (void) procesaDocumento: (Documento *) elementosAprocesar {
+    
+}
+
+- (void) fallidoAccesoADocumento: (Documento *) elementosAprocesar {
+    
 }
 
 @end

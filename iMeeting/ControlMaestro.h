@@ -13,8 +13,9 @@
 #import "iDelegadoControladorNavegacion.h"
 #import "iDelegadoControladorScanner.h"
 #import "iServicioBusqueda.h"
+#import "iServicioGestorDatos.h"
 
-@interface ControlMaestro : NSObject<iDelegadoControladorLista, iDelegadoControladorNavegacion, iDelegadoControladorScanner>
+@interface ControlMaestro : NSObject<iDelegadoControladorLista, iDelegadoControladorNavegacion, iDelegadoControladorScanner, iServicioGestorDatosDelegate>
 {
     Meeting * _meeting;
     Entrevistado * _ultimoEntrevistado;
@@ -29,7 +30,13 @@
 //un selector para desglosar informacion en detalle grafica asi mismo elegir a que ventana lo llevara la seleccion
 -(void) mostrarPanelSiguienteSegunEntrevistador:(Entrevistador*)entrevistador bajoIdentificador:(NSString*) identificador  usandoControlNavegacion: (UINavigationController*) controlNavegacion;
 
+#pragma Delegado Gestor Datos
+- (void) numeroDeElementosAProcesar: (int) elementosAprocesar;
+- (void) procesaDocumento: (Documento *) elementosAprocesar;
+- (void) fallidoAccesoADocumento: (Documento *) elementosAprocesar;
+
 
 @property (nonatomic, retain) id<iServicioBusqueda> servicioBusqueda;
+@property (nonatomic, retain) id<iServicioGestorDatos> servicioGestorDatos;
 
 @end
