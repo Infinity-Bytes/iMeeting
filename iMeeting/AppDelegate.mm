@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "ControladorScannner.h"
-#import "SBJson.h"
 #import "Entrevistado.h"
 #import "Entrevistador.h"
 #import "ControladorListaRegiones.h"
@@ -37,8 +36,9 @@
     ServicioGestorDatos * servicioGestorDatos = [[ServicioGestorDatos new] autorelease];
     [controlMaestro setServicioGestorDatos: servicioGestorDatos];
     [servicioGestorDatos estableceDelegado: controlMaestro];
-    
-    [self inicializaMeeting];
+
+    [servicioGestorDatos inicializaMeeting];
+    [servicioGestorDatos cargaMeetings];
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     //ControladorScannner * controladorScanner =  [[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]]; 
@@ -56,16 +56,12 @@
     UINavigationController *controladorNavegacionPersonas = [[[UINavigationController alloc] initWithRootViewController:controladorListaRegiones] autorelease];
     controladorNavegacionPersonas.navigationBar.tintColor=[UIColor blackColor];
 
-
-    
     
     UIViewController * controlador = [[self controladorPestanias] viewControllerWithTabTitle:@"Scanner" image:nil];
     
     ControladorScannner * controladorScanner2 =  [[[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]] autorelease]; 
     controladorScanner2.tabBarItem.title = @"Detalles";
     controladorScanner2.tabBarItem.image = [UIImage imageNamed:@"123-id-card.png"];
-    
-   
     
     
     [[self controladorPestanias] setViewControllers:
@@ -80,122 +76,7 @@
     return YES;
 }
 
-- (void) inicializaMeeting {
-    // Lectura de archivos de configuración de Meetings
-    NSArray * archivosDefinicionMeetings = [AppDelegate definicionMeetings];
-    if( [archivosDefinicionMeetings count] > 0 ) {
-        for(NSString * archivoDefinicionMeeting in archivosDefinicionMeetings) {
-            NSStringEncoding encoding;
-            NSError* error;
-            NSString * definicionMeeting = [NSString stringWithContentsOfFile: archivoDefinicionMeeting usedEncoding:&encoding error:&error];
-            id definicion = [definicionMeeting JSONValue];
-            if([definicion isKindOfClass: [NSDictionary class]]) {
-                Meeting * meetingInteres = [self generaMeetingDePOCOs: definicion];
-                [controlMaestro asignarMeeting: meetingInteres];
-            }
-        }
-    }
-}
 
-+ (NSArray *) definicionMeetings {
-    
-    NSMutableArray *retval = [NSMutableArray array];
-    
-    // Get public docs dir
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *publicDocumentsDir = [paths objectAtIndex:0];   
-    
-    // Get contents of documents directory
-    NSError *error;
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:publicDocumentsDir error:&error];
-    if (files == nil) {
-        NSLog(@"Error reading contents of documents directory: %@", [error localizedDescription]);
-        return retval;
-    }
-    
-    // Add all sbzs to a list    
-    for (NSString *file in files) {
-        if ([file.pathExtension compare:@"json" options:NSCaseInsensitiveSearch] == NSOrderedSame) {        
-            NSString *fullPath = [publicDocumentsDir stringByAppendingPathComponent:file];
-            [retval addObject:fullPath];
-        }
-    }
-    
-    return retval;
-    
-}
-
-- (Meeting * ) generaMeetingDePOCOs: (NSDictionary *) objetoPlano {
-    Meeting * salida = [[Meeting new] autorelease];
-    
-    id _nombreMeeting = [objetoPlano objectForKey: @"nombreMeeting"];
-    if([_nombreMeeting isKindOfClass: [NSString class]]) { 
-        [salida setNombreMeeting: _nombreMeeting];
-    }
-    NSMutableDictionary * conjuntoPersonal = [NSMutableDictionary new];
-    [salida setPersonal: [self procesaPersonas: objetoPlano usandoAcumulador: conjuntoPersonal]];
-    [salida setConjuntoPersonas: conjuntoPersonal];
-    
-    return salida;
-}
-
-- (void) objeto: (id) objeto ejecutaSelector: (SEL) selector conArgumento: (id) argumento deTipo: (Class) clase {
-    if([objeto respondsToSelector: selector] && [argumento isKindOfClass: clase]) {
-        [objeto performSelector: selector withObject: argumento];
-    }
-}
-
-- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia usandoAcumulador: (NSMutableDictionary *) acumulador {
-    NSMutableArray * contenedorPersonal = [NSMutableArray new];
-    
-    id _personal = [objetoReferencia objectForKey:@"personas"];
-    if([_personal isKindOfClass: [NSArray class]]) {
-        if([_personal count]) {
-
-            for(id persona in _personal) {
-                if( [persona isKindOfClass: [NSDictionary class]] ) {
-                    Persona * personaInteres = nil;
-                    
-                    id _tipoPersona = [persona objectForKey: @"tipo"];
-                    if([_tipoPersona isKindOfClass: [NSString class]] && [_tipoPersona length] > 0) {
-                        personaInteres = [NSClassFromString(_tipoPersona) new];
-                    } else {
-                        personaInteres = [Entrevistado new];
-                    }
-                    
-                    [self objeto:personaInteres ejecutaSelector: @selector(setIdentificador:) conArgumento: [persona objectForKey: @"identificador"] deTipo:[NSString class]];
-                    
-                    [self objeto:personaInteres ejecutaSelector: @selector(setNombre:) conArgumento: [persona objectForKey: @"nombre"] deTipo:[NSString class]];
-                    
-                    [self objeto:personaInteres ejecutaSelector: @selector(setZona:) conArgumento: [persona objectForKey: @"zona"] deTipo:[NSString class]];
-                    
-                    [self objeto:personaInteres ejecutaSelector: @selector(setTelefono:) conArgumento: [persona objectForKey: @"telefono"] deTipo:[NSString class]];
-                    
-                    if( [personaInteres respondsToSelector: @selector(setPersonas:)] ) {
-                        
-                        [personaInteres performSelector: @selector(setPersonas:) withObject: [self procesaPersonas: persona usandoAcumulador: acumulador]];
-                    }
-                    
-                    if(personaInteres) {
-                        if([personaInteres isKindOfClass: [Persona class]]) {
-                            [contenedorPersonal addObject: personaInteres];
-                            
-                            NSString * identificador = [personaInteres performSelector: @selector(identificador)];
-                            if(identificador && [identificador length]) {
-                                [acumulador setObject:personaInteres forKey: identificador];
-                            }
-                        }
-                        
-                        [personaInteres release];
-                    }
-                }
-            }
-        }
-    }
-
-    
-    return contenedorPersonal;
-}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

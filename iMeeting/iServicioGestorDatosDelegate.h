@@ -7,9 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Meeting.h"
 #import "Documento.h"
 
 @protocol iServicioGestorDatosDelegate <NSObject>
+
+-(void) asignarMeeting: (Meeting *) meeting;
 
 - (void) numeroDeElementosAProcesar: (int) elementosAprocesar;
 

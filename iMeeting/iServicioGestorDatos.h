@@ -11,6 +11,4 @@
 
 @protocol iServicioGestorDatos <NSObject>
 
-- (void) estableceDelegado: (id<iServicioGestorDatosDelegate>) delegado;
-
 @end
