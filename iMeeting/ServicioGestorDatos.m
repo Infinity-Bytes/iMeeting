@@ -48,7 +48,8 @@
     if (ubiq) {
         self.metaDataQuery = [[NSMetadataQuery alloc] init];
         [self.metaDataQuery setSearchScopes:[NSArray arrayWithObject:NSMetadataQueryUbiquitousDocumentsScope]];
-        NSPredicate *pred = [NSPredicate predicateWithFormat: @"%K like 'text.txt'", NSMetadataItemFSNameKey];
+        NSString * sentenciaPredicate = [@"%K " stringByAppendingString: [NSString stringWithFormat:@" like '%@*'", @"text"]];
+        NSPredicate *pred = [NSPredicate predicateWithFormat: sentenciaPredicate, NSMetadataItemFSNameKey];
         [self.metaDataQuery setPredicate:pred];
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(queryDidFinishGathering:) 
