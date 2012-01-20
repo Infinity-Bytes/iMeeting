@@ -11,14 +11,15 @@
 
 @implementation ServicioGestorDatos
 
-@synthesize entrevistados;
 @synthesize metaDataQuery;
+@synthesize delegado;
 
 
 - (id)init {
     self = [super init];
     if (self) {
         [self setMetaDataQuery: nil];
+        [self setDelegado: nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(cargaMeetings) 
@@ -30,8 +31,13 @@
 
 - (void)dealloc {
     [self setMetaDataQuery: nil];
+    [self setDelegado: nil];
     
     [super dealloc];
+}
+
+- (void) estableceDelegado: (id<iServicioGestorDatosDelegate>) delegadoInteres {
+    [self setDelegado: delegadoInteres];
 }
 
 - (void)cargaMeetings {
@@ -71,25 +77,23 @@
 }
 
 - (void)loadData:(NSMetadataQuery *)query {
-    
-    [self.entrevistados removeAllObjects];
+    [delegado numeroDeElementosAProcesar: [query resultCount]];
     
     if([query resultCount]) {
         for (NSMetadataItem *item in [query results]) {
             
             NSURL *url = [item valueForAttribute: NSMetadataItemURLKey];
-            Documento *doc = [[Documento alloc] initWithFileURL: url];
+             Documento * doc = [[[Documento alloc] initWithFileURL: url] autorelease];
             
             [doc openWithCompletionHandler: ^(BOOL success) {
                 if (success) {
-                    [self.entrevistados addObject: doc];
-                    NSLog(@"openend file from iCloud");
+                    [delegado procesaDocumento: doc];
+                    NSLog(@"openend file from iCloud %@", doc);
                 } else {
-                    NSLog(@"failed to open from iCloud");
+                    [delegado fallidoAccesoADocumento: doc];
+                    NSLog(@"failed to open from iCloud %@", doc);
                 }
             }];
-            
-            [doc release];
         }
     } else {
         NSLog(@"AppDelegate: ocument not found in iCloud.");
@@ -97,7 +101,7 @@
         NSURL *ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
         NSURL *ubiquitousPackage = [[ubiq URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:@"text.txt"];
         
-        Documento *doc = [[Documento alloc] initWithFileURL:ubiquitousPackage];
+        Documento *doc = [[[Documento alloc] initWithFileURL:ubiquitousPackage] autorelease];
         
         [doc saveToURL:[doc fileURL] forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
             NSLog(@"AppDelegate: new document save to iCloud");

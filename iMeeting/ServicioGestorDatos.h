@@ -11,11 +11,13 @@
 
 @interface ServicioGestorDatos : NSObject <iServicioGestorDatos>
 
+- (void) estableceDelegado: (id<iServicioGestorDatosDelegate>) delegadoInteres;
+
 - (void)cargaMeetings;
 - (void)queryDidFinishGathering:(NSNotification *)notification;
 - (void)loadData:(NSMetadataQuery *)query;
 
+@property (nonatomic, retain) id<iServicioGestorDatosDelegate> delegado;
 @property (nonatomic, retain) NSMetadataQuery * metaDataQuery;
-@property (nonatomic, retain) NSMutableArray * entrevistados;
 
 @end

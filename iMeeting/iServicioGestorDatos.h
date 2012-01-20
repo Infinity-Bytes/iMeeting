@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "iServicioGestorDatosDelegate.h"
 
 @protocol iServicioGestorDatos <NSObject>
+
+- (void) estableceDelegado: (id<iServicioGestorDatosDelegate>) delegado;
 
 @end

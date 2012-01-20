@@ -189,6 +189,7 @@
 		F1BC448914C89C170089E264 /* ServicioGestorDatos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicioGestorDatos.m; sourceTree = "<group>"; };
 		F1BC448B14C8A3810089E264 /* Documento.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Documento.h; sourceTree = "<group>"; };
 		F1BC448C14C8A3810089E264 /* Documento.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Documento.m; sourceTree = "<group>"; };
+		F1EE825414CA0C7500086033 /* iServicioGestorDatosDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioGestorDatosDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -411,6 +412,7 @@
 			children = (
 				D7951E4714BF8EE7003593E6 /* iServicioGestorDatos.h */,
 				D7A5193214C0C357003AE69B /* iServicioBusqueda.h */,
+				F1EE825414CA0C7500086033 /* iServicioGestorDatosDelegate.h */,
 			);
 			name = Protocolo;
 			sourceTree = "<group>";
