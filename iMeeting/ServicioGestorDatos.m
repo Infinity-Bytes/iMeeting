@@ -160,6 +160,8 @@
                              Meeting * meeting = [self obtenMeetingDeURL: [doc fileURL]];
                              [self registraMeeting: meeting conURLDocumentos: urlDirectorioPadreEnDocumentos yURLCloud: urlDefinicionMeetingEnICloud];
                          }
+                         
+                         // TODO Registrar Elementos trabajados
                      }];
             [docEnDocumentos release];
         }
