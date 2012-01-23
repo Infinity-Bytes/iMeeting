@@ -68,11 +68,6 @@
     return meetingInteres;
 }
 
-- (NSURL *) obtenDirectorioContenedorDeURL: (NSURL*) urlArchivoEnDocumentos {
-    NSString * urlDirectorioInteres = [[urlArchivoEnDocumentos path] substringToIndex: [[urlArchivoEnDocumentos path] length] - [[urlArchivoEnDocumentos lastPathComponent] length]];
-    return [[[NSURL alloc] initFileURLWithPath:urlDirectorioInteres isDirectory:YES] autorelease];
-}
-
 #pragma Cargado de archivos de iCloud
 
 - (void)cargaMeetingsDeiCloud {
@@ -142,7 +137,7 @@
     if (legible) {
         NSLog(@"openend file from iCloud %@", doc);
         
-        NSURL * urlDirectorioPadreEnDocumentos = [self obtenDirectorioContenedorDeURL: urlArchivoEnDocumentos];
+        NSURL * urlDirectorioPadreEnDocumentos = [urlArchivoEnDocumentos URLByDeletingLastPathComponent];
         
         NSFileManager * fileManager = [NSFileManager defaultManager];
         NSError * error;
@@ -160,7 +155,7 @@
                          // Registrar Meeting
                          NSString * nombreArchivoDefinicion = PATRONARCHIVOS(@"Definicion.json");
                          if ([[urlArchivoEnDocumentos lastPathComponent] isEqualToString: nombreArchivoDefinicion]) {
-                             NSURL * urlDefinicionMeetingEnICloud = [self obtenDirectorioContenedorDeURL: [doc fileURL]];
+                             NSURL * urlDefinicionMeetingEnICloud = [[doc fileURL] URLByDeletingLastPathComponent];
                              
                              Meeting * meeting = [self obtenMeetingDeURL: [doc fileURL]];
                              [self registraMeeting: meeting conURLDocumentos: urlDirectorioPadreEnDocumentos yURLCloud: urlDefinicionMeetingEnICloud];
