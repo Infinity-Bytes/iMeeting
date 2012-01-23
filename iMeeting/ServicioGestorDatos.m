@@ -14,6 +14,7 @@
 #import "Entrevistado.h"
 
 #define REGENERARESTRUCTURA YES
+#define PATRONARCHIVOS(x) [NSString stringWithFormat:@"__%@", x]
 
 @implementation ServicioGestorDatos
 
@@ -47,14 +48,14 @@
 
 #pragma Cargado de archivos de iCloud
 
-- (void)cargaMeetings {
+- (void)cargaMeetingsDeiCloud {
     
     NSURL *ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
-    
+    NSString * documentoDefinicion = PATRONARCHIVOS(@"");
     if (ubiq) {
         self.metaDataQuery = [[NSMetadataQuery alloc] init];
         [self.metaDataQuery setSearchScopes:[NSArray arrayWithObject:NSMetadataQueryUbiquitousDocumentsScope]];
-        NSString * sentenciaPredicate = [@"%K " stringByAppendingString: [NSString stringWithFormat:@" like '%@*'", @"text"]];
+        NSString * sentenciaPredicate = [@"%K " stringByAppendingString: [NSString stringWithFormat:@" like '%@*'", documentoDefinicion]];
         NSPredicate *pred = [NSPredicate predicateWithFormat: sentenciaPredicate, NSMetadataItemFSNameKey];
         [self.metaDataQuery setPredicate:pred];
         [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -91,7 +92,7 @@
         for (NSMetadataItem *item in [query results]) {
             
             NSURL *url = [item valueForAttribute: NSMetadataItemURLKey];
-             Documento * doc = [[[Documento alloc] initWithFileURL: url] autorelease];
+            Documento * doc = [[[Documento alloc] initWithFileURL: url] autorelease];
             
             [doc openWithCompletionHandler: ^(BOOL success) {
                 if (success) {
@@ -104,7 +105,7 @@
             }];
         }
     } else {
-        NSLog(@"AppDelegate: ocument not found in iCloud.");
+        /*NSLog(@"AppDelegate: ocument not found in iCloud.");
         
         NSURL *ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
         NSURL *ubiquitousPackage = [[ubiq URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:@"text.txt"];
@@ -116,7 +117,7 @@
             [doc openWithCompletionHandler:^(BOOL success) {
                 NSLog(@"AppDelegate: new document opened from iCloud");
             }];
-        }];
+        }];*/
     }
 }
 
@@ -165,7 +166,9 @@
     NSError *error = nil;
     
     if(urlInteres) {
-        pathMeeting = [urlInteres URLByAppendingPathComponent:[NSString stringWithFormat: @"%@.meeting", [meeting nombreMeeting]] isDirectory:YES];
+        NSString * pathMeetingBase = [NSString stringWithFormat: @"%@.meeting", [meeting nombreMeeting]];
+        NSString * nombrePathMeetingPatron = PATRONARCHIVOS(pathMeetingBase);
+        pathMeeting = [urlInteres URLByAppendingPathComponent: nombrePathMeetingPatron isDirectory:YES];
         
         if (![[NSFileManager defaultManager] fileExistsAtPath: [pathMeeting path]] || REGENERARESTRUCTURA)
         {
@@ -177,12 +180,16 @@
             {
                 NSLog(@"Creando estructura de Meeting: %@", pathMeeting);
                 
-                [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent:@"trabajado"] 
+                NSString * nombreDefinicion = PATRONARCHIVOS(@"Definicion.json");
+                NSString * nombreDirectorioTrabajado = PATRONARCHIVOS(@"trabajado");
+                NSString * nombreDirectorioPendiente = PATRONARCHIVOS(@"pendiente");
+                
+                [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent: nombreDirectorioTrabajado] 
                        withIntermediateDirectories:YES attributes:nil error: &error];
-                [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent:@"pendiente"] 
+                [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent: nombreDirectorioPendiente] 
                        withIntermediateDirectories:YES attributes:nil error: &error];
                 
-                NSURL * pathDefinicion = [pathMeeting URLByAppendingPathComponent: @"Definicion.json" isDirectory: NO];
+                NSURL * pathDefinicion = [pathMeeting URLByAppendingPathComponent: nombreDefinicion  isDirectory: NO];
                 Documento * definicionInteres = [[Documento alloc] initWithFileURL: pathDefinicion];
                 [definicionInteres setNoteContent: [meeting definicion]];
                 [definicionInteres saveToURL: [definicionInteres fileURL] 

@@ -16,7 +16,7 @@
 - (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlDocumentos yURLCloud: (NSURL *) urliCloud;
 
 #pragma Cargado de archivos de iCloud
-- (void)cargaMeetings;
+- (void)cargaMeetingsDeiCloud;
 - (void)queryDidFinishGathering:(NSNotification *)notification;
 - (void)loadData:(NSMetadataQuery *)query;
 

@@ -38,7 +38,7 @@
     [servicioGestorDatos estableceDelegado: controlMaestro];
 
     [servicioGestorDatos cargaMeetingsDeiTunesFileSharing];
-    [servicioGestorDatos cargaMeetings];
+    [servicioGestorDatos cargaMeetingsDeiCloud];
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     //ControladorScannner * controladorScanner =  [[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]]; 
