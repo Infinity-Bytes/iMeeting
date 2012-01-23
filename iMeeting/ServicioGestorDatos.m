@@ -52,7 +52,10 @@
     NSLog(@"RegistraMeeting: %@ conURLDocumentos: %@ yURLCloud: %@", [meeting nombreMeeting], urlMeetingDocumentos, urlMeetingiCloud);
 }
 
-
+- (void) registraElementoTrabajado: (NSURL *) urlElementoTrabajado crearArchivo: (BOOL) crearArchivo {
+    // TODO Registrar elemento al delegado
+    // TODO Crear archivo si se requiere ya sea en pendientes o en trabajado si se tiene o no acceso a iCloud
+}
 
 - (Meeting *) obtenMeetingDeURL: (NSURL*) urlArchivo {
     Meeting * meetingInteres = nil;
@@ -87,7 +90,19 @@
                     if(meeting) {
                         [self registraMeeting: meeting conURLDocumentos: url yURLCloud: nil];
                         
-                        // TODO Registrar elementos ya trabajados
+                        // Registrar elementos ya trabajados
+                        NSURL * urlTrabajado = [url URLByAppendingPathComponent: @"trabajado"];
+                        if([defaultManager fileExistsAtPath: [urlTrabajado path] isDirectory: &directorio]) {
+                            if(directorio) {
+                                NSArray * elementosTrabajados = [defaultManager contentsOfDirectoryAtURL: urlTrabajado
+                                                                                includingPropertiesForKeys:[NSArray array] 
+                                                                                                   options:0 
+                                                                                                     error:&error];
+                                for(NSURL * urlElementoTrabajado in elementosTrabajados) {
+                                    [self registraElementoTrabajado: urlElementoTrabajado crearArchivo: FALSE];
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -113,6 +128,9 @@
                                                    object:self.metaDataQuery];
         
         [self.metaDataQuery startQuery];
+        
+        // TODO Enviar pendientes como trabajados a iCloud
+        
     } else {
         // TODO Revisar comportamiento al no haber acceso a iCloud
         NSLog(@"No iCloud access");

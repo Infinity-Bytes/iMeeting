@@ -14,6 +14,7 @@
 
 - (void) estableceDelegado: (id<iServicioGestorDatosDelegate>) delegadoInteres;
 - (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlDocumentos yURLCloud: (NSURL *) urliCloud;
+- (void) registraElementoTrabajado: (NSURL *) urlElementoTrabajado crearArchivo: (BOOL) crearArchivo;
 - (Meeting *) obtenMeetingDeURL: (NSURL*) urlArchivo;
 
 - (void)cargaMeetingsDeDocumentos;
