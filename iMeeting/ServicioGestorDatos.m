@@ -47,42 +47,30 @@
     [self setDelegado: delegadoInteres];
 }
 
-- (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlDocumentos yURLCloud: (NSURL *) urliCloud {
+- (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlMeetingDocumentos yURLCloud: (NSURL *) urlMeetingiCloud {
     // TODO Revisar si el Meeting ya fue previamente registrado (por sus PATH) sino, registrarlo al delegado
+    NSLog(@"RegistraMeeting: %@ conURLDocumentos: %@ yURLCloud: %@", [meeting nombreMeeting], urlMeetingDocumentos, urlMeetingiCloud);
 }
 
-- (void) procesaDocumento: (Documento *) doc conPathRelativo: (NSString *) subPath legible: (BOOL) legible {
-    // Almacenar en Documentos usando el path relativo
-    NSURL * urlArchivoEnDocumentos = [[self urlDocumentos] URLByAppendingPathComponent: subPath];
-    
-    if (legible) {
-        NSLog(@"openend file from iCloud %@", doc);
-        
-        NSFileManager * fileManager = [NSFileManager defaultManager];
-        
-        NSString * urlDirectorioInteres = [[urlArchivoEnDocumentos path] substringToIndex: [[urlArchivoEnDocumentos path] length] - [[urlArchivoEnDocumentos lastPathComponent] length]];
-        
-        NSError * error;
-        if ([fileManager createDirectoryAtURL: [[[NSURL alloc] initFileURLWithPath:urlDirectorioInteres isDirectory:YES] autorelease]
-                  withIntermediateDirectories:YES
-                                   attributes:nil
-                                        error:&error]) {
-            Documento * docEnDocumentos = [[Documento alloc] initWithFileURL: urlArchivoEnDocumentos];
-            [docEnDocumentos setNoteContent: [doc noteContent]];
-            [docEnDocumentos saveToURL:[docEnDocumentos fileURL] 
-                      forSaveOperation:REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating 
-                     completionHandler:^(BOOL success) {
-                         NSLog(@"Archivo de iCloud almacenado en Documentos: %@", docEnDocumentos);
-                     }];
-            [docEnDocumentos release];
 
-        }
-        
-        // TODO  Proceder con su registro en Runtime
 
-    } else {
-        NSLog(@"failed to open from iCloud %@", doc);
+- (Meeting *) obtenMeetingDeURL: (NSURL*) urlArchivo {
+    Meeting * meetingInteres = nil;
+    NSStringEncoding encoding;
+    NSError * error;
+    NSString * definicionMeeting = [NSString stringWithContentsOfURL: urlArchivo usedEncoding:&encoding error:&error];
+    id definicion = [definicionMeeting JSONValue];
+    if([definicion isKindOfClass: [NSDictionary class]]) {
+        meetingInteres = [self generaMeetingDePOCOs: definicion];
+        [meetingInteres setEncodingDefinicion: encoding];
+        [meetingInteres setDefinicion: definicionMeeting];
     }
+    return meetingInteres;
+}
+
+- (NSURL *) obtenDirectorioContenedorDeURL: (NSURL*) urlArchivoEnDocumentos {
+    NSString * urlDirectorioInteres = [[urlArchivoEnDocumentos path] substringToIndex: [[urlArchivoEnDocumentos path] length] - [[urlArchivoEnDocumentos lastPathComponent] length]];
+    return [[[NSURL alloc] initFileURLWithPath:urlDirectorioInteres isDirectory:YES] autorelease];
 }
 
 #pragma Cargado de archivos de iCloud
@@ -146,6 +134,45 @@
     }
 }
 
+
+- (void) procesaDocumento: (Documento *) doc conPathRelativo: (NSString *) subPath legible: (BOOL) legible {
+    // Almacenar en Documentos usando el path relativo
+    NSURL * urlArchivoEnDocumentos = [[self urlDocumentos] URLByAppendingPathComponent: subPath];
+    
+    if (legible) {
+        NSLog(@"openend file from iCloud %@", doc);
+        
+        NSURL * urlDirectorioPadreEnDocumentos = [self obtenDirectorioContenedorDeURL: urlArchivoEnDocumentos];
+        
+        NSFileManager * fileManager = [NSFileManager defaultManager];
+        NSError * error;
+        if ([fileManager createDirectoryAtURL: urlDirectorioPadreEnDocumentos
+                  withIntermediateDirectories:YES
+                                   attributes:nil
+                                        error:&error]) {
+            Documento * docEnDocumentos = [[Documento alloc] initWithFileURL: urlArchivoEnDocumentos];
+            [docEnDocumentos setNoteContent: [doc noteContent]];
+            [docEnDocumentos saveToURL:[docEnDocumentos fileURL] 
+                      forSaveOperation:REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating 
+                     completionHandler:^(BOOL success) {
+                         NSLog(@"Archivo de iCloud almacenado en Documentos: %@", docEnDocumentos);
+                         
+                         // Registrar Meeting
+                         NSString * nombreArchivoDefinicion = PATRONARCHIVOS(@"Definicion.json");
+                         if ([[urlArchivoEnDocumentos lastPathComponent] isEqualToString: nombreArchivoDefinicion]) {
+                             NSURL * urlDefinicionMeetingEnICloud = [self obtenDirectorioContenedorDeURL: [doc fileURL]];
+                             
+                             Meeting * meeting = [self obtenMeetingDeURL: [doc fileURL]];
+                             [self registraMeeting: meeting conURLDocumentos: urlDirectorioPadreEnDocumentos yURLCloud: urlDefinicionMeetingEnICloud];
+                         }
+                     }];
+            [docEnDocumentos release];
+        }
+    } else {
+        NSLog(@"failed to open from iCloud %@", doc);
+    }
+}
+
 #pragma Cargado de Meetings a partir de definición dada por iTunes Shared Folder
 
 - (void) cargaMeetingsDeiTunesFileSharing {
@@ -153,15 +180,9 @@
     NSArray * archivosDefinicionMeetings = [self cargaDefinicionMeetings];
     if( [archivosDefinicionMeetings count] > 0 ) {
         for(NSString * archivoDefinicionMeeting in archivosDefinicionMeetings) {
-            NSStringEncoding encoding;
-            NSError * error;
-            NSString * definicionMeeting = [NSString stringWithContentsOfFile: archivoDefinicionMeeting usedEncoding:&encoding error:&error];
-            id definicion = [definicionMeeting JSONValue];
-            if([definicion isKindOfClass: [NSDictionary class]]) {
-                Meeting * meetingInteres = [self generaMeetingDePOCOs: definicion];
-                [meetingInteres setEncodingDefinicion: encoding];
-                [meetingInteres setDefinicion: definicionMeeting];
-                
+            NSURL * urlArchivo = [[NSURL alloc] initFileURLWithPath: archivoDefinicionMeeting isDirectory: FALSE];
+            Meeting * meetingInteres = [self obtenMeetingDeURL: urlArchivo];
+            if(meetingInteres) {
                 [self generaEstructuraDeMeeting: meetingInteres];
                 
                 if (!REGENERARESTRUCTURA) {
