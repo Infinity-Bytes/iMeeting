@@ -13,6 +13,7 @@
 @interface ServicioGestorDatos : NSObject <iServicioGestorDatos>
 
 - (void) estableceDelegado: (id<iServicioGestorDatosDelegate>) delegadoInteres;
+- (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlDocumentos yURLCloud: (NSURL *) urliCloud;
 
 #pragma Cargado de archivos de iCloud
 - (void)cargaMeetings;
@@ -20,13 +21,14 @@
 - (void)loadData:(NSMetadataQuery *)query;
 
 #pragma Cargado de Meetings a partir de definición dada por iTunes Shared Folder
-- (void) inicializaMeeting;
-- (void) cargaAsistencia: (Meeting *) meeting;
-- (NSString *) cargaDirectorioMeeting: (Meeting *) meeting enDirectorio: (NSString *) directorio;
+- (void) cargaMeetingsDeiTunesFileSharing;
+- (void) generaEstructuraDeMeeting: (Meeting *) meeting;
+- (id) cargaDirectorioMeeting: (Meeting *) meeting enURL: (NSURL *) urlInteres;
 - (NSArray *) cargaDefinicionMeetings;
 - (Meeting *) generaMeetingDePOCOs: (NSDictionary *) objetoPlano;
 - (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia usandoAcumulador: (NSMutableDictionary *) acumulador;
 - (void) objeto: (id) objeto ejecutaSelector: (SEL) selector conArgumento: (id) argumento deTipo: (Class) clase;
+
 
 @property (nonatomic, assign) id<iServicioGestorDatosDelegate> delegado;
 @property (nonatomic, retain) NSMetadataQuery * metaDataQuery;

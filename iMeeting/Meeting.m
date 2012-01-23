@@ -14,6 +14,7 @@
 @synthesize personal;
 @synthesize conjuntoPersonas;
 @synthesize definicion;
+@synthesize encodingDefinicion;
 
 - (id)init {
     self = [super init];

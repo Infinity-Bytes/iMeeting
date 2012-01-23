@@ -37,7 +37,7 @@
     [controlMaestro setServicioGestorDatos: servicioGestorDatos];
     [servicioGestorDatos estableceDelegado: controlMaestro];
 
-    [servicioGestorDatos inicializaMeeting];
+    [servicioGestorDatos cargaMeetingsDeiTunesFileSharing];
     [servicioGestorDatos cargaMeetings];
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];

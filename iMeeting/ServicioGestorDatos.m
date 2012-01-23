@@ -13,6 +13,8 @@
 #import "Persona.h"
 #import "Entrevistado.h"
 
+#define REGENERARESTRUCTURA YES
+
 @implementation ServicioGestorDatos
 
 @synthesize metaDataQuery;
@@ -37,6 +39,10 @@
 
 - (void) estableceDelegado: (id<iServicioGestorDatosDelegate>) delegadoInteres {
     [self setDelegado: delegadoInteres];
+}
+
+- (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlDocumentos yURLCloud: (NSURL *) urliCloud {
+    // TODO Revisar si el Meeting ya fue previamente registrado (por sus PATH) sino, registrarlo al delegado
 }
 
 #pragma Cargado de archivos de iCloud
@@ -116,7 +122,7 @@
 
 #pragma Cargado de Meetings a partir de definición dada por iTunes Shared Folder
 
-- (void) inicializaMeeting {
+- (void) cargaMeetingsDeiTunesFileSharing {
     // Lectura de archivos de configuración de Meetings
     NSArray * archivosDefinicionMeetings = [self cargaDefinicionMeetings];
     if( [archivosDefinicionMeetings count] > 0 ) {
@@ -127,48 +133,71 @@
             id definicion = [definicionMeeting JSONValue];
             if([definicion isKindOfClass: [NSDictionary class]]) {
                 Meeting * meetingInteres = [self generaMeetingDePOCOs: definicion];
+                [meetingInteres setEncodingDefinicion: encoding];
                 [meetingInteres setDefinicion: definicionMeeting];
                 
-                [self cargaAsistencia: meetingInteres];
-                [delegado asignarMeeting: meetingInteres];
+                [self generaEstructuraDeMeeting: meetingInteres];
                 
-                // TODO Cargar información de personas entrevistadas
+                if (!REGENERARESTRUCTURA) {
+                    // TODO Borrar definicion de iTunes File Sharing
+                }
             }
         }
     }
 }
 
-- (void) cargaAsistencia: (Meeting *) meeting {
+- (void) generaEstructuraDeMeeting: (Meeting *) meeting {
     // Buscar directorio del Meeting en Documentos
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString * directorioMeeting = [self cargaDirectorioMeeting: meeting enDirectorio: [paths objectAtIndex: 0]];
+
+    // Buscar directorio del Meeting en iCloud
+    NSURL * urlDocumentos = [[NSURL alloc] initFileURLWithPath: [paths objectAtIndex: 0]  isDirectory: YES];
+    NSURL * ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
     
-    // TODO Buscar en directorio del Meeting los archivos trabajados
+    NSURL * urlDocumentosMeeting = [self cargaDirectorioMeeting: meeting enURL: urlDocumentos];
+    NSURL * urlCloudMeeting = [self cargaDirectorioMeeting: meeting enURL: [ubiq URLByAppendingPathComponent: @"Documents"]];
     
-    // TODO Buscar en directorio del Meeting los archivos pendientes
+    [self registraMeeting: meeting conURLDocumentos: urlDocumentosMeeting yURLCloud: urlCloudMeeting];
 }
 
-- (NSString *) cargaDirectorioMeeting: (Meeting *) meeting enDirectorio: (NSString *) directorio {
-	NSString *pathMeeting = [directorio stringByAppendingPathComponent: [NSString stringWithFormat: @"%@.meeting", [meeting nombreMeeting]]];
+- (id) cargaDirectorioMeeting: (Meeting *) meeting enURL: (NSURL *) urlInteres {
+	id pathMeeting = nil;
+    NSError *error = nil;
     
-    NSError *error;
-	if (![[NSFileManager defaultManager] fileExistsAtPath: pathMeeting])	//Does directory already exist?
-	{
-        NSFileManager * fileManager = [NSFileManager defaultManager];
-		if (![fileManager createDirectoryAtPath:pathMeeting
-									   withIntermediateDirectories:NO
-														attributes:nil
-															 error:&error])
-		{
-			NSLog(@"Creando estructura de Meeting");
-            // TODO Guardar definición dentro de directorio del Meeting
-            
-            [fileManager createDirectoryAtPath:[pathMeeting stringByAppendingPathComponent:@"trabajado"] 
-                   withIntermediateDirectories:NO attributes:nil error: &error];
-            [fileManager createDirectoryAtPath:[pathMeeting stringByAppendingPathComponent:@"pendiente"] 
-                   withIntermediateDirectories:NO attributes:nil error: &error];
-		}
-	}
+    if(urlInteres) {
+        pathMeeting = [urlInteres URLByAppendingPathComponent:[NSString stringWithFormat: @"%@.meeting", [meeting nombreMeeting]] isDirectory:YES];
+        
+        if (![[NSFileManager defaultManager] fileExistsAtPath: [pathMeeting path]] || REGENERARESTRUCTURA)
+        {
+            NSFileManager * fileManager = [NSFileManager defaultManager];
+            if ([fileManager createDirectoryAtURL: pathMeeting
+                        withIntermediateDirectories:YES
+                                         attributes:nil
+                                              error:&error])
+            {
+                NSLog(@"Creando estructura de Meeting: %@", pathMeeting);
+                
+                [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent:@"trabajado"] 
+                       withIntermediateDirectories:YES attributes:nil error: &error];
+                [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent:@"pendiente"] 
+                       withIntermediateDirectories:YES attributes:nil error: &error];
+                
+                NSURL * pathDefinicion = [pathMeeting URLByAppendingPathComponent: @"Definicion.json" isDirectory: NO];
+                Documento * definicionInteres = [[Documento alloc] initWithFileURL: pathDefinicion];
+                [definicionInteres setNoteContent: [meeting definicion]];
+                [definicionInteres saveToURL: [definicionInteres fileURL] 
+                            forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
+                           completionHandler:^(BOOL success) {
+                               
+                               NSLog(@"Definicion: %@ salvada: %@", pathMeeting, success ? @"correctamente" : @"incorrectamente");
+                }];
+                
+                [definicionInteres release];
+            } else {
+                NSLog(@"Error en creación de directorio");
+            }
+        }
+    }
     
     return pathMeeting;
 }
