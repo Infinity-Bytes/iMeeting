@@ -31,9 +31,6 @@
 -(void) mostrarPanelSiguienteSegunEntrevistador:(Entrevistador*)entrevistador bajoIdentificador:(NSString*) identificador  usandoControlNavegacion: (UINavigationController*) controlNavegacion;
 
 #pragma Delegado Gestor Datos
-- (void) numeroDeElementosAProcesar: (int) elementosAprocesar;
-- (void) procesaDocumento: (Documento *) elementosAprocesar;
-- (void) fallidoAccesoADocumento: (Documento *) elementosAprocesar;
 
 
 @property (nonatomic, retain) id<iServicioBusqueda> servicioBusqueda;

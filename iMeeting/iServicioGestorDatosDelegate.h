@@ -14,10 +14,4 @@
 
 -(void) asignarMeeting: (Meeting *) meeting;
 
-- (void) numeroDeElementosAProcesar: (int) elementosAprocesar;
-
-- (void) procesaDocumento: (Documento *) elementosAprocesar;
-
-- (void) fallidoAccesoADocumento: (Documento *) elementosAprocesar;
-
 @end

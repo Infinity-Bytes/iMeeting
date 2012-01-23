@@ -46,6 +46,16 @@
     // TODO Revisar si el Meeting ya fue previamente registrado (por sus PATH) sino, registrarlo al delegado
 }
 
+- (void) procesaDocumento: (Documento *) doc conPathRelativo: (NSString *) subPath legible: (BOOL) legible {
+    // TODO Almacenar en Documentos usando el path relativo y proceder con su registro
+    
+    if (legible) {
+        NSLog(@"openend file from iCloud %@", doc);
+    } else {
+        NSLog(@"failed to open from iCloud %@", doc);
+    }
+}
+
 #pragma Cargado de archivos de iCloud
 
 - (void)cargaMeetingsDeiCloud {
@@ -86,38 +96,24 @@
 }
 
 - (void)loadData:(NSMetadataQuery *)query {
-    [delegado numeroDeElementosAProcesar: [query resultCount]];
     
     if([query resultCount]) {
+        NSURL * ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
+        NSURL * urlDocUbiq = [ubiq URLByAppendingPathComponent: @"Documents"];
+        
         for (NSMetadataItem *item in [query results]) {
             
             NSURL *url = [item valueForAttribute: NSMetadataItemURLKey];
             Documento * doc = [[[Documento alloc] initWithFileURL: url] autorelease];
             
-            [doc openWithCompletionHandler: ^(BOOL success) {
-                if (success) {
-                    [delegado procesaDocumento: doc];
-                    NSLog(@"openend file from iCloud %@", doc);
-                } else {
-                    [delegado fallidoAccesoADocumento: doc];
-                    NSLog(@"failed to open from iCloud %@", doc);
-                }
-            }];
+            if([[url path] hasPrefix: [urlDocUbiq path]]) {
+                NSString * subPath = [[url path] substringFromIndex: [[urlDocUbiq path] length] + 1];
+                
+                [doc openWithCompletionHandler: ^(BOOL success) {
+                    [self procesaDocumento: doc conPathRelativo: subPath legible: success];
+                }];
+            }
         }
-    } else {
-        /*NSLog(@"AppDelegate: ocument not found in iCloud.");
-        
-        NSURL *ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
-        NSURL *ubiquitousPackage = [[ubiq URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:@"text.txt"];
-        
-        Documento *doc = [[[Documento alloc] initWithFileURL:ubiquitousPackage] autorelease];
-        
-        [doc saveToURL:[doc fileURL] forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
-            NSLog(@"AppDelegate: new document save to iCloud");
-            [doc openWithCompletionHandler:^(BOOL success) {
-                NSLog(@"AppDelegate: new document opened from iCloud");
-            }];
-        }];*/
     }
 }
 
@@ -181,12 +177,10 @@
                 NSLog(@"Creando estructura de Meeting: %@", pathMeeting);
                 
                 NSString * nombreDefinicion = PATRONARCHIVOS(@"Definicion.json");
-                NSString * nombreDirectorioTrabajado = PATRONARCHIVOS(@"trabajado");
-                NSString * nombreDirectorioPendiente = PATRONARCHIVOS(@"pendiente");
                 
-                [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent: nombreDirectorioTrabajado] 
+                [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent: @"trabajado"] 
                        withIntermediateDirectories:YES attributes:nil error: &error];
-                [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent: nombreDirectorioPendiente] 
+                [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent: @"pendiente"] 
                        withIntermediateDirectories:YES attributes:nil error: &error];
                 
                 NSURL * pathDefinicion = [pathMeeting URLByAppendingPathComponent: nombreDefinicion  isDirectory: NO];
