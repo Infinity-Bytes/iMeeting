@@ -68,6 +68,33 @@
     return meetingInteres;
 }
 
+- (void)cargaMeetingsDeDocumentos {
+    NSString * nombreArchivoDefinicion = PATRONARCHIVOS(@"Definicion.json");
+    NSFileManager * defaultManager = [NSFileManager defaultManager];
+    NSError *error;
+    NSArray * elementosEnDocumentos = [defaultManager contentsOfDirectoryAtURL: [self urlDocumentos] 
+                  includingPropertiesForKeys:[NSArray array] 
+                                     options:0 
+                                       error:&error];
+    for (NSURL *url in elementosEnDocumentos) {
+        NSString * extension = [url pathExtension];
+        if([extension isEqualToString: @"meeting"]) {
+            NSURL * urlDefinicion = [url URLByAppendingPathComponent: nombreArchivoDefinicion isDirectory: NO];
+            BOOL directorio;
+            if([defaultManager fileExistsAtPath: [urlDefinicion path] isDirectory: &directorio]) {
+                if(!directorio) {
+                    Meeting * meeting = [self obtenMeetingDeURL: urlDefinicion];
+                    if(meeting) {
+                        [self registraMeeting: meeting conURLDocumentos: url yURLCloud: nil];
+                        
+                        // TODO Registrar elementos ya trabajados
+                    }
+                }
+            }
+        }
+    }
+}
+
 #pragma Cargado de archivos de iCloud
 
 - (void)cargaMeetingsDeiCloud {

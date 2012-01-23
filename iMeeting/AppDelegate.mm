@@ -37,6 +37,7 @@
     [controlMaestro setServicioGestorDatos: servicioGestorDatos];
     [servicioGestorDatos estableceDelegado: controlMaestro];
 
+    [servicioGestorDatos cargaMeetingsDeDocumentos];
     [servicioGestorDatos cargaMeetingsDeiTunesFileSharing];
     [servicioGestorDatos cargaMeetingsDeiCloud];
     
