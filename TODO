@@ -1,0 +1,14 @@
+iTunes File Sharing:
+       Registro:
+		Al detectar un archivo de definición, generar en Documentos la estructura base para un Meeting
+		Almacenar la definición dentro de la estructura del Meeting y proceder a borrarle de iTunes File Sharing
+
+iCloud:
+       Registro:
+		Generar la consulta de acceso a la información publicada dentro de iCloud y proceder a su almacenamiento dentro de los Documentos del Usuario
+
+
+Documentos de Usuario:
+	Registro:
+		Buscar dentro del directorio de documentos los diferentes Meetings registrados (búsqueda en función de la extensión del directorio)
+		Se genera en runtime el Meeting y se registra en el control maestro (Al haber múltiples Meetings se toma el primero de manera temporal)

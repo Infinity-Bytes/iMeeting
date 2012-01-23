@@ -122,11 +122,14 @@
     if( [archivosDefinicionMeetings count] > 0 ) {
         for(NSString * archivoDefinicionMeeting in archivosDefinicionMeetings) {
             NSStringEncoding encoding;
-            NSError* error;
+            NSError * error;
             NSString * definicionMeeting = [NSString stringWithContentsOfFile: archivoDefinicionMeeting usedEncoding:&encoding error:&error];
             id definicion = [definicionMeeting JSONValue];
             if([definicion isKindOfClass: [NSDictionary class]]) {
                 Meeting * meetingInteres = [self generaMeetingDePOCOs: definicion];
+                [meetingInteres setDefinicion: definicionMeeting];
+                
+                [self cargaAsistencia: meetingInteres];
                 [delegado asignarMeeting: meetingInteres];
                 
                 // TODO Cargar información de personas entrevistadas
@@ -134,6 +137,42 @@
         }
     }
 }
+
+- (void) cargaAsistencia: (Meeting *) meeting {
+    // Buscar directorio del Meeting en Documentos
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString * directorioMeeting = [self cargaDirectorioMeeting: meeting enDirectorio: [paths objectAtIndex: 0]];
+    
+    // TODO Buscar en directorio del Meeting los archivos trabajados
+    
+    // TODO Buscar en directorio del Meeting los archivos pendientes
+}
+
+- (NSString *) cargaDirectorioMeeting: (Meeting *) meeting enDirectorio: (NSString *) directorio {
+	NSString *pathMeeting = [directorio stringByAppendingPathComponent: [NSString stringWithFormat: @"%@.meeting", [meeting nombreMeeting]]];
+    
+    NSError *error;
+	if (![[NSFileManager defaultManager] fileExistsAtPath: pathMeeting])	//Does directory already exist?
+	{
+        NSFileManager * fileManager = [NSFileManager defaultManager];
+		if (![fileManager createDirectoryAtPath:pathMeeting
+									   withIntermediateDirectories:NO
+														attributes:nil
+															 error:&error])
+		{
+			NSLog(@"Creando estructura de Meeting");
+            // TODO Guardar definición dentro de directorio del Meeting
+            
+            [fileManager createDirectoryAtPath:[pathMeeting stringByAppendingPathComponent:@"trabajado"] 
+                   withIntermediateDirectories:NO attributes:nil error: &error];
+            [fileManager createDirectoryAtPath:[pathMeeting stringByAppendingPathComponent:@"pendiente"] 
+                   withIntermediateDirectories:NO attributes:nil error: &error];
+		}
+	}
+    
+    return pathMeeting;
+}
+
 
 - (NSArray *)  cargaDefinicionMeetings {
     

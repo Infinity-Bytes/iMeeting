@@ -21,6 +21,8 @@
 
 #pragma Cargado de Meetings a partir de definición dada por iTunes Shared Folder
 - (void) inicializaMeeting;
+- (void) cargaAsistencia: (Meeting *) meeting;
+- (NSString *) cargaDirectorioMeeting: (Meeting *) meeting enDirectorio: (NSString *) directorio;
 - (NSArray *) cargaDefinicionMeetings;
 - (Meeting *) generaMeetingDePOCOs: (NSDictionary *) objetoPlano;
 - (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia usandoAcumulador: (NSMutableDictionary *) acumulador;

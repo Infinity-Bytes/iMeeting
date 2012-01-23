@@ -13,5 +13,7 @@
 @property(nonatomic, retain) NSString * nombreMeeting;
 @property(nonatomic, retain) NSArray * personal;
 @property(nonatomic, retain) NSDictionary * conjuntoPersonas;
+@property(nonatomic, retain) NSString * definicion;
+
 
 @end

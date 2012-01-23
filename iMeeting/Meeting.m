@@ -13,6 +13,7 @@
 @synthesize nombreMeeting;
 @synthesize personal;
 @synthesize conjuntoPersonas;
+@synthesize definicion;
 
 - (id)init {
     self = [super init];
@@ -20,6 +21,7 @@
         [self setNombreMeeting: @""];
         [self setPersonal: [NSArray array]];
         [self setConjuntoPersonas: [[NSDictionary new] autorelease]];
+        [self setDefinicion:@""];
     }
     return self;
 }
@@ -28,6 +30,7 @@
     [self setNombreMeeting: nil];
     [self setPersonal: nil];
     [self setConjuntoPersonas: nil];
+    [self setDefinicion: nil];
     
     [super dealloc];
 }
