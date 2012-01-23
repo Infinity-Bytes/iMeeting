@@ -20,6 +20,7 @@
 
 @synthesize metaDataQuery;
 @synthesize delegado;
+@synthesize urlDocumentos;
 
 
 - (id)init {
@@ -27,6 +28,9 @@
     if (self) {
         [self setMetaDataQuery: nil];
         [self setDelegado: nil];
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        [self setUrlDocumentos: [[NSURL alloc] initFileURLWithPath: [paths objectAtIndex: 0]  isDirectory: YES]];
     }
     return self;
 }
@@ -34,6 +38,7 @@
 - (void)dealloc {
     [self setMetaDataQuery: nil];
     [self setDelegado: nil];
+    [self setUrlDocumentos: nil];
     
     [super dealloc];
 }
@@ -47,10 +52,34 @@
 }
 
 - (void) procesaDocumento: (Documento *) doc conPathRelativo: (NSString *) subPath legible: (BOOL) legible {
-    // TODO Almacenar en Documentos usando el path relativo y proceder con su registro
+    // Almacenar en Documentos usando el path relativo
+    NSURL * urlArchivoEnDocumentos = [[self urlDocumentos] URLByAppendingPathComponent: subPath];
     
     if (legible) {
         NSLog(@"openend file from iCloud %@", doc);
+        
+        NSFileManager * fileManager = [NSFileManager defaultManager];
+        
+        NSString * urlDirectorioInteres = [[urlArchivoEnDocumentos path] substringToIndex: [[urlArchivoEnDocumentos path] length] - [[urlArchivoEnDocumentos lastPathComponent] length]];
+        
+        NSError * error;
+        if ([fileManager createDirectoryAtURL: [[[NSURL alloc] initFileURLWithPath:urlDirectorioInteres isDirectory:YES] autorelease]
+                  withIntermediateDirectories:YES
+                                   attributes:nil
+                                        error:&error]) {
+            Documento * docEnDocumentos = [[Documento alloc] initWithFileURL: urlArchivoEnDocumentos];
+            [docEnDocumentos setNoteContent: [doc noteContent]];
+            [docEnDocumentos saveToURL:[docEnDocumentos fileURL] 
+                      forSaveOperation:REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating 
+                     completionHandler:^(BOOL success) {
+                         NSLog(@"Archivo de iCloud almacenado en Documentos: %@", docEnDocumentos);
+                     }];
+            [docEnDocumentos release];
+
+        }
+        
+        // TODO  Proceder con su registro en Runtime
+
     } else {
         NSLog(@"failed to open from iCloud %@", doc);
     }
@@ -144,14 +173,10 @@
 }
 
 - (void) generaEstructuraDeMeeting: (Meeting *) meeting {
-    // Buscar directorio del Meeting en Documentos
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-
-    // Buscar directorio del Meeting en iCloud
-    NSURL * urlDocumentos = [[NSURL alloc] initFileURLWithPath: [paths objectAtIndex: 0]  isDirectory: YES];
+    
     NSURL * ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
     
-    NSURL * urlDocumentosMeeting = [self cargaDirectorioMeeting: meeting enURL: urlDocumentos];
+    NSURL * urlDocumentosMeeting = [self cargaDirectorioMeeting: meeting enURL: [self urlDocumentos]];
     NSURL * urlCloudMeeting = [self cargaDirectorioMeeting: meeting enURL: [ubiq URLByAppendingPathComponent: @"Documents"]];
     
     [self registraMeeting: meeting conURLDocumentos: urlDocumentosMeeting yURLCloud: urlCloudMeeting];

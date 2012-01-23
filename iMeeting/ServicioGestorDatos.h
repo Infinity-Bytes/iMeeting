@@ -31,6 +31,7 @@
 - (void) objeto: (id) objeto ejecutaSelector: (SEL) selector conArgumento: (id) argumento deTipo: (Class) clase;
 
 
+@property (nonatomic, retain) NSURL * urlDocumentos;
 @property (nonatomic, assign) id<iServicioGestorDatosDelegate> delegado;
 @property (nonatomic, retain) NSMetadataQuery * metaDataQuery;
 
