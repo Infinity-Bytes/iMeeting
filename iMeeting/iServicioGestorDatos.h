@@ -11,4 +11,7 @@
 
 @protocol iServicioGestorDatos <NSObject>
 
+- (void)cargaMeetingsDeDocumentos;
+- (void)cargaMeetingsDeiCloud;
+
 @end

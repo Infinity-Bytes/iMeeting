@@ -17,6 +17,7 @@
 - (void) registraElementoTrabajadoPorURL: (NSURL *) urlElementoTrabajado;
 - (Meeting *) obtenMeetingDeURL: (NSURL *) urlArchivoDefinicion;
 - (void) procesaElementosTrabajadosEnURLMeeting: (NSURL *) urlMeeting enSubdirectorio: (NSString *) subdirectorio;
+- (NSString *) obtenSubPath: (NSURL *) url;
 
 #pragma Cargado de archivos de directorio local
 - (void)cargaMeetingsDeDocumentos;

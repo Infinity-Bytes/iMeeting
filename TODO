@@ -12,3 +12,4 @@ Documentos de Usuario:
 	Registro:
 		Buscar dentro del directorio de documentos los diferentes Meetings registrados (búsqueda en función de la extensión del directorio)
 		Se genera en runtime el Meeting y se registra en el control maestro (Al haber múltiples Meetings se toma el primero de manera temporal)
+

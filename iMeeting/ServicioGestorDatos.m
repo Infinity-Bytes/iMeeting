@@ -60,6 +60,7 @@
 - (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlMeetingDocumentos yURLCloud: (NSURL *) urlMeetingiCloud {
     // TODO Revisar si el Meeting ya fue previamente registrado (por sus PATH) sino, registrarlo al delegado
     NSLog(@"RegistraMeeting: %@ conURLDocumentos: %@ yURLCloud: %@", [meeting nombreMeeting], urlMeetingDocumentos, urlMeetingiCloud);
+    
 }
 
 - (void) registraElementoTrabajadoPorURL: (NSURL *) urlElementoTrabajado {
@@ -129,6 +130,24 @@
     }
 }
 
+- (NSString *) obtenSubPath: (NSURL *) url {
+    NSString * salida = nil;
+    
+    NSURL * urlInteres = url;
+    NSString * pathURL = [url path];
+    NSString * lastPathComponent = nil;
+    do {
+        lastPathComponent = [urlInteres lastPathComponent];
+        if([lastPathComponent hasSuffix: @".meeting"]) {
+            NSURL * urlBase = [urlInteres URLByDeletingLastPathComponent];
+            salida = [pathURL substringFromIndex: [[urlBase path] length] + 1];
+        }
+        urlInteres = [urlInteres URLByDeletingLastPathComponent];
+    } while([lastPathComponent length] && !salida);
+    
+    return salida;
+}
+
 #pragma Cargado de archivos de iCloud
 
 - (void)cargaMeetingsDeiCloud {
@@ -184,13 +203,9 @@
                         
                         
                         // Generar Path de Pendientes a Trabajados y para iCloud
-                        NSURL * pathRemover = [[[urlElementoEnDocumentosPendientes URLByDeletingLastPathComponent] URLByDeletingLastPathComponent] URLByDeletingLastPathComponent];
-                        
-                        NSString * subPath = [[urlElementoEnDocumentosPendientes path] substringFromIndex: [[pathRemover path] length] + 1];
-                        
-                        subPath = [subPath stringByReplacingOccurrencesOfString: DIRECTORIOPENDIENTE withString: DIRECTORIOTRABAJADO];
+                        NSString * subPath = [[self obtenSubPath: urlElementoEnDocumentosPendientes] 
+                                   stringByReplacingOccurrencesOfString: DIRECTORIOPENDIENTE withString: DIRECTORIOTRABAJADO];
                         NSURL * urlElementoTrabajadoiCloud = [urliCloud URLByAppendingPathComponent: subPath isDirectory: NO];
-                        
                         
                         Documento * documentoAlmacenar = [[Documento alloc] initWithFileURL: urlElementoTrabajadoiCloud];
                         [documentoAlmacenar setNoteContent: contenidoArchivoInteres];
@@ -235,21 +250,13 @@
 - (void)loadData:(NSMetadataQuery *)query {
     
     if([query resultCount]) {
-        NSURL * ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
-        NSURL * urlDocUbiq = [ubiq URLByAppendingPathComponent: @"Documents"];
-        
         for (NSMetadataItem *item in [query results]) {
             
             NSURL *url = [item valueForAttribute: NSMetadataItemURLKey];
-            Documento * doc = [[[Documento alloc] initWithFileURL: url] autorelease];
-            
-            if([[url path] hasPrefix: [urlDocUbiq path]]) {
-                NSString * subPath = [[url path] substringFromIndex: [[urlDocUbiq path] length] + 1];
-                
-                [doc openWithCompletionHandler: ^(BOOL success) {
-                    [self procesaDocumento: doc conPathRelativo: subPath legible: success];
-                }];
-            }
+            Documento * doc = [[[Documento alloc] initWithFileURL: url] autorelease]; 
+            [doc openWithCompletionHandler: ^(BOOL success) {
+                [self procesaDocumento: doc conPathRelativo: [self obtenSubPath: url] legible: success];
+            }];
         }
     }
 }
