@@ -182,31 +182,33 @@
                         NSError * error;
                         NSString * contenidoArchivoInteres = [NSString stringWithContentsOfURL:urlElementoEnDocumentosPendientes usedEncoding:&encoding error:&error];
                         
-                        if([[urlElementoEnDocumentosPendientes path] hasPrefix: [[self urlDocumentos] path]]) {
-                            // Generar Path de Pendientes a Trabajados y para iCloud
-                            NSString * subPath = [[urlElementoEnDocumentosPendientes path] substringFromIndex: [[[self urlDocumentos] path] length] + 1];
-                            subPath = [subPath stringByReplacingOccurrencesOfString: DIRECTORIOPENDIENTE withString: DIRECTORIOTRABAJADO];
-                            NSURL * urlElementoTrabajadoiCloud = [urliCloud URLByAppendingPathComponent: subPath isDirectory: NO];
-
-                            
-                            Documento * documentoAlmacenar = [[Documento alloc] initWithFileURL: urlElementoTrabajadoiCloud];
-                            [documentoAlmacenar setNoteContent: contenidoArchivoInteres];
-                            [documentoAlmacenar saveToURL: [documentoAlmacenar fileURL] 
-                                         forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
-                                        completionHandler:^(BOOL success) {
-                                            NSLog(@"Documento: %@ salvado: %@", urlElementoTrabajadoiCloud, success ? @"correctamente" : @"incorrectamente");
-                                            
-                                            if(success) {
-                                                // Borrar elemento en pendiente
-                                                NSError * error;
-                                                if(![defaultManager removeItemAtURL: urlElementoEnDocumentosPendientes error: &error]) {
-                                                    NSLog(@"Borrando elemento trabajado pendiente incorrectamente, con error: %@", error);
-                                                }
+                        
+                        // Generar Path de Pendientes a Trabajados y para iCloud
+                        NSURL * pathRemover = [[[urlElementoEnDocumentosPendientes URLByDeletingLastPathComponent] URLByDeletingLastPathComponent] URLByDeletingLastPathComponent];
+                        
+                        NSString * subPath = [[urlElementoEnDocumentosPendientes path] substringFromIndex: [[pathRemover path] length] + 1];
+                        
+                        subPath = [subPath stringByReplacingOccurrencesOfString: DIRECTORIOPENDIENTE withString: DIRECTORIOTRABAJADO];
+                        NSURL * urlElementoTrabajadoiCloud = [urliCloud URLByAppendingPathComponent: subPath isDirectory: NO];
+                        
+                        
+                        Documento * documentoAlmacenar = [[Documento alloc] initWithFileURL: urlElementoTrabajadoiCloud];
+                        [documentoAlmacenar setNoteContent: contenidoArchivoInteres];
+                        [documentoAlmacenar saveToURL: [documentoAlmacenar fileURL] 
+                                     forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
+                                    completionHandler:^(BOOL success) {
+                                        NSLog(@"Elemento %@ trabajado publicado: %@", urlElementoTrabajadoiCloud, success ? @"correctamente" : @"incorrectamente");
+                                        
+                                        if(success) {
+                                            // Borrar elemento en pendiente
+                                            NSError * error;
+                                            if(![defaultManager removeItemAtURL: urlElementoEnDocumentosPendientes error: &error]) {
+                                                NSLog(@"Borrando %@ elemento trabajado pendiente incorrectamente, con error: %@", urlElementoEnDocumentosPendientes, error);
                                             }
-                                        }];
-                            
-                            [documentoAlmacenar release];
-                        }
+                                        }
+                                    }];
+                        
+                        [documentoAlmacenar release];
                     }
                 }
             }
@@ -361,6 +363,19 @@
                                
                                NSLog(@"Definicion: %@ salvada: %@", pathMeeting, success ? @"correctamente" : @"incorrectamente");
                 }];
+                
+#ifdef DEBUG
+                NSURL * pathElementoPendientePrueba = [[pathMeeting URLByAppendingPathComponent: DIRECTORIOPENDIENTE  isDirectory: YES] URLByAppendingPathComponent:@"0003"];
+                Documento * documentoElementoPendientePrueba = [[Documento alloc] initWithFileURL: pathElementoPendientePrueba];
+                [documentoElementoPendientePrueba setNoteContent: @"0002"];
+                [documentoElementoPendientePrueba saveToURL: [documentoElementoPendientePrueba fileURL] 
+                            forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
+                           completionHandler:^(BOOL success) {
+                               
+                               NSLog(@"Documento de prueba: %@ salvado: %@", pathElementoPendientePrueba, success ? @"correctamente" : @"incorrectamente");
+                           }];
+                 [documentoElementoPendientePrueba release];
+#endif
                 
                 [definicionInteres release];
             } else {
