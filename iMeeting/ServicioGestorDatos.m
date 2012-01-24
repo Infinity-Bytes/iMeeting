@@ -365,19 +365,6 @@
                                NSLog(@"Definición: %@ salvada: %@", pathMeeting, success ? @"correctamente" : @"incorrectamente");
                 }];
                 
-#ifdef DEBUG
-                NSURL * pathElementoPendientePrueba = [[pathMeeting URLByAppendingPathComponent: DIRECTORIOPENDIENTE  isDirectory: YES] URLByAppendingPathComponent: PATRONARCHIVOS(@"0003")];
-                Documento * documentoElementoPendientePrueba = [[Documento alloc] initWithFileURL: pathElementoPendientePrueba];
-                [documentoElementoPendientePrueba setNoteContent: @"0002"];
-                [documentoElementoPendientePrueba saveToURL: [documentoElementoPendientePrueba fileURL] 
-                            forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
-                           completionHandler:^(BOOL success) {
-                               
-                               NSLog(@"Documento de prueba: %@ salvado: %@", pathElementoPendientePrueba, success ? @"correctamente" : @"incorrectamente");
-                           }];
-                 [documentoElementoPendientePrueba release];
-#endif
-                
                 [definicionInteres release];
             } else {
                 NSLog(@"Error en creación de directorio");
