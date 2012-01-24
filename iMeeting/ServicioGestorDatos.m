@@ -62,11 +62,11 @@
     NSLog(@"RegistraMeeting: %@ conURLDocumentos: %@ yURLCloud: %@", [meeting nombreMeeting], urlMeetingDocumentos, urlMeetingiCloud);
 }
 
-- (void) registraElementoTrabajado: (NSURL *) urlElementoTrabajado {
+- (void) registraElementoTrabajadoPorURL: (NSURL *) urlElementoTrabajado {
     // TODO Registrar elemento al delegado
     // TODO Crear archivo si se requiere ya sea en pendientes o en trabajado si se tiene o no acceso a iCloud
     // TODO Aquellos elementos trabajados que se encuentren en pendientes buscar envirles a iCloud
-    NSLog(@"RegistraElementoTrabajado: %@", urlElementoTrabajado);
+    NSLog(@"registraElementoTrabajadoPorURL: %@", urlElementoTrabajado);
 }
 
 - (Meeting *) obtenMeetingDeURL: (NSURL*) urlArchivoDefinicion {
@@ -97,7 +97,7 @@
                                                                              options:0 
                                                                                error:&error];
             for(NSURL * urlElementoTrabajado in elementosTrabajados) {
-                [self registraElementoTrabajado: urlElementoTrabajado];
+                [self registraElementoTrabajadoPorURL: urlElementoTrabajado];
             }
         }
     }
@@ -287,7 +287,7 @@
                          
                          // Registrar Elementos trabajados
                          if([[urlDirectorioPadreEnDocumentos lastPathComponent] isEqualToString: DIRECTORIOTRABAJADO]) {
-                             [self registraElementoTrabajado: [docEnDocumentos fileURL]];
+                             [self registraElementoTrabajadoPorURL: [docEnDocumentos fileURL]];
                          }
                      }];
             [docEnDocumentos release];

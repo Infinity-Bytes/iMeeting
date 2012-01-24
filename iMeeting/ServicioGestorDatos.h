@@ -14,7 +14,7 @@
 
 - (void) estableceDelegado: (id<iServicioGestorDatosDelegate>) delegadoInteres;
 - (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlDocumentos yURLCloud: (NSURL *) urliCloud;
-- (void) registraElementoTrabajado: (NSURL *) urlElementoTrabajado;
+- (void) registraElementoTrabajadoPorURL: (NSURL *) urlElementoTrabajado;
 - (Meeting *) obtenMeetingDeURL: (NSURL *) urlArchivoDefinicion;
 - (void) procesaElementosTrabajadosEnURLMeeting: (NSURL *) urlMeeting enSubdirectorio: (NSString *) subdirectorio;
 
