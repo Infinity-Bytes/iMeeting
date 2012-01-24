@@ -200,6 +200,7 @@
                                         NSLog(@"Elemento %@ trabajado publicado: %@", urlElementoTrabajadoiCloud, success ? @"correctamente" : @"incorrectamente");
                                         
                                         if(success) {
+                                            NSLog(@"Borrar elemento pendiente: %@", urlElementoEnDocumentosPendientes);
                                             // Borrar elemento en pendiente
                                             NSError * error;
                                             if(![defaultManager removeItemAtURL: urlElementoEnDocumentosPendientes error: &error]) {
@@ -361,11 +362,11 @@
                             forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
                            completionHandler:^(BOOL success) {
                                
-                               NSLog(@"Definicion: %@ salvada: %@", pathMeeting, success ? @"correctamente" : @"incorrectamente");
+                               NSLog(@"Definición: %@ salvada: %@", pathMeeting, success ? @"correctamente" : @"incorrectamente");
                 }];
                 
 #ifdef DEBUG
-                NSURL * pathElementoPendientePrueba = [[pathMeeting URLByAppendingPathComponent: DIRECTORIOPENDIENTE  isDirectory: YES] URLByAppendingPathComponent:@"0003"];
+                NSURL * pathElementoPendientePrueba = [[pathMeeting URLByAppendingPathComponent: DIRECTORIOPENDIENTE  isDirectory: YES] URLByAppendingPathComponent: PATRONARCHIVOS(@"0003")];
                 Documento * documentoElementoPendientePrueba = [[Documento alloc] initWithFileURL: pathElementoPendientePrueba];
                 [documentoElementoPendientePrueba setNoteContent: @"0002"];
                 [documentoElementoPendientePrueba saveToURL: [documentoElementoPendientePrueba fileURL] 
