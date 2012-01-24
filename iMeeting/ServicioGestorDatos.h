@@ -11,6 +11,11 @@
 #import "Meeting.h"
 
 @interface ServicioGestorDatos : NSObject <iServicioGestorDatos>
+{
+    @private
+    NSMutableDictionary * _meetingsPorNombre;
+    NSMutableDictionary * _meetingsPorPathDefinicion;
+}
 
 - (void) estableceDelegado: (id<iServicioGestorDatosDelegate>) delegadoInteres;
 - (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlDocumentos yURLCloud: (NSURL *) urliCloud;

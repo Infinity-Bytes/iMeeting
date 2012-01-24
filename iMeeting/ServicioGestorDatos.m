@@ -36,6 +36,9 @@
 - (id)init {
     self = [super init];
     if (self) {
+        _meetingsPorNombre = [NSMutableDictionary new];
+        _meetingsPorPathDefinicion = [NSMutableDictionary new];
+        
         [self setMetaDataQuery: nil];
         [self setDelegado: nil];
         
@@ -46,6 +49,9 @@
 }
 
 - (void)dealloc {
+    [_meetingsPorNombre release]; _meetingsPorNombre = nil;
+    [_meetingsPorPathDefinicion release]; _meetingsPorPathDefinicion = nil;
+    
     [self setMetaDataQuery: nil];
     [self setDelegado: nil];
     [self setUrlDocumentos: nil];
@@ -70,16 +76,31 @@
     NSLog(@"registraElementoTrabajadoPorURL: %@", urlElementoTrabajado);
 }
 
-- (Meeting *) obtenMeetingDeURL: (NSURL*) urlArchivoDefinicion {
+- (Meeting *) obtenMeetingDeURL: (NSURL *) urlArchivoDefinicion {
     Meeting * meetingInteres = nil;
-    NSStringEncoding encoding;
-    NSError * error;
-    NSString * definicionMeeting = [NSString stringWithContentsOfURL: urlArchivoDefinicion usedEncoding:&encoding error:&error];
-    id definicion = [definicionMeeting JSONValue];
-    if([definicion isKindOfClass: [NSDictionary class]]) {
-        meetingInteres = [self generaMeetingDePOCOs: definicion];
-        [meetingInteres setEncodingDefinicion: encoding];
-        [meetingInteres setDefinicion: definicionMeeting];
+    
+    NSString * subPathArchivoDefinicion = [self obtenSubPath: urlArchivoDefinicion];
+    if(!(meetingInteres = [_meetingsPorPathDefinicion objectForKey: subPathArchivoDefinicion])) {
+        
+        NSStringEncoding encoding;
+        NSError * error;
+        NSString * definicionMeeting = [NSString stringWithContentsOfURL: urlArchivoDefinicion usedEncoding:&encoding error:&error];
+        id definicion = [definicionMeeting JSONValue];
+        if([definicion isKindOfClass: [NSDictionary class]]) {
+            NSString * nombreMeeting = [definicion objectForKey: @"nombreMeeting"];
+            
+            if(nombreMeeting) {
+                if(!(meetingInteres = [_meetingsPorNombre objectForKey: nombreMeeting])) {
+                    meetingInteres = [self generaMeetingDePOCOs: definicion];
+                    [meetingInteres setEncodingDefinicion: encoding];
+                    [meetingInteres setDefinicion: definicionMeeting];
+                    
+                    // Registrar Meeting creado
+                    [_meetingsPorNombre setObject: meetingInteres forKey: nombreMeeting];
+                    [_meetingsPorPathDefinicion setObject: meetingInteres forKey: subPathArchivoDefinicion];
+                }
+            }
+        }
     }
     return meetingInteres;
 }
@@ -143,7 +164,7 @@
             salida = [pathURL substringFromIndex: [[urlBase path] length] + 1];
         }
         urlInteres = [urlInteres URLByDeletingLastPathComponent];
-    } while([lastPathComponent length] && !salida);
+    } while(lastPathComponent && ![lastPathComponent isEqualToString: @"/"] && !salida);
     
     return salida;
 }
