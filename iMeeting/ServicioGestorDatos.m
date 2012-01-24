@@ -132,8 +132,8 @@
 #pragma Cargado de archivos de iCloud
 
 - (void)cargaMeetingsDeiCloud {
-    
-    NSURL *ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
+    NSFileManager * defaultManager = [NSFileManager defaultManager];
+    NSURL *ubiq = [defaultManager URLForUbiquityContainerIdentifier:nil];
     NSString * documentoDefinicion = PATRONARCHIVOS(@"");
     if (ubiq) {
         self.metaDataQuery = [[NSMetadataQuery alloc] init];
@@ -148,11 +148,69 @@
         
         [self.metaDataQuery startQuery];
         
-        // TODO Enviar pendientes como trabajados a iCloud
+        // Enviar pendientes como trabajados a iCloud
+        [self enviarPendientesATrabajados];
         
     } else {
-        // TODO Revisar comportamiento al no haber acceso a iCloud
         NSLog(@"No iCloud access");
+    }
+}
+
+- (void) enviarPendientesATrabajados {
+    NSFileManager * defaultManager = [NSFileManager defaultManager];
+    NSURL * urliCloud = [[defaultManager URLForUbiquityContainerIdentifier:nil] URLByAppendingPathComponent: @"Documents"];
+
+    NSError *error;
+    NSArray * elementosEnDocumentos = [defaultManager contentsOfDirectoryAtURL: [self urlDocumentos] 
+                                                    includingPropertiesForKeys:[NSArray array] 
+                                                                       options:0 
+                                                                         error:&error];
+    for (NSURL *url in elementosEnDocumentos) {
+        NSString * extension = [url pathExtension];
+        if([extension isEqualToString: @"meeting"]) {
+            NSURL * urlPendientes = [url URLByAppendingPathComponent: DIRECTORIOPENDIENTE isDirectory: YES];
+            BOOL directorio;
+            if([defaultManager fileExistsAtPath: [urlPendientes path] isDirectory: &directorio]) {
+                if(directorio) {
+                    
+                    NSArray * elementosEnPendientes = [defaultManager contentsOfDirectoryAtURL: urlPendientes 
+                                                                    includingPropertiesForKeys:[NSArray array] 
+                                                                                       options:0 
+                                                                                         error:&error];
+                    for(NSURL * urlElementoEnDocumentosPendientes in elementosEnPendientes) {
+                        NSStringEncoding encoding;
+                        NSError * error;
+                        NSString * contenidoArchivoInteres = [NSString stringWithContentsOfURL:urlElementoEnDocumentosPendientes usedEncoding:&encoding error:&error];
+                        
+                        if([[urlElementoEnDocumentosPendientes path] hasPrefix: [[self urlDocumentos] path]]) {
+                            // Generar Path de Pendientes a Trabajados y para iCloud
+                            NSString * subPath = [[urlElementoEnDocumentosPendientes path] substringFromIndex: [[[self urlDocumentos] path] length] + 1];
+                            subPath = [subPath stringByReplacingOccurrencesOfString: DIRECTORIOPENDIENTE withString: DIRECTORIOTRABAJADO];
+                            NSURL * urlElementoTrabajadoiCloud = [urliCloud URLByAppendingPathComponent: subPath isDirectory: NO];
+
+                            
+                            Documento * documentoAlmacenar = [[Documento alloc] initWithFileURL: urlElementoTrabajadoiCloud];
+                            [documentoAlmacenar setNoteContent: contenidoArchivoInteres];
+                            [documentoAlmacenar saveToURL: [documentoAlmacenar fileURL] 
+                                         forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
+                                        completionHandler:^(BOOL success) {
+                                            NSLog(@"Documento: %@ salvado: %@", urlElementoTrabajadoiCloud, success ? @"correctamente" : @"incorrectamente");
+                                            
+                                            if(success) {
+                                                // Borrar elemento en pendiente
+                                                NSError * error;
+                                                if(![defaultManager removeItemAtURL: urlElementoEnDocumentosPendientes error: &error]) {
+                                                    NSLog(@"Borrando elemento trabajado pendiente incorrectamente, con error: %@", error);
+                                                }
+                                            }
+                                        }];
+                            
+                            [documentoAlmacenar release];
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

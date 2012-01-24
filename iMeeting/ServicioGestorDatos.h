@@ -23,6 +23,7 @@
 
 #pragma Cargado de archivos de iCloud
 - (void)cargaMeetingsDeiCloud;
+- (void) enviarPendientesATrabajados;
 - (void)queryDidFinishGathering:(NSNotification *)notification;
 - (void)loadData:(NSMetadataQuery *)query;
 - (void) procesaDocumento: (Documento *) doc conPathRelativo: (NSString *) subPath legible: (BOOL) legible;
