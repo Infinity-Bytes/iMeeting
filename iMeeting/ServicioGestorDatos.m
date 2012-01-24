@@ -13,9 +13,19 @@
 #import "Persona.h"
 #import "Entrevistado.h"
 
+#pragma Macros Control
 #define REGENERARESTRUCTURA YES
+#define BORRARDEFINICIONMEETING NO
+
+#pragma Macro de Apoyo
 #define PATRONARCHIVOS(x) [NSString stringWithFormat:@"__%@", x]
 
+#pragma Macros de Constantes
+#define ARCHIVODEFINICIONMEETING PATRONARCHIVOS(@"Definicion.json")
+#define DIRECTORIOTRABAJADO @"trabajado"
+#define DIRECTORIOPENDIENTE @"pendiente"
+
+#pragma Implementación ServicioGestorDatos
 @implementation ServicioGestorDatos
 
 @synthesize metaDataQuery;
@@ -94,7 +104,6 @@
 }
 
 - (void)cargaMeetingsDeDocumentos {
-    NSString * nombreArchivoDefinicion = PATRONARCHIVOS(@"Definicion.json");
     NSFileManager * defaultManager = [NSFileManager defaultManager];
     NSError *error;
     NSArray * elementosEnDocumentos = [defaultManager contentsOfDirectoryAtURL: [self urlDocumentos] 
@@ -104,15 +113,15 @@
     for (NSURL *url in elementosEnDocumentos) {
         NSString * extension = [url pathExtension];
         if([extension isEqualToString: @"meeting"]) {
-            NSURL * urlDefinicion = [url URLByAppendingPathComponent: nombreArchivoDefinicion isDirectory: NO];
+            NSURL * urlDefinicion = [url URLByAppendingPathComponent: ARCHIVODEFINICIONMEETING isDirectory: NO];
             BOOL directorio;
             if([defaultManager fileExistsAtPath: [urlDefinicion path] isDirectory: &directorio]) {
                 if(!directorio) {
                     Meeting * meeting = [self obtenMeetingDeURL: urlDefinicion];
                     if(meeting) {
                         [self registraMeeting: meeting conURLDocumentos: url yURLCloud: nil];
-                        [self procesaElementosTrabajadosEnURLMeeting: url enSubdirectorio: @"trabajado"];
-                        [self procesaElementosTrabajadosEnURLMeeting: url enSubdirectorio: @"pendiente"];
+                        [self procesaElementosTrabajadosEnURLMeeting: url enSubdirectorio: DIRECTORIOTRABAJADO];
+                        [self procesaElementosTrabajadosEnURLMeeting: url enSubdirectorio: DIRECTORIOPENDIENTE];
                     }
                 }
             }
@@ -208,8 +217,7 @@
                          NSLog(@"Archivo de iCloud almacenado en Documentos: %@", docEnDocumentos);
                          
                          // Registrar Meeting
-                         NSString * nombreArchivoDefinicion = PATRONARCHIVOS(@"Definicion.json");
-                         if ([[urlArchivoEnDocumentos lastPathComponent] isEqualToString: nombreArchivoDefinicion]) {
+                         if ([[urlArchivoEnDocumentos lastPathComponent] isEqualToString: ARCHIVODEFINICIONMEETING]) {
                              NSURL * urlDefinicionMeetingEnICloud = [[doc fileURL] URLByDeletingLastPathComponent];
                              
                              Meeting * meeting = [self obtenMeetingDeURL: [doc fileURL]];
@@ -217,7 +225,7 @@
                          }
                          
                          // Registrar Elementos trabajados
-                         if([[urlDirectorioPadreEnDocumentos lastPathComponent] isEqualToString: @"trabajado"]) {
+                         if([[urlDirectorioPadreEnDocumentos lastPathComponent] isEqualToString: DIRECTORIOTRABAJADO]) {
                              [self registraElementoTrabajado: [docEnDocumentos fileURL]];
                          }
                      }];
@@ -234,14 +242,18 @@
     // Lectura de archivos de configuración de Meetings
     NSArray * archivosDefinicionMeetings = [self cargaDefinicionMeetings];
     if( [archivosDefinicionMeetings count] > 0 ) {
-        for(NSString * archivoDefinicionMeeting in archivosDefinicionMeetings) {
-            NSURL * urlArchivo = [[NSURL alloc] initFileURLWithPath: archivoDefinicionMeeting isDirectory: FALSE];
+        for(NSString * definicionMeetingFileSharing in archivosDefinicionMeetings) {
+            NSURL * urlArchivo = [[NSURL alloc] initFileURLWithPath: definicionMeetingFileSharing isDirectory: FALSE];
             Meeting * meetingInteres = [self obtenMeetingDeURL: urlArchivo];
             if(meetingInteres) {
                 [self generaEstructuraDeMeeting: meetingInteres];
                 
-                if (!REGENERARESTRUCTURA) {
-                    // TODO Borrar definicion de iTunes File Sharing
+                if (BORRARDEFINICIONMEETING && !REGENERARESTRUCTURA) {
+                    // Borrar definicion de iTunes File Sharing
+                    NSError * error;
+                    if(![[NSFileManager defaultManager] removeItemAtURL: urlArchivo error: &error]) {
+                        NSLog(@"Borrando definición de iTunes File Sharing incorrecta, con error: %@", error);
+                    }
                 }
             }
         }
@@ -277,14 +289,12 @@
             {
                 NSLog(@"Creando estructura de Meeting: %@", pathMeeting);
                 
-                NSString * nombreDefinicion = PATRONARCHIVOS(@"Definicion.json");
-                
-                [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent: @"trabajado"] 
+                [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent: DIRECTORIOTRABAJADO] 
                        withIntermediateDirectories:YES attributes:nil error: &error];
-                [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent: @"pendiente"] 
+                [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent: DIRECTORIOPENDIENTE] 
                        withIntermediateDirectories:YES attributes:nil error: &error];
                 
-                NSURL * pathDefinicion = [pathMeeting URLByAppendingPathComponent: nombreDefinicion  isDirectory: NO];
+                NSURL * pathDefinicion = [pathMeeting URLByAppendingPathComponent: ARCHIVODEFINICIONMEETING  isDirectory: NO];
                 Documento * definicionInteres = [[Documento alloc] initWithFileURL: pathDefinicion];
                 [definicionInteres setNoteContent: [meeting definicion]];
                 [definicionInteres saveToURL: [definicionInteres fileURL] 
