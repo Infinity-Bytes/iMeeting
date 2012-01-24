@@ -13,6 +13,8 @@
 @synthesize nombreMeeting;
 @synthesize personal;
 @synthesize conjuntoPersonas;
+
+@synthesize directorioDocumentosMeeting;
 @synthesize definicion;
 @synthesize encodingDefinicion;
 
@@ -22,6 +24,8 @@
         [self setNombreMeeting: @""];
         [self setPersonal: [NSArray array]];
         [self setConjuntoPersonas: [[NSDictionary new] autorelease]];
+        
+        [self setDirectorioDocumentosMeeting: @""];
         [self setDefinicion:@""];
     }
     return self;
@@ -31,6 +35,8 @@
     [self setNombreMeeting: nil];
     [self setPersonal: nil];
     [self setConjuntoPersonas: nil];
+    
+    [self setDirectorioDocumentosMeeting: nil];
     [self setDefinicion: nil];
     
     [super dealloc];

@@ -15,8 +15,10 @@
 - (void) estableceDelegado: (id<iServicioGestorDatosDelegate>) delegadoInteres;
 - (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlDocumentos yURLCloud: (NSURL *) urliCloud;
 - (void) registraElementoTrabajado: (NSURL *) urlElementoTrabajado;
-- (Meeting *) obtenMeetingDeURL: (NSURL*) urlArchivo;
+- (Meeting *) obtenMeetingDeURL: (NSURL *) urlArchivoDefinicion;
+- (void) procesaElementosTrabajadosEnURLMeeting: (NSURL *) urlMeeting enSubdirectorio: (NSString *) subdirectorio;
 
+#pragma Cargado de archivos de directorio local
 - (void)cargaMeetingsDeDocumentos;
 
 #pragma Cargado de archivos de iCloud

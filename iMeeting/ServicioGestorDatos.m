@@ -55,14 +55,15 @@
 - (void) registraElementoTrabajado: (NSURL *) urlElementoTrabajado {
     // TODO Registrar elemento al delegado
     // TODO Crear archivo si se requiere ya sea en pendientes o en trabajado si se tiene o no acceso a iCloud
+    // TODO Aquellos elementos trabajados que se encuentren en pendientes buscar envirles a iCloud
     NSLog(@"RegistraElementoTrabajado: %@", urlElementoTrabajado);
 }
 
-- (Meeting *) obtenMeetingDeURL: (NSURL*) urlArchivo {
+- (Meeting *) obtenMeetingDeURL: (NSURL*) urlArchivoDefinicion {
     Meeting * meetingInteres = nil;
     NSStringEncoding encoding;
     NSError * error;
-    NSString * definicionMeeting = [NSString stringWithContentsOfURL: urlArchivo usedEncoding:&encoding error:&error];
+    NSString * definicionMeeting = [NSString stringWithContentsOfURL: urlArchivoDefinicion usedEncoding:&encoding error:&error];
     id definicion = [definicionMeeting JSONValue];
     if([definicion isKindOfClass: [NSDictionary class]]) {
         meetingInteres = [self generaMeetingDePOCOs: definicion];
@@ -70,6 +71,26 @@
         [meetingInteres setDefinicion: definicionMeeting];
     }
     return meetingInteres;
+}
+
+- (void) procesaElementosTrabajadosEnURLMeeting: (NSURL *) urlMeeting enSubdirectorio: (NSString *) subdirectorio {
+    BOOL directorio;
+    NSError *error;
+    NSFileManager * defaultManager = [NSFileManager defaultManager];
+    
+    // Registrar elementos ya trabajados
+    NSURL * urlTrabajado = [urlMeeting URLByAppendingPathComponent: subdirectorio];
+    if([defaultManager fileExistsAtPath: [urlTrabajado path] isDirectory: &directorio]) {
+        if(directorio) {
+            NSArray * elementosTrabajados = [defaultManager contentsOfDirectoryAtURL: urlTrabajado
+                                                          includingPropertiesForKeys:[NSArray array] 
+                                                                             options:0 
+                                                                               error:&error];
+            for(NSURL * urlElementoTrabajado in elementosTrabajados) {
+                [self registraElementoTrabajado: urlElementoTrabajado];
+            }
+        }
+    }
 }
 
 - (void)cargaMeetingsDeDocumentos {
@@ -90,20 +111,8 @@
                     Meeting * meeting = [self obtenMeetingDeURL: urlDefinicion];
                     if(meeting) {
                         [self registraMeeting: meeting conURLDocumentos: url yURLCloud: nil];
-                        
-                        // Registrar elementos ya trabajados
-                        NSURL * urlTrabajado = [url URLByAppendingPathComponent: @"trabajado"];
-                        if([defaultManager fileExistsAtPath: [urlTrabajado path] isDirectory: &directorio]) {
-                            if(directorio) {
-                                NSArray * elementosTrabajados = [defaultManager contentsOfDirectoryAtURL: urlTrabajado
-                                                                                includingPropertiesForKeys:[NSArray array] 
-                                                                                                   options:0 
-                                                                                                     error:&error];
-                                for(NSURL * urlElementoTrabajado in elementosTrabajados) {
-                                    [self registraElementoTrabajado: urlElementoTrabajado];
-                                }
-                            }
-                        }
+                        [self procesaElementosTrabajadosEnURLMeeting: url enSubdirectorio: @"trabajado"];
+                        [self procesaElementosTrabajadosEnURLMeeting: url enSubdirectorio: @"pendiente"];
                     }
                 }
             }
