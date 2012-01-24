@@ -70,6 +70,7 @@
 }
 
 - (void) registraElementoTrabajadoPorURL: (NSURL *) urlElementoTrabajado {
+    // TODO Obtener elementos publicados por URL de manera singleton (evitar trabajo por cada llamada de iCloud)
     // TODO Registrar elemento al delegado
     // TODO Crear archivo si se requiere ya sea en pendientes o en trabajado si se tiene o no acceso a iCloud
     // TODO Aquellos elementos trabajados que se encuentren en pendientes buscar envirles a iCloud
