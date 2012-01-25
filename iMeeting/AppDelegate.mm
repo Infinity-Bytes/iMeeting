@@ -12,7 +12,7 @@
 #import "Entrevistador.h"
 #import "ControladorListaRegiones.h"
 #import "ServicioBusqueda.h"
-#import "ServicioGestorDatos.h"
+
 
 @implementation AppDelegate
 
@@ -24,6 +24,7 @@
     [_window release];
     [_controladorPestanias release];
     [controlMaestro release];
+    [servicioGestorDatos release];
     
     [super dealloc];
 }
@@ -33,9 +34,7 @@
     controlMaestro  = [ControlMaestro new];
     [controlMaestro setServicioBusqueda:[[ServicioBusqueda new] autorelease]];
     
-    ServicioGestorDatos * servicioGestorDatos = [[ServicioGestorDatos new] autorelease];
-    [controlMaestro setServicioGestorDatos: servicioGestorDatos];
-    [servicioGestorDatos estableceDelegado: controlMaestro];
+    servicioGestorDatos = [[ServicioGestorDatos new] autorelease];
 
     [servicioGestorDatos cargaMeetingsDeDocumentos];
     [servicioGestorDatos cargaMeetingsDeiTunesFileSharing];

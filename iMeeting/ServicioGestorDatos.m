@@ -31,7 +31,6 @@
 @implementation ServicioGestorDatos
 
 @synthesize metaDataQuery;
-@synthesize delegado;
 @synthesize urlDocumentos;
 
 
@@ -43,28 +42,39 @@
         _elementoTrabajadoPorPath = [NSMutableSet new];
         
         [self setMetaDataQuery: nil];
-        [self setDelegado: nil];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         [self setUrlDocumentos: [[NSURL alloc] initFileURLWithPath: [paths objectAtIndex: 0]  isDirectory: YES]];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector: @selector(procesaElementoTrabajado:) 
+                                                     name: @"registraElementoTrabajado" object:nil];
+        
     }
     return self;
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+    
     [_meetingsPorNombre release]; _meetingsPorNombre = nil;
     [_meetingsPorPathDefinicion release]; _meetingsPorPathDefinicion = nil;
     [_elementoTrabajadoPorPath release]; _elementoTrabajadoPorPath = nil;
     
     [self setMetaDataQuery: nil];
-    [self setDelegado: nil];
     [self setUrlDocumentos: nil];
     
     [super dealloc];
 }
 
-- (void) estableceDelegado: (id<iServicioGestorDatosDelegate>) delegadoInteres {
-    [self setDelegado: delegadoInteres];
+- (void) procesaElementoTrabajado: (NSNotification *) theNotification {
+    NSLog(@"procesaElementoTrabajado: %@", [theNotification name]);
+    Meeting * meeting = [[theNotification userInfo] objectForKey:@"meeting"];
+    Entrevistado * entrevistado = [[theNotification userInfo] objectForKey:@"elementoTrabajado"];
+    if(meeting && entrevistado) {
+        // TODO Generacion de fichero correspondiente
+        
+    }
 }
 
 - (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlMeetingDocumentos yURLCloud: (NSURL *) urlMeetingiCloud {
@@ -80,7 +90,16 @@
     
     if(![meeting registrado]) {
         [meeting setRegistrado: YES];
-        [delegado registraMeeting: meeting];
+        
+        //[delegado registraMeeting: meeting];
+        
+        NSNotification * myNotification =
+        [NSNotification notificationWithName:@"RegistraMeeting" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:meeting, @"meeting", urlMeetingDocumentos, @"urlMeetingDocumentos", urlMeetingiCloud, @"urlMeetingiCloud", nil]];
+        
+        [[NSNotificationQueue defaultQueue] enqueueNotification: myNotification
+                                                   postingStyle: NSPostASAP
+                                                   coalesceMask: NSNotificationNoCoalescing
+                                                       forModes: nil];
         
         NSLog(@"RegistraMeeting: %@ conURLDocumentos: %@ yURLCloud: %@", [meeting nombreMeeting], urlMeetingDocumentos, urlMeetingiCloud);
     }
@@ -105,7 +124,15 @@
         if(meetingInteres) {
             NSLog(@"Meeting %@ tiene elemento trabajado: %@", [meetingInteres nombreMeeting], elementoTrabajado);
             
-            [delegado elementoTrabajado: elementoTrabajado enMeeting: meetingInteres conRuta: urlElementoTrabajado];
+            NSNotification * myNotification =
+            [NSNotification notificationWithName:@"registraElementoTrabajadoPorURL" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:meetingInteres, @"meeting", urlElementoTrabajado, @"urlElementoTrabajado", elementoTrabajado, @"elementoTrabajado", nil]];
+            
+            [[NSNotificationQueue defaultQueue] enqueueNotification: myNotification
+                                                       postingStyle: NSPostASAP
+                                                       coalesceMask: NSNotificationNoCoalescing
+                                                           forModes: nil];
+            
+            // [delegado elementoTrabajado: elementoTrabajado enMeeting: meetingInteres conRuta: urlElementoTrabajado];
         }
     }
     

@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "iServicioGestorDatos.h"
 #import "Meeting.h"
+#import "Documento.h"
 
-@interface ServicioGestorDatos : NSObject <iServicioGestorDatos>
+@interface ServicioGestorDatos : NSObject
 {
     @private
     NSMutableDictionary * _meetingsPorNombre;
@@ -19,7 +19,8 @@
     NSMutableSet * _elementoTrabajadoPorPath;
 }
 
-- (void) estableceDelegado: (id<iServicioGestorDatosDelegate>) delegadoInteres;
+- (void) procesaElementoTrabajado: (NSNotification *) theNotification;
+
 - (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlDocumentos yURLCloud: (NSURL *) urliCloud;
 - (void) registraElementoTrabajadoPorURL: (NSURL *) urlElementoTrabajado;
 - (Meeting *) obtenMeetingDeURL: (NSURL *) urlArchivoDefinicion;
@@ -47,7 +48,6 @@
 
 
 @property (nonatomic, retain) NSURL * urlDocumentos;
-@property (nonatomic, assign) id<iServicioGestorDatosDelegate> delegado;
 @property (nonatomic, retain) NSMetadataQuery * metaDataQuery;
 
 @end

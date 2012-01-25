@@ -13,9 +13,8 @@
 #import "iDelegadoControladorNavegacion.h"
 #import "iDelegadoControladorScanner.h"
 #import "iServicioBusqueda.h"
-#import "iServicioGestorDatos.h"
 
-@interface ControlMaestro : NSObject<iDelegadoControladorLista, iDelegadoControladorNavegacion, iDelegadoControladorScanner, iServicioGestorDatosDelegate>
+@interface ControlMaestro : NSObject<iDelegadoControladorLista, iDelegadoControladorNavegacion, iDelegadoControladorScanner>
 {
     Meeting * _meeting;
     Entrevistado * _ultimoEntrevistado;
@@ -29,9 +28,10 @@
 -(void) mostrarPanelSiguienteSegunEntrevistador:(Entrevistador*)entrevistador bajoIdentificador:(NSString*) identificador  usandoControlNavegacion: (UINavigationController*) controlNavegacion;
 
 #pragma Delegado Gestor Datos
+- (void) registraMeeting: (NSNotification *) notificacion;
+-(void) registraElementoTrabajadoPorURL: (NSNotification *) notificacion;
 
 
 @property (nonatomic, retain) id<iServicioBusqueda> servicioBusqueda;
-@property (nonatomic, retain) id<iServicioGestorDatos> servicioGestorDatos;
 
 @end

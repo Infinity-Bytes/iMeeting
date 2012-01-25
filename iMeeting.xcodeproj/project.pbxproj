@@ -169,7 +169,6 @@
 		D7951E4214BF731A003593E6 /* iDelegadoControladorLista.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iDelegadoControladorLista.h; sourceTree = "<group>"; };
 		D7951E4314BF75CC003593E6 /* ControladorListaRegiones.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControladorListaRegiones.h; sourceTree = "<group>"; };
 		D7951E4414BF75CD003593E6 /* ControladorListaRegiones.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ControladorListaRegiones.mm; sourceTree = "<group>"; };
-		D7951E4714BF8EE7003593E6 /* iServicioGestorDatos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioGestorDatos.h; sourceTree = "<group>"; };
 		D7A5193214C0C357003AE69B /* iServicioBusqueda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioBusqueda.h; sourceTree = "<group>"; };
 		D7A5193314C0C499003AE69B /* iDelegadoControladorScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iDelegadoControladorScanner.h; sourceTree = "<group>"; };
 		F11D97DB14C1FB1500ECAB12 /* 100pxl_invest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 100pxl_invest.png; path = recursos/100pxl_invest.png; sourceTree = SOURCE_ROOT; };
@@ -189,7 +188,6 @@
 		F1BC448914C89C170089E264 /* ServicioGestorDatos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicioGestorDatos.m; sourceTree = "<group>"; };
 		F1BC448B14C8A3810089E264 /* Documento.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Documento.h; sourceTree = "<group>"; };
 		F1BC448C14C8A3810089E264 /* Documento.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Documento.m; sourceTree = "<group>"; };
-		F1EE825414CA0C7500086033 /* iServicioGestorDatosDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioGestorDatosDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -410,9 +408,7 @@
 		D7951E4614BF8EA9003593E6 /* Protocolo */ = {
 			isa = PBXGroup;
 			children = (
-				D7951E4714BF8EE7003593E6 /* iServicioGestorDatos.h */,
 				D7A5193214C0C357003AE69B /* iServicioBusqueda.h */,
-				F1EE825414CA0C7500086033 /* iServicioGestorDatosDelegate.h */,
 			);
 			name = Protocolo;
 			sourceTree = "<group>";

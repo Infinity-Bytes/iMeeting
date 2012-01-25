@@ -3,27 +3,36 @@
 #import "ControladorDetalleEntrevistador.h"
 #import "ControladorListaPersonas.h"
 #import "DetalleGrafica.h"
+#import "ServicioGestorDatos.h"
 
 @implementation ControlMaestro
 
 @synthesize servicioBusqueda;
-@synthesize servicioGestorDatos;
 
 - (id)init {
     self = [super init];
     if (self) {
-        [self setServicioGestorDatos: nil];
         [self setServicioBusqueda: nil];
         
         _ultimoEntrevistado = nil;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector: @selector(registraMeeting:) 
+                                                     name: @"RegistraMeeting" object:nil];
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector: @selector(registraElementoTrabajadoPorURL:) 
+                                                     name: @"registraElementoTrabajadoPorURL" object:nil];
     }
     return self;
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+    
     [_meeting release]; _meeting = nil;
     
-    [self setServicioGestorDatos: nil];
     [self setServicioBusqueda: nil];
     
     [super dealloc];
@@ -145,22 +154,34 @@
     if(_ultimoEntrevistado && ![_ultimoEntrevistado asistio]) {
         [_ultimoEntrevistado setAsistio: !respuesta];
         
-        // TODO Notificar para generacion de archivo y envio posterior a iCloud
+        // Notificar para generacion de archivo y envio posterior a iCloud
+        NSNotification * myNotification =
+        [NSNotification notificationWithName:@"registraElementoTrabajado" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:_meeting, @"meeting", _ultimoEntrevistado , @"elementoTrabajado", nil]];
+        
+        [[NSNotificationQueue defaultQueue] enqueueNotification: myNotification
+                                                   postingStyle: NSPostASAP
+                                                   coalesceMask: NSNotificationNoCoalescing
+                                                       forModes: nil];
     }
 }
 
 #pragma Delegado Gestor Datos
 
--(void) elementoTrabajado: (NSString *) elementoTrabajado enMeeting: (Meeting *) meetingInteres conRuta: (NSURL *) urlElementoTrabajado {
-}
+- (void) registraMeeting: (NSNotification *) notificacion {
+    NSLog(@"registraMeeting: %@", notificacion);
+    Meeting * meeting = [[notificacion userInfo] objectForKey: @"meeting"];
 
-- (void) registraMeeting: (Meeting *) meeting {
     if(meeting != _meeting) {
         [_meeting release];
         _meeting = [meeting retain];
     }
     
     [servicioBusqueda setPersonalMeeting: [_meeting conjuntoPersonas]];
+}
+
+
+-(void) registraElementoTrabajadoPorURL: (NSNotification *) notificacion {
+    NSLog(@"registraElementoTrabajadoPorURL: %@", notificacion);
 }
 
 @end

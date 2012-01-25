@@ -11,11 +11,13 @@
 #import "ControlMaestro.h"
 #import "Meeting.h"
 #import "CustomTabBarController.h"
+#import "ServicioGestorDatos.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
     CustomTabBarController *_controladorPestanias;
     ControlMaestro * controlMaestro;
+    ServicioGestorDatos * servicioGestorDatos;
 }
 
 @property (strong, nonatomic) UIWindow *window;
