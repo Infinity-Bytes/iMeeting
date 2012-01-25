@@ -14,9 +14,12 @@
 @synthesize personal;
 @synthesize conjuntoPersonas;
 
-@synthesize directorioDocumentosMeeting;
 @synthesize definicion;
 @synthesize encodingDefinicion;
+
+@synthesize urlLocal;
+@synthesize urlCloud;
+@synthesize registrado;
 
 - (id)init {
     self = [super init];
@@ -25,8 +28,12 @@
         [self setPersonal: [NSArray array]];
         [self setConjuntoPersonas: [[NSDictionary new] autorelease]];
         
-        [self setDirectorioDocumentosMeeting: @""];
         [self setDefinicion:@""];
+        
+        [self setUrlLocal: nil];
+        [self setUrlCloud: nil];
+        
+        [self setRegistrado: NO];
     }
     return self;
 }
@@ -36,8 +43,10 @@
     [self setPersonal: nil];
     [self setConjuntoPersonas: nil];
     
-    [self setDirectorioDocumentosMeeting: nil];
     [self setDefinicion: nil];
+    [self setUrlLocal: nil];
+    [self setUrlCloud: nil];
+    [self setRegistrado: NO];
     
     [super dealloc];
 }

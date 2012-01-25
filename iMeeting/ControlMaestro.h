@@ -21,8 +21,6 @@
     Entrevistado * _ultimoEntrevistado;
 }
 
--(void) asignarMeeting: (Meeting *) meeting;
-
 #pragma Delegado Control Lista
 -(NSDictionary *)obtenerDatosSeparadosPorRegionesUsandoDefinicionOrden: (NSMutableArray * ) definicionOrden;
 

@@ -30,12 +30,6 @@
 }
 
 
--(void) asignarMeeting: (Meeting *) meeting {
-    _meeting = [meeting retain];
-    
-    [servicioBusqueda setPersonalMeeting: [_meeting conjuntoPersonas]];
-}
-
 #pragma Delegado Control Lista
 -(NSDictionary *)obtenerDatosSeparadosPorRegionesUsandoDefinicionOrden: (NSMutableArray * ) definicionOrden;
 {
@@ -156,5 +150,17 @@
 }
 
 #pragma Delegado Gestor Datos
+
+-(void) elementoTrabajado: (NSString *) elementoTrabajado enMeeting: (Meeting *) meetingInteres conRuta: (NSURL *) urlElementoTrabajado {
+}
+
+- (void) registraMeeting: (Meeting *) meeting {
+    if(meeting != _meeting) {
+        [_meeting release];
+        _meeting = [meeting retain];
+    }
+    
+    [servicioBusqueda setPersonalMeeting: [_meeting conjuntoPersonas]];
+}
 
 @end

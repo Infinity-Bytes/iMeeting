@@ -68,9 +68,22 @@
 }
 
 - (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlMeetingDocumentos yURLCloud: (NSURL *) urlMeetingiCloud {
-    // TODO Revisar si el Meeting ya fue previamente registrado (por sus PATH) sino, registrarlo al delegado
-    NSLog(@"RegistraMeeting: %@ conURLDocumentos: %@ yURLCloud: %@", [meeting nombreMeeting], urlMeetingDocumentos, urlMeetingiCloud);
+    // Revisar si el Meeting ya fue previamente registrado (por sus PATH) sino, registrarlo al delegado
     
+    if(![meeting urlCloud] && urlMeetingiCloud) {
+        [meeting setUrlCloud: urlMeetingiCloud];
+    }
+    
+    if(![meeting urlLocal] && urlMeetingDocumentos) {
+        [meeting setUrlLocal: urlMeetingDocumentos];
+    }
+    
+    if(![meeting registrado]) {
+        [meeting setRegistrado: YES];
+        [delegado registraMeeting: meeting];
+        
+        NSLog(@"RegistraMeeting: %@ conURLDocumentos: %@ yURLCloud: %@", [meeting nombreMeeting], urlMeetingDocumentos, urlMeetingiCloud);
+    }
 }
 
 - (void) registraElementoTrabajadoPorURL: (NSURL *) urlElementoTrabajado {
@@ -83,6 +96,17 @@
         [_elementoTrabajadoPorPath addObject: subPathElementoTrabajado];
         
         // TODO Registrar elemento trabajado para Meeting específico
+        NSString * elementoTrabajado = [urlElementoTrabajado lastPathComponent];
+        
+        NSString * pathDefinicion = [[[subPathElementoTrabajado componentsSeparatedByString: @"/"] objectAtIndex: 0] 
+                                     stringByAppendingPathComponent: ARCHIVODEFINICIONMEETING];
+        Meeting * meetingInteres = [_meetingsPorPathDefinicion objectForKey: pathDefinicion];
+        
+        if(meetingInteres) {
+            NSLog(@"Meeting %@ tiene elemento trabajado: %@", [meetingInteres nombreMeeting], elementoTrabajado);
+            
+            [delegado elementoTrabajado: elementoTrabajado enMeeting: meetingInteres conRuta: urlElementoTrabajado];
+        }
     }
     
     NSLog(@"registraElementoTrabajadoPorURL: %@", urlElementoTrabajado);

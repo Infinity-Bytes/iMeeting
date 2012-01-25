@@ -12,6 +12,7 @@
 
 @protocol iServicioGestorDatosDelegate <NSObject>
 
--(void) asignarMeeting: (Meeting *) meeting;
+- (void) elementoTrabajado: (NSString *) elementoTrabajado enMeeting: (Meeting *) meetingInteres conRuta: (NSURL *) urlElementoTrabajado;
+- (void) registraMeeting: (Meeting *) meeting;
 
 @end
