@@ -26,6 +26,8 @@
 #define DIRECTORIOPENDIENTE @"pendiente"
 
 #pragma Implementación ServicioGestorDatos
+
+// TODO Crear archivo si se requiere ya sea en pendientes o en trabajado si se tiene o no acceso a iCloud
 @implementation ServicioGestorDatos
 
 @synthesize metaDataQuery;
@@ -38,6 +40,7 @@
     if (self) {
         _meetingsPorNombre = [NSMutableDictionary new];
         _meetingsPorPathDefinicion = [NSMutableDictionary new];
+        _elementoTrabajadoPorPath = [NSMutableSet new];
         
         [self setMetaDataQuery: nil];
         [self setDelegado: nil];
@@ -51,6 +54,7 @@
 - (void)dealloc {
     [_meetingsPorNombre release]; _meetingsPorNombre = nil;
     [_meetingsPorPathDefinicion release]; _meetingsPorPathDefinicion = nil;
+    [_elementoTrabajadoPorPath release]; _elementoTrabajadoPorPath = nil;
     
     [self setMetaDataQuery: nil];
     [self setDelegado: nil];
@@ -70,10 +74,17 @@
 }
 
 - (void) registraElementoTrabajadoPorURL: (NSURL *) urlElementoTrabajado {
-    // TODO Obtener elementos publicados por URL de manera singleton (evitar trabajo por cada llamada de iCloud)
-    // TODO Registrar elemento al delegado
-    // TODO Crear archivo si se requiere ya sea en pendientes o en trabajado si se tiene o no acceso a iCloud
-    // TODO Aquellos elementos trabajados que se encuentren en pendientes buscar envirles a iCloud
+
+    // Obtener elementos publicados por URL de manera singleton (evitar trabajo por cada llamada de iCloud)
+    NSString * subPathElementoTrabajado = [self obtenSubPath: urlElementoTrabajado];
+    subPathElementoTrabajado = [subPathElementoTrabajado stringByReplacingOccurrencesOfString: DIRECTORIOPENDIENTE withString: DIRECTORIOTRABAJADO];
+    
+    if(![_elementoTrabajadoPorPath containsObject: subPathElementoTrabajado]) {
+        [_elementoTrabajadoPorPath addObject: subPathElementoTrabajado];
+        
+        // TODO Registrar elemento trabajado para Meeting específico
+    }
+    
     NSLog(@"registraElementoTrabajadoPorURL: %@", urlElementoTrabajado);
 }
 
@@ -189,7 +200,7 @@
         
         [self.metaDataQuery startQuery];
         
-        // Enviar pendientes como trabajados a iCloud
+        // Aquellos elementos trabajados que se encuentren en pendientes buscar envirles a iCloud
         [self enviarPendientesATrabajados];
         
     } else {

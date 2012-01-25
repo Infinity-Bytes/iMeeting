@@ -15,6 +15,8 @@
     @private
     NSMutableDictionary * _meetingsPorNombre;
     NSMutableDictionary * _meetingsPorPathDefinicion;
+    
+    NSMutableSet * _elementoTrabajadoPorPath;
 }
 
 - (void) estableceDelegado: (id<iServicioGestorDatosDelegate>) delegadoInteres;
