@@ -403,6 +403,10 @@
                            completionHandler:^(BOOL success) {
                                
                                NSLog(@"Definición: %@ salvada: %@", pathMeeting, success ? @"correctamente" : @"incorrectamente");
+                               if(success) {
+                                   // Se registra el meeting en funcion de su estructura final
+                                   [_meetingsPorPathDefinicion setObject: meeting forKey: [self obtenSubPath: pathDefinicion]];
+                               }
                 }];
                 
                 [definicionInteres release];
