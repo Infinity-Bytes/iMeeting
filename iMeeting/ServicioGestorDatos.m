@@ -507,6 +507,7 @@
     
 }
 
+// TODO Revisar informacion existente para su asignacion
 - (Meeting * ) generaMeetingDePOCOs: (NSDictionary *) objetoPlano {
     Meeting * salida = [[Meeting new] autorelease];
     

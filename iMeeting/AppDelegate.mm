@@ -21,6 +21,8 @@
 
 - (void)dealloc
 {
+    [timerActualizacion invalidate];
+    
     [_window release];
     [_controladorPestanias release];
     [controlMaestro release];
@@ -33,6 +35,7 @@
 {
     controlMaestro  = [ControlMaestro new];
     servicioGestorDatos = [ServicioGestorDatos new];
+    timerActualizacion = [NSTimer scheduledTimerWithTimeInterval:5.0 target: self selector: @selector(procesaInformacionActual:)  userInfo: nil repeats: YES];
     
     [controlMaestro setServicioBusqueda:[[ServicioBusqueda new] autorelease]];
 
@@ -76,7 +79,9 @@
     return YES;
 }
 
-
+-(void) procesaInformacionActual:(NSTimer *) timer {
+    [servicioGestorDatos cargaMeetingsDeiCloud];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
