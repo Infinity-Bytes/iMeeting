@@ -19,6 +19,7 @@
 
 #pragma Macro de Apoyo
 #define PATRONARCHIVOS(x) [NSString stringWithFormat:@"__%@", x]
+#define SINPATRONARCHIVOS(x) [x substringFromIndex: 2]
 
 #pragma Macros de Constantes
 #define ARCHIVODEFINICIONMEETING PATRONARCHIVOS(@"Definicion.json")
@@ -27,7 +28,6 @@
 
 #pragma Implementación ServicioGestorDatos
 
-// TODO Crear archivo si se requiere ya sea en pendientes o en trabajado si se tiene o no acceso a iCloud
 @implementation ServicioGestorDatos
 
 @synthesize metaDataQuery;
@@ -46,10 +46,10 @@
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         [self setUrlDocumentos: [[NSURL alloc] initFileURLWithPath: [paths objectAtIndex: 0]  isDirectory: YES]];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self 
+        [[NSNotificationCenter defaultCenter] addObserver: self 
                                                  selector: @selector(procesaElementoTrabajado:) 
-                                                     name: @"registraElementoTrabajado" object:nil];
-        
+                                                     name: @"registraElementoTrabajado" 
+                                                   object: nil];
     }
     return self;
 }
@@ -69,11 +69,23 @@
 
 - (void) procesaElementoTrabajado: (NSNotification *) theNotification {
     NSLog(@"procesaElementoTrabajado: %@", [theNotification name]);
+    
     Meeting * meeting = [[theNotification userInfo] objectForKey:@"meeting"];
     Entrevistado * entrevistado = [[theNotification userInfo] objectForKey:@"elementoTrabajado"];
-    if(meeting && entrevistado) {
-        // TODO Generacion de fichero correspondiente
+    if(meeting && entrevistado && [meeting urlLocal]) {
+        // Generacion de fichero correspondiente
+        NSURL * urlLocal = [[[meeting urlLocal] URLByAppendingPathComponent: DIRECTORIOPENDIENTE isDirectory: YES] 
+                            URLByAppendingPathComponent: PATRONARCHIVOS([entrevistado identificador]) isDirectory: NO];
         
+        Documento * documentoAlmacenar = [[Documento alloc] initWithFileURL: urlLocal];
+        [documentoAlmacenar setNoteContent: @""];
+        [documentoAlmacenar saveToURL: [documentoAlmacenar fileURL] 
+                     forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
+                    completionHandler:^(BOOL success) {
+                        NSLog(@"Elemento %@ pendiente publicado: %@", [documentoAlmacenar fileURL], success ? @"correctamente" : @"incorrectamente");
+                    }];
+        
+        [documentoAlmacenar release];
     }
 }
 
@@ -91,13 +103,11 @@
     if(![meeting registrado]) {
         [meeting setRegistrado: YES];
         
-        //[delegado registraMeeting: meeting];
-        
         NSNotification * myNotification =
         [NSNotification notificationWithName:@"RegistraMeeting" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:meeting, @"meeting", urlMeetingDocumentos, @"urlMeetingDocumentos", urlMeetingiCloud, @"urlMeetingiCloud", nil]];
         
         [[NSNotificationQueue defaultQueue] enqueueNotification: myNotification
-                                                   postingStyle: NSPostASAP
+                                                   postingStyle: NSPostWhenIdle
                                                    coalesceMask: NSNotificationNoCoalescing
                                                        forModes: nil];
         
@@ -114,8 +124,8 @@
     if(![_elementoTrabajadoPorPath containsObject: subPathElementoTrabajado]) {
         [_elementoTrabajadoPorPath addObject: subPathElementoTrabajado];
         
-        // TODO Registrar elemento trabajado para Meeting específico
-        NSString * elementoTrabajado = [urlElementoTrabajado lastPathComponent];
+        // Registrar elemento trabajado para Meeting específico
+        NSString * elementoTrabajado = SINPATRONARCHIVOS([urlElementoTrabajado lastPathComponent]);
         
         NSString * pathDefinicion = [[[subPathElementoTrabajado componentsSeparatedByString: @"/"] objectAtIndex: 0] 
                                      stringByAppendingPathComponent: ARCHIVODEFINICIONMEETING];
@@ -128,11 +138,9 @@
             [NSNotification notificationWithName:@"registraElementoTrabajadoPorURL" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:meetingInteres, @"meeting", urlElementoTrabajado, @"urlElementoTrabajado", elementoTrabajado, @"elementoTrabajado", nil]];
             
             [[NSNotificationQueue defaultQueue] enqueueNotification: myNotification
-                                                       postingStyle: NSPostASAP
+                                                       postingStyle: NSPostWhenIdle
                                                        coalesceMask: NSNotificationNoCoalescing
                                                            forModes: nil];
-            
-            // [delegado elementoTrabajado: elementoTrabajado enMeeting: meetingInteres conRuta: urlElementoTrabajado];
         }
     }
     

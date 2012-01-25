@@ -152,14 +152,14 @@
 -(void) notificarRespuesta:(BOOL)respuesta
 {
     if(_ultimoEntrevistado && ![_ultimoEntrevistado asistio]) {
-        [_ultimoEntrevistado setAsistio: !respuesta];
+        [_ultimoEntrevistado setAsistio: YES];
         
         // Notificar para generacion de archivo y envio posterior a iCloud
         NSNotification * myNotification =
         [NSNotification notificationWithName:@"registraElementoTrabajado" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:_meeting, @"meeting", _ultimoEntrevistado , @"elementoTrabajado", nil]];
         
         [[NSNotificationQueue defaultQueue] enqueueNotification: myNotification
-                                                   postingStyle: NSPostASAP
+                                                   postingStyle: NSPostWhenIdle
                                                    coalesceMask: NSNotificationNoCoalescing
                                                        forModes: nil];
     }
@@ -182,6 +182,15 @@
 
 -(void) registraElementoTrabajadoPorURL: (NSNotification *) notificacion {
     NSLog(@"registraElementoTrabajadoPorURL: %@", notificacion);
+    
+    Meeting * meeting = [[notificacion userInfo] objectForKey: @"meeting"];
+    NSString * elementoTrabajado = [[notificacion userInfo] objectForKey: @"elementoTrabajado"];
+    
+    // Asignar trabajado
+    Entrevistado * entrevistado = [[meeting conjuntoPersonas] objectForKey: elementoTrabajado];
+    if(entrevistado) {
+        [entrevistado setAsistio: YES];
+    }
 }
 
 @end

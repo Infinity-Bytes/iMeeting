@@ -32,9 +32,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     controlMaestro  = [ControlMaestro new];
-    [controlMaestro setServicioBusqueda:[[ServicioBusqueda new] autorelease]];
+    servicioGestorDatos = [ServicioGestorDatos new];
     
-    servicioGestorDatos = [[ServicioGestorDatos new] autorelease];
+    [controlMaestro setServicioBusqueda:[[ServicioBusqueda new] autorelease]];
 
     [servicioGestorDatos cargaMeetingsDeDocumentos];
     [servicioGestorDatos cargaMeetingsDeiTunesFileSharing];
