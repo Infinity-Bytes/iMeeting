@@ -177,6 +177,12 @@
     }
     
     [servicioBusqueda setPersonalMeeting: [_meeting conjuntoPersonas]];
+    
+    [[NSNotificationQueue defaultQueue] enqueueNotification: [NSNotification notificationWithName:@"refrescarPantallas" object:self 
+        userInfo: [NSDictionary dictionaryWithObjectsAndKeys: meeting, @"meeting", nil]]
+                                               postingStyle: NSPostWhenIdle
+                                               coalesceMask: NSNotificationNoCoalescing
+                                                   forModes: nil];
 }
 
 
@@ -190,6 +196,11 @@
     Entrevistado * entrevistado = [[meeting conjuntoPersonas] objectForKey: elementoTrabajado];
     if(entrevistado) {
         [entrevistado setAsistio: YES];
+        
+        [[NSNotificationQueue defaultQueue] enqueueNotification: [NSNotification notificationWithName:@"refrescarPantallasConEntrevistador" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:entrevistado, @"entrevistado", meeting, @"meeting", nil]]
+                                                   postingStyle: NSPostWhenIdle
+                                                   coalesceMask: NSNotificationNoCoalescing
+                                                       forModes: nil];
     }
 }
 
