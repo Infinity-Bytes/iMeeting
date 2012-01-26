@@ -53,6 +53,8 @@
 		F129873614BFB7240043C634 /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F129873014BFB6F80043C634 /* libsbjson-ios.a */; };
 		F129874D14BFD3B50043C634 /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874C14BFD3B50043C634 /* Meeting.m */; };
 		F129875014BFD47C0043C634 /* Persona.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874F14BFD47C0043C634 /* Persona.m */; };
+		F17EA15714D1E20000CB55DB /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17EA15614D1E20000CB55DB /* DropboxSDK.framework */; };
+		F17EA15914D1E21400CB55DB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17EA15814D1E21400CB55DB /* Security.framework */; };
 		F1B2BAF314C12A7C00C3370F /* ServicioBusqueda.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BAF214C12A7C00C3370F /* ServicioBusqueda.m */; };
 		F1BC448A14C89C170089E264 /* ServicioGestorDatos.m in Sources */ = {isa = PBXBuildFile; fileRef = F1BC448914C89C170089E264 /* ServicioGestorDatos.m */; };
 		F1BC448D14C8A3810089E264 /* Documento.m in Sources */ = {isa = PBXBuildFile; fileRef = F1BC448C14C8A3810089E264 /* Documento.m */; };
@@ -118,14 +120,14 @@
 		83BFC5FD14BFAD6F00B0EE47 /* ControladorListaPersonas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControladorListaPersonas.h; sourceTree = "<group>"; };
 		83BFC5FE14BFAD6F00B0EE47 /* ControladorListaPersonas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControladorListaPersonas.m; sourceTree = "<group>"; };
 		83BFC5FF14BFAD6F00B0EE47 /* ControladorListaPersonas.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControladorListaPersonas.xib; sourceTree = "<group>"; };
-		D77563EB14BCD00100A112A7 /* iMeeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMeeting.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D77563EB14BCD00100A112A7 /* iMeetingMX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMeetingMX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D77563EF14BCD00100A112A7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D77563F114BCD00100A112A7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D77563F314BCD00100A112A7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		D77563F714BCD00100A112A7 /* iMeeting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iMeeting-Info.plist"; sourceTree = "<group>"; };
 		D77563F914BCD00100A112A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D77563FB14BCD00100A112A7 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
-		D77563FD14BCD00100A112A7 /* iMeeting-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMeeting-Prefix.pch"; sourceTree = "<group>"; };
+		D77563FD14BCD00100A112A7 /* iMeetingMX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMeetingMX-Prefix.pch"; sourceTree = "<group>"; };
 		D77563FE14BCD00100A112A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D77563FF14BCD00100A112A7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D775641114BCD20C00A112A7 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
@@ -182,6 +184,8 @@
 		F129874C14BFD3B50043C634 /* Meeting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meeting.m; sourceTree = "<group>"; };
 		F129874E14BFD47C0043C634 /* Persona.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Persona.h; sourceTree = "<group>"; };
 		F129874F14BFD47C0043C634 /* Persona.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Persona.m; sourceTree = "<group>"; };
+		F17EA15614D1E20000CB55DB /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
+		F17EA15814D1E21400CB55DB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F1B2BAF114C12A7C00C3370F /* ServicioBusqueda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicioBusqueda.h; sourceTree = "<group>"; };
 		F1B2BAF214C12A7C00C3370F /* ServicioBusqueda.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicioBusqueda.m; sourceTree = "<group>"; };
 		F1BC448814C89C170089E264 /* ServicioGestorDatos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicioGestorDatos.h; sourceTree = "<group>"; };
@@ -195,6 +199,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F17EA15914D1E21400CB55DB /* Security.framework in Frameworks */,
 				F129873614BFB7240043C634 /* libsbjson-ios.a in Frameworks */,
 				D775643714BCD7BC00A112A7 /* AddressBook.framework in Frameworks */,
 				D775643814BCD7BC00A112A7 /* AddressBookUI.framework in Frameworks */,
@@ -207,6 +212,7 @@
 				D775642014BCD41D00A112A7 /* libZXingWidget.a in Frameworks */,
 				D77563F014BCD00100A112A7 /* UIKit.framework in Frameworks */,
 				D77563F214BCD00100A112A7 /* Foundation.framework in Frameworks */,
+				F17EA15714D1E20000CB55DB /* DropboxSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +222,8 @@
 		D77563E014BCD00100A112A7 = {
 			isa = PBXGroup;
 			children = (
+				F17EA15814D1E21400CB55DB /* Security.framework */,
+				F17EA15614D1E20000CB55DB /* DropboxSDK.framework */,
 				D775643514BCD7BC00A112A7 /* AddressBook.framework */,
 				D775643614BCD7BC00A112A7 /* AddressBookUI.framework */,
 				D775642914BCD4C200A112A7 /* libiconv.dylib */,
@@ -232,7 +240,7 @@
 		D77563EC14BCD00100A112A7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D77563EB14BCD00100A112A7 /* iMeeting.app */,
+				D77563EB14BCD00100A112A7 /* iMeetingMX.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -274,7 +282,7 @@
 				D77563F714BCD00100A112A7 /* iMeeting-Info.plist */,
 				D77563F814BCD00100A112A7 /* InfoPlist.strings */,
 				D77563FB14BCD00100A112A7 /* main.mm */,
-				D77563FD14BCD00100A112A7 /* iMeeting-Prefix.pch */,
+				D77563FD14BCD00100A112A7 /* iMeetingMX-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -438,9 +446,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D77563EA14BCD00100A112A7 /* iMeeting */ = {
+		D77563EA14BCD00100A112A7 /* iMeetingMX */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D775640314BCD00100A112A7 /* Build configuration list for PBXNativeTarget "iMeeting" */;
+			buildConfigurationList = D775640314BCD00100A112A7 /* Build configuration list for PBXNativeTarget "iMeetingMX" */;
 			buildPhases = (
 				D77563E714BCD00100A112A7 /* Sources */,
 				D77563E814BCD00100A112A7 /* Frameworks */,
@@ -452,9 +460,9 @@
 				F129873A14BFB7640043C634 /* PBXTargetDependency */,
 				D775641E14BCD21C00A112A7 /* PBXTargetDependency */,
 			);
-			name = iMeeting;
+			name = iMeetingMX;
 			productName = iMeeting;
-			productReference = D77563EB14BCD00100A112A7 /* iMeeting.app */;
+			productReference = D77563EB14BCD00100A112A7 /* iMeetingMX.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -466,7 +474,7 @@
 				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = INEGI;
 			};
-			buildConfigurationList = D77563E514BCD00100A112A7 /* Build configuration list for PBXProject "iMeeting" */;
+			buildConfigurationList = D77563E514BCD00100A112A7 /* Build configuration list for PBXProject "iMeetingMX" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -488,7 +496,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				D77563EA14BCD00100A112A7 /* iMeeting */,
+				D77563EA14BCD00100A112A7 /* iMeetingMX */,
 			);
 		};
 /* End PBXProject section */
@@ -680,10 +688,14 @@
 				CODE_SIGN_ENTITLEMENTS = iMeeting/iMeeting.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "iMeeting/iMeeting-Prefix.pch";
+				GCC_PREFIX_HEADER = "iMeeting/iMeetingMX-Prefix.pch";
 				INFOPLIST_FILE = "iMeeting/iMeeting-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = iMeetingMX;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ZXingWidget/Classes\" \"$(SRCROOT)/json-framework/Classes\"";
 				WRAPPER_EXTENSION = app;
@@ -696,10 +708,14 @@
 				CODE_SIGN_ENTITLEMENTS = iMeeting/iMeeting.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "iMeeting/iMeeting-Prefix.pch";
+				GCC_PREFIX_HEADER = "iMeeting/iMeetingMX-Prefix.pch";
 				INFOPLIST_FILE = "iMeeting/iMeeting-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = iMeetingMX;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ZXingWidget/Classes\" \"$(SRCROOT)/json-framework/Classes\"";
 				WRAPPER_EXTENSION = app;
@@ -709,7 +725,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D77563E514BCD00100A112A7 /* Build configuration list for PBXProject "iMeeting" */ = {
+		D77563E514BCD00100A112A7 /* Build configuration list for PBXProject "iMeetingMX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D775640114BCD00100A112A7 /* Debug */,
@@ -718,7 +734,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D775640314BCD00100A112A7 /* Build configuration list for PBXNativeTarget "iMeeting" */ = {
+		D775640314BCD00100A112A7 /* Build configuration list for PBXNativeTarget "iMeetingMX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D775640414BCD00100A112A7 /* Debug */,
