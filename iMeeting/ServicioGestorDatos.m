@@ -74,18 +74,25 @@
     Entrevistado * entrevistado = [[theNotification userInfo] objectForKey:@"elementoTrabajado"];
     if(meeting && entrevistado && [meeting urlLocal]) {
         // Generacion de fichero correspondiente
-        NSURL * urlLocal = [[[meeting urlLocal] URLByAppendingPathComponent: DIRECTORIOPENDIENTE isDirectory: YES] 
-                            URLByAppendingPathComponent: PATRONARCHIVOS([entrevistado identificador]) isDirectory: NO];
+        NSError * error;
+        NSURL * urlPendientesLocal = [[meeting urlLocal] URLByAppendingPathComponent: DIRECTORIOPENDIENTE isDirectory: YES]; 
+        NSURL * urlLocal = [ urlPendientesLocal URLByAppendingPathComponent: PATRONARCHIVOS([entrevistado identificador]) isDirectory: NO];
         
-        Documento * documentoAlmacenar = [[Documento alloc] initWithFileURL: urlLocal];
-        [documentoAlmacenar setNoteContent: @""];
-        [documentoAlmacenar saveToURL: [documentoAlmacenar fileURL] 
-                     forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
-                    completionHandler:^(BOOL success) {
-                        NSLog(@"Elemento %@ pendiente publicado: %@", [documentoAlmacenar fileURL], success ? @"correctamente" : @"incorrectamente");
-                    }];
-        
-        [documentoAlmacenar release];
+        if([[NSFileManager defaultManager] createDirectoryAtURL: urlPendientesLocal 
+                 withIntermediateDirectories:YES attributes:nil error: &error]) {
+            
+            Documento * documentoAlmacenar = [[Documento alloc] initWithFileURL: urlLocal];
+            [documentoAlmacenar setNoteContent: @""];
+            [documentoAlmacenar saveToURL: [documentoAlmacenar fileURL] 
+                         forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
+                        completionHandler:^(BOOL success) {
+                            NSLog(@"Elemento %@ pendiente publicado: %@", [documentoAlmacenar fileURL], success ? @"correctamente" : @"incorrectamente");
+                        }];
+            
+            [documentoAlmacenar release];
+        } else {
+            NSLog(@"Error en generación de directorio pendiente %@, procesaElementoTrabajado:", error);
+        }
     }
 }
 
@@ -168,7 +175,9 @@
                     
                     // Registrar Meeting creado
                     [_meetingsPorNombre setObject: meetingInteres forKey: nombreMeeting];
-                    [_meetingsPorPathDefinicion setObject: meetingInteres forKey: subPathArchivoDefinicion];
+
+                    if(subPathArchivoDefinicion)
+                        [_meetingsPorPathDefinicion setObject: meetingInteres forKey: subPathArchivoDefinicion];
                 }
             }
         }
