@@ -30,6 +30,7 @@
 
 #pragma Implementación ServicioGestorDatos
 
+// TODO Evitar generar nuevos archivos de elementos que ya se encuentran previamente en la nube
 @implementation ServicioGestorDatos
 
 @synthesize urlDocumentos;
