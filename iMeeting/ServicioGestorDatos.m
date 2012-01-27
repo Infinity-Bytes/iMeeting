@@ -20,8 +20,8 @@
 #define BORRARDEFINICIONMEETING NO
 
 #pragma Macro de Apoyo
-#define PATRONARCHIVOS(x) [NSString stringWithFormat:@"__%@", x]
-#define SINPATRONARCHIVOS(x) [x substringFromIndex: 2]
+#define PATRONARCHIVOS(x) [NSString stringWithFormat:@"%@", x]
+#define SINPATRONARCHIVOS(x) x
 
 #pragma Macros de Constantes
 #define ARCHIVODEFINICIONMEETING PATRONARCHIVOS(@"Definicion.json")

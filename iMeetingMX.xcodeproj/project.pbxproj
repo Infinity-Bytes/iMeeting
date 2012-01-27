@@ -16,7 +16,7 @@
 		D77563F214BCD00100A112A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77563F114BCD00100A112A7 /* Foundation.framework */; };
 		D77563F414BCD00100A112A7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77563F314BCD00100A112A7 /* CoreGraphics.framework */; };
 		D77563FA14BCD00100A112A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D77563F814BCD00100A112A7 /* InfoPlist.strings */; };
-		D77563FC14BCD00100A112A7 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = D77563FB14BCD00100A112A7 /* main.mm */; };
+		D77563FC14BCD00100A112A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D77563FB14BCD00100A112A7 /* main.m */; };
 		D775640014BCD00100A112A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D77563FF14BCD00100A112A7 /* AppDelegate.m */; };
 		D775642014BCD41D00A112A7 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D775641A14BCD20D00A112A7 /* libZXingWidget.a */; };
 		D775642214BCD44A00A112A7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D775642114BCD44A00A112A7 /* AudioToolbox.framework */; };
@@ -126,7 +126,7 @@
 		D77563F314BCD00100A112A7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		D77563F714BCD00100A112A7 /* iMeeting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iMeeting-Info.plist"; sourceTree = "<group>"; };
 		D77563F914BCD00100A112A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D77563FB14BCD00100A112A7 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		D77563FB14BCD00100A112A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D77563FD14BCD00100A112A7 /* iMeetingMX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMeetingMX-Prefix.pch"; sourceTree = "<group>"; };
 		D77563FE14BCD00100A112A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D77563FF14BCD00100A112A7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -281,7 +281,7 @@
 				D78DD95D14BE290500C6B0D3 /* Recursos */,
 				D77563F714BCD00100A112A7 /* iMeeting-Info.plist */,
 				D77563F814BCD00100A112A7 /* InfoPlist.strings */,
-				D77563FB14BCD00100A112A7 /* main.mm */,
+				D77563FB14BCD00100A112A7 /* main.m */,
 				D77563FD14BCD00100A112A7 /* iMeetingMX-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -570,7 +570,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D77563FC14BCD00100A112A7 /* main.mm in Sources */,
+				D77563FC14BCD00100A112A7 /* main.m in Sources */,
 				D775640014BCD00100A112A7 /* AppDelegate.m in Sources */,
 				D775643D14BCDC3100A112A7 /* ControladorScannner.mm in Sources */,
 				D78DD95014BE224E00C6B0D3 /* Entrevistador.m in Sources */,
