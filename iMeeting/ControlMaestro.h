@@ -32,6 +32,9 @@
 -(void) registraElementoTrabajadoPorURL: (NSNotification *) notificacion;
 
 
+- (void) obtenEntrevistadoresAcumulador:(NSMutableSet *) acumulador aPartir: (Entrevistador *) entrevistador;
+- (void) procesaAcumulado: (NSSet *) acumulador;
+
 @property (nonatomic, retain) id<iServicioBusqueda> servicioBusqueda;
 
 @end

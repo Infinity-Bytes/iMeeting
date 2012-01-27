@@ -154,6 +154,10 @@
     if(_ultimoEntrevistado && ![_ultimoEntrevistado asistio]) {
         [_ultimoEntrevistado setAsistio: YES];
         
+        NSMutableSet * conjuntoEntrevistadoresInteres = [NSMutableSet new];
+        [self obtenEntrevistadoresAcumulador: conjuntoEntrevistadoresInteres aPartir: [_ultimoEntrevistado lider]];
+        
+        [conjuntoEntrevistadoresInteres release];
         
         // Notificar para generacion de archivo y envio posterior a iCloud
         NSNotification * myNotification =
@@ -166,20 +170,20 @@
     }
 }
 
-- (void) procesaElementoEntrevistado: (Entrevistado *) entrevistado enEntrevistador: (Entrevistador *) entrevistador {
-    Entrevistador * lider = [entrevistador lider];
-    
-    if(![[entrevistador personasEntrevistadas] containsObject: entrevistado]) {
+- (void) obtenEntrevistadoresAcumulador:(NSMutableSet *) acumulador aPartir: (Entrevistador *) entrevistador {
+    if(entrevistador && ![acumulador containsObject: entrevistador]) {
+        [acumulador addObject: entrevistador];
         
-        [[entrevistador personasEntrevistadas] addObject: entrevistado];
-        [[entrevistador personasSinEntrevistar] removeObject: entrevistado];
-        
-        if(lider) {
-            [self procesaElementoEntrevistado: entrevistado enEntrevistador: lider];
-        }
+        Entrevistador * lider = [entrevistador lider];
+        [self obtenEntrevistadoresAcumulador:acumulador aPartir: lider];
     }
 }
 
+- (void) procesaAcumulado: (NSSet *) acumulador {
+    for(Entrevistador * entrevistador in acumulador) {
+        // TODO Agregar en el acumulador
+    }
+}
 
 
 #pragma Delegado Gestor Datos
