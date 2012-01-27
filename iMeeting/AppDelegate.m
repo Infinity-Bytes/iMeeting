@@ -45,7 +45,7 @@
     
     controlMaestro  = [ControlMaestro new];
     servicioGestorDatos = [ServicioGestorDatos new];
-    timerActualizacion = [NSTimer scheduledTimerWithTimeInterval:5.0 target: self selector: @selector(procesaInformacionActual:)  userInfo: nil repeats: YES];
+    timerActualizacion = [NSTimer scheduledTimerWithTimeInterval:10.0 target: self selector: @selector(procesaInformacionActual:)  userInfo: nil repeats: YES];
     
     [controlMaestro setServicioBusqueda:[[ServicioBusqueda new] autorelease]];
 
@@ -92,7 +92,7 @@
 }
 
 -(void) procesaInformacionActual:(NSTimer *) timer {
-    //[servicioGestorDatos cargaMeetingsDeiCloud];
+    [servicioGestorDatos cargaMeetingsDeiCloud];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

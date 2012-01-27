@@ -27,6 +27,7 @@
 #define ARCHIVODEFINICIONMEETING PATRONARCHIVOS(@"Definicion.json")
 #define DIRECTORIOTRABAJADO @"trabajado"
 #define DIRECTORIOPENDIENTE @"pendiente"
+#define EXTENSIONMEETING @"-meeting"
 
 #pragma Implementación ServicioGestorDatos
 
@@ -42,6 +43,8 @@
         _meetingsPorNombre = [NSMutableDictionary new];
         _meetingsPorPathDefinicion = [NSMutableDictionary new];
         _elementoTrabajadoPorPath = [NSMutableSet new];
+        _archivoGestionadoPorPath = [NSMutableSet new];
+        _revisionPorPath = [NSMutableDictionary new];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         [self setUrlDocumentos: [[[NSURL alloc] initFileURLWithPath: [paths objectAtIndex: 0]  isDirectory: YES] autorelease]];
@@ -61,6 +64,8 @@
     [_meetingsPorNombre release]; _meetingsPorNombre = nil;
     [_meetingsPorPathDefinicion release]; _meetingsPorPathDefinicion = nil;
     [_elementoTrabajadoPorPath release]; _elementoTrabajadoPorPath = nil;
+    [_archivoGestionadoPorPath release]; _archivoGestionadoPorPath = nil;
+    [_revisionPorPath release]; _revisionPorPath = nil;
     
     [self setUrlDocumentos: nil];
     
@@ -221,7 +226,7 @@
                                      options:0 
                                        error:&error];
     for (NSURL *url in elementosEnDocumentos) {
-        if([[url lastPathComponent] hasSuffix: @"-meeting"]) {
+        if([[url lastPathComponent] hasSuffix: EXTENSIONMEETING]) {
             NSURL * urlDefinicion = [url URLByAppendingPathComponent: ARCHIVODEFINICIONMEETING isDirectory: NO];
             BOOL directorio;
             if([defaultManager fileExistsAtPath: [urlDefinicion path] isDirectory: &directorio]) {
@@ -246,7 +251,7 @@
     NSString * lastPathComponent = nil;
     do {
         lastPathComponent = [urlInteres lastPathComponent];
-        if([lastPathComponent hasSuffix: @"-meeting"]) {
+        if([lastPathComponent hasSuffix: EXTENSIONMEETING]) {
             NSURL * urlBase = [urlInteres URLByDeletingLastPathComponent];
             salida = [pathURL substringFromIndex: [[urlBase path] length] + 1];
         }
@@ -278,7 +283,7 @@
                                                                        options:0 
                                                                          error:&error];
     for (NSURL *url in elementosEnDocumentos) {
-        if( [[url lastPathComponent] hasSuffix: @"-meeting"] ) {
+        if( [[url lastPathComponent] hasSuffix: EXTENSIONMEETING] ) {
             NSURL * urlPendientes = [url URLByAppendingPathComponent: DIRECTORIOPENDIENTE isDirectory: YES];
             BOOL directorio;
             if([defaultManager fileExistsAtPath: [urlPendientes path] isDirectory: &directorio]) {
@@ -315,15 +320,27 @@
             
             if(!file.isDirectory) {
                 
-                // TODO Evitar descargar multiples veces el mismo documento
+                // Evitar descargar multiples veces el mismo documento
+                NSString * revisionActual = [_revisionPorPath objectForKey: file.path];
+                NSString * revisionNuevo = file.rev;
                 
-                NSURL * urlArchivoDocumentos = [self.urlDocumentos URLByAppendingPathComponent: [file.path substringFromIndex: 1]];
-                
-                if([[NSFileManager defaultManager] createDirectoryAtURL:  [urlArchivoDocumentos URLByDeletingLastPathComponent]
-                      withIntermediateDirectories: YES
-                                       attributes: nil
-                                            error: &error]) {
-                    [[self restClient] loadFile: file.path intoPath: [urlArchivoDocumentos path]];
+                if(![_archivoGestionadoPorPath containsObject: file.path] || ![revisionActual isEqualToString: revisionNuevo] ) {
+                    [_archivoGestionadoPorPath addObject: file.path];
+                    [_revisionPorPath setObject:file.rev forKey: file.path];
+
+                    NSLog(@"Solicitando descarga: %@", file.path);
+                    
+                    NSURL * urlArchivoDocumentos = [self.urlDocumentos URLByAppendingPathComponent: [file.path substringFromIndex: 1]];
+                    
+                    
+                    if([[NSFileManager defaultManager] createDirectoryAtURL:  [urlArchivoDocumentos URLByDeletingLastPathComponent]
+                                                withIntermediateDirectories: YES
+                                                                 attributes: nil
+                                                                      error: &error]) {
+                        [[self restClient] loadFile: file.path intoPath: [urlArchivoDocumentos path]];
+                    } else {
+                        NSLog( @"No es posible crear el directorio local para almacenar elemento en la nube: %@ con error: %@", [urlArchivoDocumentos URLByDeletingLastPathComponent], error);
+                    }
                 }
             } else {
                 [client loadMetadata: [file path]];
@@ -413,7 +430,7 @@
     NSError *error = nil;
     
     if(urlInteres) {
-        NSString * pathMeetingBase = [NSString stringWithFormat: @"%@-meeting", [meeting nombreMeeting]];
+        NSString * pathMeetingBase = [NSString stringWithFormat: @"%@%@", [meeting nombreMeeting], EXTENSIONMEETING];
         NSString * nombrePathMeetingPatron = PATRONARCHIVOS(pathMeetingBase);
         pathMeeting = [urlInteres URLByAppendingPathComponent: nombrePathMeetingPatron isDirectory:YES];
         

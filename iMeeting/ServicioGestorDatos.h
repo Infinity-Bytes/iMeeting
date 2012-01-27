@@ -20,6 +20,9 @@
     NSMutableDictionary * _meetingsPorPathDefinicion;
     
     NSMutableSet * _elementoTrabajadoPorPath;
+    
+    NSMutableSet * _archivoGestionadoPorPath;
+    NSMutableDictionary * _revisionPorPath;
 }
 
 - (DBRestClient *) restClient;
