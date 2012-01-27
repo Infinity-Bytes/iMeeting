@@ -45,6 +45,8 @@
         _elementoTrabajadoPorPath = [NSMutableSet new];
         _archivoGestionadoPorPath = [NSMutableSet new];
         _revisionPorPath = [NSMutableDictionary new];
+
+        enviarPendientes = NO;
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         [self setUrlDocumentos: [[[NSURL alloc] initFileURLWithPath: [paths objectAtIndex: 0]  isDirectory: YES] autorelease]];
@@ -269,8 +271,11 @@
     if([[DBSession sharedSession] isLinked]) {
         [[self restClient] loadMetadata: @"/"];
         
-        // Aquellos elementos trabajados que se encuentren en pendientes buscar envirles a iCloud
-        [self enviarPendientesATrabajados];
+        // Se descargan las versiones de cada archivo antes de enviar archivos locales
+        if(enviarPendientes == YES) {
+            // Aquellos elementos trabajados que se encuentren en pendientes buscar envirles a iCloud
+            [self enviarPendientesATrabajados];
+        }
     }
 }
 
@@ -284,6 +289,25 @@
                                                                          error:&error];
     for (NSURL *url in elementosEnDocumentos) {
         if( [[url lastPathComponent] hasSuffix: EXTENSIONMEETING] ) {
+            
+            // Enviar elemento de definicion si no existe registrado en Web
+            NSURL * urlElementoDefinicionLocal = [url URLByAppendingPathComponent: ARCHIVODEFINICIONMEETING isDirectory: NO];
+            if([defaultManager fileExistsAtPath: [urlElementoDefinicionLocal path] isDirectory: NO]) {
+                
+                NSString * subPathDefinicion = [@"/" stringByAppendingString:[self obtenSubPath: urlElementoDefinicionLocal]];
+                if(![_archivoGestionadoPorPath containsObject: subPathDefinicion]) {
+                    [_archivoGestionadoPorPath addObject: subPathDefinicion];
+                    
+                    NSString * subPath = [self obtenSubPath: [urlElementoDefinicionLocal URLByDeletingLastPathComponent]];
+                    NSString * localPath = [urlElementoDefinicionLocal path];
+                    NSString * filename = [urlElementoDefinicionLocal lastPathComponent];
+                    NSString * destDir = [@"/" stringByAppendingString: subPath];
+                    
+                    [[self restClient] uploadFile:filename toPath:destDir withParentRev:nil fromPath:localPath];
+                }
+            }
+            
+            // Se envian pendientes si existen
             NSURL * urlPendientes = [url URLByAppendingPathComponent: DIRECTORIOPENDIENTE isDirectory: YES];
             BOOL directorio;
             if([defaultManager fileExistsAtPath: [urlPendientes path] isDirectory: &directorio]) {
@@ -342,6 +366,8 @@
                         NSLog( @"No es posible crear el directorio local para almacenar elemento en la nube: %@ con error: %@", [urlArchivoDocumentos URLByDeletingLastPathComponent], error);
                     }
                 }
+                
+                enviarPendientes = TRUE;
             } else {
                 [client loadMetadata: [file path]];
             }
@@ -460,15 +486,6 @@
                                if(success) {
                                    // Se registra el meeting en funcion de su estructura final
                                    [_meetingsPorPathDefinicion setObject: meeting forKey: [self obtenSubPath: pathDefinicion]];
-                                   
-                                   NSURL * urlElementoDefinicionLocal = [definicionInteres fileURL];
-                                   NSString * subPath = [self obtenSubPath: [urlElementoDefinicionLocal URLByDeletingLastPathComponent]];
-                                   
-                                   NSString * localPath = [urlElementoDefinicionLocal path];
-                                   NSString * filename = [urlElementoDefinicionLocal lastPathComponent];
-                                   NSString * destDir = [@"/" stringByAppendingString: subPath];
-                                   
-                                   [[self restClient] uploadFile:filename toPath:destDir withParentRev:nil fromPath:localPath];
                                }
                 }];
                 

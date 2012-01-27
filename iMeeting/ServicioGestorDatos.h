@@ -23,6 +23,7 @@
     
     NSMutableSet * _archivoGestionadoPorPath;
     NSMutableDictionary * _revisionPorPath;
+    BOOL enviarPendientes;
 }
 
 - (DBRestClient *) restClient;
