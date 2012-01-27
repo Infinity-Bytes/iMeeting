@@ -361,16 +361,21 @@
               from:(NSString*)srcPath metadata:(DBMetadata*)metadata {
     
     NSLog(@"File uploaded successfully to path: %@", metadata.path);
+    NSURL * urlElementoOrigen = [[[NSURL alloc] initFileURLWithPath:srcPath isDirectory: NO] autorelease];
     
-    // Borrar elemento en pendiente
-    NSError * error;
-    if(![[NSFileManager defaultManager] removeItemAtURL: [[[NSURL alloc] initFileURLWithPath:srcPath isDirectory: NO] autorelease]   error: &error]) {
-        NSLog(@"Borrando %@ elemento trabajado pendiente incorrectamente, con error: %@", srcPath, error);
+    if(![[urlElementoOrigen lastPathComponent] isEqualToString: ARCHIVODEFINICIONMEETING]) {
+        // Borrar elemento en pendiente
+        NSError * error;
+        if(![[NSFileManager defaultManager] removeItemAtURL: urlElementoOrigen error: &error]) {
+            NSLog(@"Borrando %@ elemento trabajado pendiente incorrectamente, con error: %@", srcPath, error);
+        }
     }
 }
 
 - (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
     NSLog(@"File upload failed with error - %@", error);
+    
+    // TODO Revisar que hacer cuando la definición no se publicara a la nube correctamente
 }
 
 #pragma Cargado de Meetings a partir de definición dada por iTunes Shared Folder
@@ -398,13 +403,8 @@
 }
 
 - (void) generaEstructuraDeMeeting: (Meeting *) meeting {
-    
-    NSURL * ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
-    
     NSURL * urlDocumentosMeeting = [self cargaDirectorioMeeting: meeting enURL: [self urlDocumentos]];
-    NSURL * urlCloudMeeting = [self cargaDirectorioMeeting: meeting enURL: [ubiq URLByAppendingPathComponent: @"Documents"]];
-    
-    [self registraMeeting: meeting conURLDocumentos: urlDocumentosMeeting yURLCloud: urlCloudMeeting];
+    [self registraMeeting: meeting conURLDocumentos: urlDocumentosMeeting yURLCloud: nil];
 }
 
 - (id) cargaDirectorioMeeting: (Meeting *) meeting enURL: (NSURL *) urlInteres {
@@ -412,7 +412,7 @@
     NSError *error = nil;
     
     if(urlInteres) {
-        NSString * pathMeetingBase = [NSString stringWithFormat: @"%@.meeting", [meeting nombreMeeting]];
+        NSString * pathMeetingBase = [NSString stringWithFormat: @"%@-meeting", [meeting nombreMeeting]];
         NSString * nombrePathMeetingPatron = PATRONARCHIVOS(pathMeetingBase);
         pathMeeting = [urlInteres URLByAppendingPathComponent: nombrePathMeetingPatron isDirectory:YES];
         
@@ -442,6 +442,15 @@
                                if(success) {
                                    // Se registra el meeting en funcion de su estructura final
                                    [_meetingsPorPathDefinicion setObject: meeting forKey: [self obtenSubPath: pathDefinicion]];
+                                   
+                                   NSURL * urlElementoDefinicionLocal = [definicionInteres fileURL];
+                                   NSString * subPath = [self obtenSubPath: [urlElementoDefinicionLocal URLByDeletingLastPathComponent]];
+                                   
+                                   NSString * localPath = [urlElementoDefinicionLocal path];
+                                   NSString * filename = [urlElementoDefinicionLocal lastPathComponent];
+                                   NSString * destDir = [@"/" stringByAppendingString: subPath];
+                                   
+                                   [[self restClient] uploadFile:filename toPath:destDir withParentRev:nil fromPath:localPath];
                                }
                 }];
                 
