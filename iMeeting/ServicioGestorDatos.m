@@ -357,70 +357,26 @@
 
 
 - (void)restClient:(DBRestClient *)client loadedFile:(NSString *)localPath {
+    // Procesar documento
+    NSURL * urlArchivoEnDocumentos = [[NSURL alloc] initFileURLWithPath: localPath isDirectory: NO];
+    NSURL * urlDirectorioPadreEnDocumentos = [urlArchivoEnDocumentos URLByDeletingLastPathComponent];
     
-    // TODO Procesar documento
-    /*
-     NSURL *url = [item valueForAttribute: NSMetadataItemURLKey];
-     Documento * doc = [[[Documento alloc] initWithFileURL: url] autorelease]; 
-     [doc openWithCompletionHandler: ^(BOOL success) {
-     [self procesaDocumento: doc conPathRelativo: [self obtenSubPath: url] legible: success];
-     }];
-     */
+    // Registrar Meeting
+    if ([[urlArchivoEnDocumentos lastPathComponent] isEqualToString: ARCHIVODEFINICIONMEETING]) {
+        Meeting * meeting = [self obtenMeetingDeURL: urlArchivoEnDocumentos];
+        [self registraMeeting: meeting conURLDocumentos: urlDirectorioPadreEnDocumentos yURLCloud: nil];
+    }
     
-    NSStringEncoding encoding;
-    NSError * error;
-    NSString * contenido = [NSString stringWithContentsOfFile:localPath usedEncoding: &encoding error: &error];
-    
-    
-    NSLog(@"Contenido leido de la nube: %@", contenido);
+    // Registrar Elementos trabajados
+    if([[urlDirectorioPadreEnDocumentos lastPathComponent] isEqualToString: DIRECTORIOTRABAJADO]) {
+        [self registraElementoTrabajadoPorURL: urlArchivoEnDocumentos];
+    }
 }
 
 - (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error {
     NSLog(@"There was an error loading the file - %@", error);
 }
 
-
-- (void) procesaDocumento: (Documento *) doc conPathRelativo: (NSString *) subPath legible: (BOOL) legible {
-    // Almacenar en Documentos usando el path relativo
-    NSURL * urlArchivoEnDocumentos = [[self urlDocumentos] URLByAppendingPathComponent: subPath];
-    
-    if (legible) {
-        NSLog(@"openend file from iCloud %@", doc);
-        
-        NSURL * urlDirectorioPadreEnDocumentos = [urlArchivoEnDocumentos URLByDeletingLastPathComponent];
-        
-        NSFileManager * fileManager = [NSFileManager defaultManager];
-        NSError * error;
-        if ([fileManager createDirectoryAtURL: urlDirectorioPadreEnDocumentos
-                  withIntermediateDirectories:YES
-                                   attributes:nil
-                                        error:&error]) {
-            Documento * docEnDocumentos = [[Documento alloc] initWithFileURL: urlArchivoEnDocumentos];
-            [docEnDocumentos setNoteContent: [doc noteContent]];
-            [docEnDocumentos saveToURL:[docEnDocumentos fileURL] 
-                      forSaveOperation:REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating 
-                     completionHandler:^(BOOL success) {
-                         NSLog(@"Archivo de iCloud almacenado en Documentos: %@", docEnDocumentos);
-                         
-                         // Registrar Meeting
-                         if ([[urlArchivoEnDocumentos lastPathComponent] isEqualToString: ARCHIVODEFINICIONMEETING]) {
-                             NSURL * urlDefinicionMeetingEnICloud = [[doc fileURL] URLByDeletingLastPathComponent];
-                             
-                             Meeting * meeting = [self obtenMeetingDeURL: [doc fileURL]];
-                             [self registraMeeting: meeting conURLDocumentos: urlDirectorioPadreEnDocumentos yURLCloud: urlDefinicionMeetingEnICloud];
-                         }
-                         
-                         // Registrar Elementos trabajados
-                         if([[urlDirectorioPadreEnDocumentos lastPathComponent] isEqualToString: DIRECTORIOTRABAJADO]) {
-                             [self registraElementoTrabajadoPorURL: [docEnDocumentos fileURL]];
-                         }
-                     }];
-            [docEnDocumentos release];
-        }
-    } else {
-        NSLog(@"failed to open from iCloud %@", doc);
-    }
-}
 
 #pragma Cargado de Meetings a partir de definición dada por iTunes Shared Folder
 

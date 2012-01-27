@@ -38,7 +38,6 @@
 #pragma Cargado de archivos de iCloud
 - (void)cargaMeetingsDeiCloud;
 - (void) enviarPendientesATrabajados;
-- (void) procesaDocumento: (Documento *) doc conPathRelativo: (NSString *) subPath legible: (BOOL) legible;
 
 #pragma Cargado de Meetings a partir de definición dada por iTunes Shared Folder
 - (void) cargaMeetingsDeiTunesFileSharing;
