@@ -12,6 +12,7 @@
 #import "Entrevistador.h"
 #import "ControladorListaRegiones.h"
 #import "ServicioBusqueda.h"
+#import <DropboxSDK/DropboxSDK.h>
 
 
 @implementation AppDelegate
@@ -33,6 +34,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    DBSession* dbSession =
+    [[[DBSession alloc]
+      initWithAppKey:@"9fheg8l7y4ppzas"
+      appSecret:@"z5loq8yt4xedegu"
+      root:kDBRootAppFolder]
+     autorelease];
+    [DBSession setSharedSession:dbSession];
+    
     controlMaestro  = [ControlMaestro new];
     servicioGestorDatos = [ServicioGestorDatos new];
     timerActualizacion = [NSTimer scheduledTimerWithTimeInterval:5.0 target: self selector: @selector(procesaInformacionActual:)  userInfo: nil repeats: YES];
@@ -41,6 +50,8 @@
 
     [servicioGestorDatos cargaMeetingsDeDocumentos];
     [servicioGestorDatos cargaMeetingsDeiTunesFileSharing];
+    [servicioGestorDatos cargaMeetingsDeiCloud];
+    
     [servicioGestorDatos cargaMeetingsDeiCloud];
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
@@ -80,7 +91,7 @@
 }
 
 -(void) procesaInformacionActual:(NSTimer *) timer {
-    [servicioGestorDatos cargaMeetingsDeiCloud];
+    //[servicioGestorDatos cargaMeetingsDeiCloud];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -120,6 +131,18 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    if ([[DBSession sharedSession] handleOpenURL:url]) {
+        if ([[DBSession sharedSession] isLinked]) {
+            NSLog(@"Aplicacion enlazada a DB correctamente!");
+            
+        }
+        return YES;
+    }
+    // Add whatever other url handling code your app requires here
+    return NO;
 }
 
 @end

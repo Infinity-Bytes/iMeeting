@@ -7,17 +7,22 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <DropboxSDK/DropboxSDK.h>
+
 #import "Meeting.h"
 #import "Documento.h"
 
-@interface ServicioGestorDatos : NSObject
+@interface ServicioGestorDatos : NSObject <DBRestClientDelegate>
 {
     @private
+    DBRestClient * restClient;
     NSMutableDictionary * _meetingsPorNombre;
     NSMutableDictionary * _meetingsPorPathDefinicion;
     
     NSMutableSet * _elementoTrabajadoPorPath;
 }
+
+- (DBRestClient *) restClient;
 
 - (void) procesaElementoTrabajado: (NSNotification *) theNotification;
 
@@ -33,8 +38,6 @@
 #pragma Cargado de archivos de iCloud
 - (void)cargaMeetingsDeiCloud;
 - (void) enviarPendientesATrabajados;
-- (void)queryDidFinishGathering:(NSNotification *)notification;
-- (void)loadData:(NSMetadataQuery *)query;
 - (void) procesaDocumento: (Documento *) doc conPathRelativo: (NSString *) subPath legible: (BOOL) legible;
 
 #pragma Cargado de Meetings a partir de definición dada por iTunes Shared Folder
@@ -48,6 +51,5 @@
 
 
 @property (nonatomic, retain) NSURL * urlDocumentos;
-@property (nonatomic, retain) NSMetadataQuery * metaDataQuery;
 
 @end

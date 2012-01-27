@@ -6,6 +6,7 @@
 //  Copyright (c) 2011 INEGI. All rights reserved.
 //
 
+#import <DropboxSDK/DropboxSDK.h>
 #import "ControladorListaRegiones.h"
 #import "Entrevistador.h"
 
@@ -53,6 +54,14 @@
     //recargar cada vez que sea visible exigira los datos al controlador
     [self setEncargadosPorRegion:[[self delegadoControladorLista] obtenerDatosSeparadosPorRegionesUsandoDefinicionOrden: [[NSMutableArray new] autorelease] ]];
     [[self tablaDatos] reloadData];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (![[DBSession sharedSession] isLinked]) {
+        [[DBSession sharedSession] link];
+    }
 }
 
 - (void)viewDidLoad

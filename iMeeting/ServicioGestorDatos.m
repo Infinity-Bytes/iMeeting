@@ -7,6 +7,8 @@
 //
 
 #import "SBJson.h"
+
+
 #import "ServicioGestorDatos.h"
 #import "Documento.h"
 
@@ -30,7 +32,6 @@
 
 @implementation ServicioGestorDatos
 
-@synthesize metaDataQuery;
 @synthesize urlDocumentos;
 
 
@@ -41,8 +42,6 @@
         _meetingsPorPathDefinicion = [NSMutableDictionary new];
         _elementoTrabajadoPorPath = [NSMutableSet new];
         
-        [self setMetaDataQuery: nil];
-        
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         [self setUrlDocumentos: [[NSURL alloc] initFileURLWithPath: [paths objectAtIndex: 0]  isDirectory: YES]];
         
@@ -50,6 +49,7 @@
                                                  selector: @selector(procesaElementoTrabajado:) 
                                                      name: @"registraElementoTrabajado" 
                                                    object: nil];
+        
     }
     return self;
 }
@@ -61,10 +61,17 @@
     [_meetingsPorPathDefinicion release]; _meetingsPorPathDefinicion = nil;
     [_elementoTrabajadoPorPath release]; _elementoTrabajadoPorPath = nil;
     
-    [self setMetaDataQuery: nil];
     [self setUrlDocumentos: nil];
     
     [super dealloc];
+}
+
+- (DBRestClient *)restClient {
+    if (!restClient) {
+        restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+        restClient.delegate = self;
+    }
+    return restClient;
 }
 
 - (void) procesaElementoTrabajado: (NSNotification *) theNotification {
@@ -252,27 +259,13 @@
 #pragma Cargado de archivos de iCloud
 
 - (void)cargaMeetingsDeiCloud {
-    NSFileManager * defaultManager = [NSFileManager defaultManager];
-    NSURL *ubiq = [defaultManager URLForUbiquityContainerIdentifier:nil];
-    NSString * documentoDefinicion = PATRONARCHIVOS(@"");
-    if (ubiq) {
-        self.metaDataQuery = [[NSMetadataQuery alloc] init];
-        [self.metaDataQuery setSearchScopes:[NSArray arrayWithObject:NSMetadataQueryUbiquitousDocumentsScope]];
-        NSString * sentenciaPredicate = [@"%K " stringByAppendingString: [NSString stringWithFormat:@" like '%@*'", documentoDefinicion]];
-        NSPredicate *pred = [NSPredicate predicateWithFormat: sentenciaPredicate, NSMetadataItemFSNameKey];
-        [self.metaDataQuery setPredicate:pred];
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(queryDidFinishGathering:) 
-                                                     name:NSMetadataQueryDidFinishGatheringNotification 
-                                                   object:self.metaDataQuery];
+    
+    // TODO Revisar acceso a Cloud
+    if(YES) {
+        [[self restClient] loadMetadata: @"/"];
         
-        [self.metaDataQuery startQuery];
-        
-        // Aquellos elementos trabajados que se encuentren en pendientes buscar envirles a iCloud
-        [self enviarPendientesATrabajados];
-        
-    } else {
-        NSLog(@"No iCloud access");
+        // TODO Aquellos elementos trabajados que se encuentren en pendientes buscar envirles a iCloud
+        // [self enviarPendientesATrabajados];
     }
 }
 
@@ -333,33 +326,57 @@
     }
 }
 
-- (void)queryDidFinishGathering:(NSNotification *)notification {
+- (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
+    NSError * error;
     
-    NSMetadataQuery *query = [notification object];
-    [query disableUpdates];
-    [query stopQuery];
-    
-    [self loadData:query];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
-                                                    name:NSMetadataQueryDidFinishGatheringNotification
-                                                  object:query];
-    
-    self.metaDataQuery = nil;
-}
-
-- (void)loadData:(NSMetadataQuery *)query {
-    
-    if([query resultCount]) {
-        for (NSMetadataItem *item in [query results]) {
+    if (metadata.isDirectory) {
+        for (DBMetadata * file in metadata.contents) {
             
-            NSURL *url = [item valueForAttribute: NSMetadataItemURLKey];
-            Documento * doc = [[[Documento alloc] initWithFileURL: url] autorelease]; 
-            [doc openWithCompletionHandler: ^(BOOL success) {
-                [self procesaDocumento: doc conPathRelativo: [self obtenSubPath: url] legible: success];
-            }];
+            if(!file.isDirectory) {
+                
+                // TODO Evitar descargar multiples veces el mismo documento
+                
+                NSURL * urlArchivoDocumentos = [self.urlDocumentos URLByAppendingPathComponent: [file.path substringFromIndex: 1]];
+                
+                if([[NSFileManager defaultManager] createDirectoryAtURL:  [urlArchivoDocumentos URLByDeletingLastPathComponent]
+                      withIntermediateDirectories: YES
+                                       attributes: nil
+                                            error: &error]) {
+                    [[self restClient] loadFile: file.path intoPath: [urlArchivoDocumentos path]];
+                }
+            } else {
+                [client loadMetadata: [file path]];
+            }
         }
     }
+}
+
+- (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error {
+    NSLog(@"Error loading metadata: %@", error);
+}
+
+
+- (void)restClient:(DBRestClient *)client loadedFile:(NSString *)localPath {
+    
+    // TODO Procesar documento
+    /*
+     NSURL *url = [item valueForAttribute: NSMetadataItemURLKey];
+     Documento * doc = [[[Documento alloc] initWithFileURL: url] autorelease]; 
+     [doc openWithCompletionHandler: ^(BOOL success) {
+     [self procesaDocumento: doc conPathRelativo: [self obtenSubPath: url] legible: success];
+     }];
+     */
+    
+    NSStringEncoding encoding;
+    NSError * error;
+    NSString * contenido = [NSString stringWithContentsOfFile:localPath usedEncoding: &encoding error: &error];
+    
+    
+    NSLog(@"Contenido leido de la nube: %@", contenido);
+}
+
+- (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error {
+    NSLog(@"There was an error loading the file - %@", error);
 }
 
 
