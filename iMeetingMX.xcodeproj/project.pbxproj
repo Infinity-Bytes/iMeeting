@@ -55,6 +55,7 @@
 		F129875014BFD47C0043C634 /* Persona.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874F14BFD47C0043C634 /* Persona.m */; };
 		F17EA15714D1E20000CB55DB /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17EA15614D1E20000CB55DB /* DropboxSDK.framework */; };
 		F17EA15914D1E21400CB55DB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17EA15814D1E21400CB55DB /* Security.framework */; };
+		F17EA1A314D354F800CB55DB /* JefeEntrevistadores.m in Sources */ = {isa = PBXBuildFile; fileRef = F17EA1A214D354F800CB55DB /* JefeEntrevistadores.m */; };
 		F1B2BAF314C12A7C00C3370F /* ServicioBusqueda.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BAF214C12A7C00C3370F /* ServicioBusqueda.m */; };
 		F1BC448A14C89C170089E264 /* ServicioGestorDatos.m in Sources */ = {isa = PBXBuildFile; fileRef = F1BC448914C89C170089E264 /* ServicioGestorDatos.m */; };
 		F1BC448D14C8A3810089E264 /* Documento.m in Sources */ = {isa = PBXBuildFile; fileRef = F1BC448C14C8A3810089E264 /* Documento.m */; };
@@ -186,6 +187,8 @@
 		F129874F14BFD47C0043C634 /* Persona.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Persona.m; sourceTree = "<group>"; };
 		F17EA15614D1E20000CB55DB /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		F17EA15814D1E21400CB55DB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		F17EA1A114D354F800CB55DB /* JefeEntrevistadores.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JefeEntrevistadores.h; sourceTree = "<group>"; };
+		F17EA1A214D354F800CB55DB /* JefeEntrevistadores.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JefeEntrevistadores.m; sourceTree = "<group>"; };
 		F1B2BAF114C12A7C00C3370F /* ServicioBusqueda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicioBusqueda.h; sourceTree = "<group>"; };
 		F1B2BAF214C12A7C00C3370F /* ServicioBusqueda.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicioBusqueda.m; sourceTree = "<group>"; };
 		F1BC448814C89C170089E264 /* ServicioGestorDatos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicioGestorDatos.h; sourceTree = "<group>"; };
@@ -335,6 +338,8 @@
 				F129874C14BFD3B50043C634 /* Meeting.m */,
 				F129874E14BFD47C0043C634 /* Persona.h */,
 				F129874F14BFD47C0043C634 /* Persona.m */,
+				F17EA1A114D354F800CB55DB /* JefeEntrevistadores.h */,
+				F17EA1A214D354F800CB55DB /* JefeEntrevistadores.m */,
 			);
 			name = modelo;
 			sourceTree = "<group>";
@@ -591,6 +596,7 @@
 				F1B2BAF314C12A7C00C3370F /* ServicioBusqueda.m in Sources */,
 				F1BC448A14C89C170089E264 /* ServicioGestorDatos.m in Sources */,
 				F1BC448D14C8A3810089E264 /* Documento.m in Sources */,
+				F17EA1A314D354F800CB55DB /* JefeEntrevistadores.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
