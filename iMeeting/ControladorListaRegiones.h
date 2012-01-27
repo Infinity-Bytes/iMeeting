@@ -39,6 +39,11 @@
     
 }
 
+-(void) cargaInfo;
+
+-(void) refrescarPantallas: (NSNotification *) notification;
+-(void) refrescarPantallasConEntrevistador: (NSNotification *) notification;
+
 @property(nonatomic, retain) IBOutlet  UITableView *tablaDatos;
 @property(nonatomic, retain) IBOutlet  CeldaEncargadoPorRegion* celda;
 @property(nonatomic, retain) NSDictionary * encargadosPorRegion;
