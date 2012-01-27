@@ -12,5 +12,6 @@
 
 @property(nonatomic, retain) NSString * identificador;
 @property(nonatomic, retain) NSString * nombre;
+@property(nonatomic, assign) id lider;
 
 @end

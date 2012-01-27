@@ -20,8 +20,8 @@
 - (id)init {
     self = [super init];
     if (self) {
-        [self setPersonasEntrevistadas: [NSMutableArray new]];
-        [self setPersonasSinEntrevistar: [NSMutableArray new]];
+        [self setPersonasEntrevistadas: [NSMutableSet new]];
+        [self setPersonasSinEntrevistar: [NSMutableSet new]];
     }
     return self;
 }

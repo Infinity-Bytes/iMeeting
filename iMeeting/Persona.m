@@ -12,10 +12,23 @@
 
 @synthesize identificador;
 @synthesize nombre;
+@synthesize lider;
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        [self setIdentificador: nil];
+        [self setNombre: nil];
+        [self setLider: nil];
+
+    }
+    return self;
+}
 
 - (void)dealloc {
     [self setIdentificador: nil];
     [self setNombre: nil];
+    [self setLider: nil];
     
     [super dealloc];
 }

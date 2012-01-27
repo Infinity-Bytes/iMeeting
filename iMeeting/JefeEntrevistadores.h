@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface JefeEntrevistadores : NSObject
+#import "Entrevistador.h"
+
+@interface JefeEntrevistadores : Entrevistador
 
 @property(nonatomic, retain)NSMutableArray * jefesEntrevistadores;
 @property(nonatomic, retain)NSMutableArray * entrevistadores;

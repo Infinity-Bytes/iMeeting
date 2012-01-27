@@ -60,8 +60,8 @@
                     }
                     
                     NSArray * personasInteres = [persona personas];
-                    [persona setPersonasEntrevistadas: [[NSMutableArray new] autorelease]];
-                    [persona setPersonasSinEntrevistar: [[NSMutableArray new] autorelease]];
+                    [persona setPersonasEntrevistadas: [[NSMutableSet new] autorelease]];
+                    [persona setPersonasSinEntrevistar: [[NSMutableSet new] autorelease]];
                     
                     for(id personaInterna in personasInteres) {
                         BOOL personaInternaAsistio = [personaInterna asistio];
@@ -127,10 +127,10 @@
         ControladorListaPersonas * controladorListaPersonas = [[ControladorListaPersonas alloc] initWithNibName:@"ControladorListaPersonas" bundle:[NSBundle mainBundle]];
         
         if ([identificador isEqualToString:@"personasEntrevistadas"])
-            [controladorListaPersonas setDatos:[entrevistador personasEntrevistadas]];
+            [controladorListaPersonas setDatos:[[entrevistador personasEntrevistadas] allObjects]];
         
         if ([identificador isEqualToString:@"personasSinEntrevistar"])
-            [controladorListaPersonas setDatos:[entrevistador personasSinEntrevistar]];
+            [controladorListaPersonas setDatos:[[entrevistador personasSinEntrevistar] allObjects]];
         
         [controlNavegacion pushViewController:controladorListaPersonas animated:YES];
         [controladorListaPersonas release];
@@ -154,6 +154,7 @@
     if(_ultimoEntrevistado && ![_ultimoEntrevistado asistio]) {
         [_ultimoEntrevistado setAsistio: YES];
         
+        
         // Notificar para generacion de archivo y envio posterior a iCloud
         NSNotification * myNotification =
         [NSNotification notificationWithName:@"registraElementoTrabajado" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:_meeting, @"meeting", _ultimoEntrevistado , @"elementoTrabajado", nil]];
@@ -164,6 +165,22 @@
                                                        forModes: nil];
     }
 }
+
+- (void) procesaElementoEntrevistado: (Entrevistado *) entrevistado enEntrevistador: (Entrevistador *) entrevistador {
+    Entrevistador * lider = [entrevistador lider];
+    
+    if(![[entrevistador personasEntrevistadas] containsObject: entrevistado]) {
+        
+        [[entrevistador personasEntrevistadas] addObject: entrevistado];
+        [[entrevistador personasSinEntrevistar] removeObject: entrevistado];
+        
+        if(lider) {
+            [self procesaElementoEntrevistado: entrevistado enEntrevistador: lider];
+        }
+    }
+}
+
+
 
 #pragma Delegado Gestor Datos
 
