@@ -259,8 +259,8 @@
 
 - (void)cargaMeetingsDeiCloud {
     
-    // TODO Revisar acceso a Cloud
-    if(YES) {
+    // Revisar acceso a Cloud
+    if([[DBSession sharedSession] isLinked]) {
         [[self restClient] loadMetadata: @"/"];
         
         // Aquellos elementos trabajados que se encuentren en pendientes buscar envirles a iCloud

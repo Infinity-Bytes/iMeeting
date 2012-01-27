@@ -12,7 +12,7 @@
 #import "Entrevistador.h"
 #import "ControladorListaRegiones.h"
 #import "ServicioBusqueda.h"
-#import <DropboxSDK/DropboxSDK.h>
+
 
 
 @implementation AppDelegate
@@ -40,6 +40,7 @@
       appSecret:@"z5loq8yt4xedegu"
       root:kDBRootAppFolder]
      autorelease];
+    dbSession.delegate = self;
     [DBSession setSharedSession:dbSession];
     
     controlMaestro  = [ControlMaestro new];
@@ -143,6 +144,10 @@
     }
     // Add whatever other url handling code your app requires here
     return NO;
+}
+
+- (void)sessionDidReceiveAuthorizationFailure:(DBSession *)session userId:(NSString *)userId {
+    
 }
 
 @end
