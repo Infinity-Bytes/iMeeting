@@ -537,13 +537,13 @@
         [salida setNombreMeeting: _nombreMeeting];
     }
     NSMutableDictionary * conjuntoPersonal = [NSMutableDictionary new];
-    [salida setPersonal: [self procesaPersonas: objetoPlano usandoAcumulador: conjuntoPersonal]];
+    [salida setPersonal: [self procesaPersonas: objetoPlano usandoAcumulador: conjuntoPersonal yPersonaOrigen: nil]];
     [salida setConjuntoPersonas: conjuntoPersonal];
     
     return salida;
 }
 
-- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia usandoAcumulador: (NSMutableDictionary *) acumulador {
+- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia usandoAcumulador: (NSMutableDictionary *) acumulador yPersonaOrigen:(id) lider {
     NSMutableArray * contenedorPersonal = [NSMutableArray new];
     
     id _personal = [objetoReferencia objectForKey:@"personas"];
@@ -571,12 +571,16 @@
                     
                     if( [personaInteres respondsToSelector: @selector(setPersonas:)] ) {
                         
-                        [personaInteres performSelector: @selector(setPersonas:) withObject: [self procesaPersonas: persona usandoAcumulador: acumulador]];
+                        [personaInteres performSelector: @selector(setPersonas:) withObject: [self procesaPersonas: persona usandoAcumulador: acumulador yPersonaOrigen: personaInteres]];
                     }
                     
                     if(personaInteres) {
                         if([personaInteres isKindOfClass: [Persona class]]) {
                             [contenedorPersonal addObject: personaInteres];
+                            
+                            [personaInteres setLider: lider];
+                            
+                            // TODO Considerar al entrevistador para los jefes de entrevistadores
                             
                             NSString * identificador = [personaInteres performSelector: @selector(identificador)];
                             if(identificador && [identificador length]) {

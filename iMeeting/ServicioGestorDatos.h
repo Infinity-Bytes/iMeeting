@@ -10,6 +10,7 @@
 #import <DropboxSDK/DropboxSDK.h>
 
 #import "Meeting.h"
+#import "Entrevistador.h"
 #import "Documento.h"
 
 @interface ServicioGestorDatos : NSObject <DBRestClientDelegate>
@@ -49,7 +50,7 @@
 - (id) cargaDirectorioMeeting: (Meeting *) meeting enURL: (NSURL *) urlInteres;
 - (NSArray *) cargaDefinicionMeetings;
 - (Meeting *) generaMeetingDePOCOs: (NSDictionary *) objetoPlano;
-- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia usandoAcumulador: (NSMutableDictionary *) acumulador;
+- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia usandoAcumulador: (NSMutableDictionary *) acumulador yPersonaOrigen: (id) persona;
 - (void) objeto: (id) objeto ejecutaSelector: (SEL) selector conArgumento: (id) argumento deTipo: (Class) clase;
 
 
