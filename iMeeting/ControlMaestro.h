@@ -32,6 +32,7 @@
 -(void) registraElementoTrabajadoPorURL: (NSNotification *) notificacion;
 
 
+- (void) procesaElementoTrabajado: (Entrevistado *) entrevistado;
 - (void) obtenEntrevistadoresAcumulador:(NSMutableSet *) acumulador aPartir: (Entrevistador *) entrevistador;
 - (void) procesaAcumulado: (NSSet *) acumulador;
 

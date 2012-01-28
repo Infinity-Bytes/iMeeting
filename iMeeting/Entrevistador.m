@@ -17,11 +17,17 @@
 @synthesize personasEntrevistadas;
 @synthesize personasSinEntrevistar;
 
+@synthesize numeroPersonasASuCargo;
+@synthesize numeroPersonasEntrevistadas;
+
 - (id)init {
     self = [super init];
     if (self) {
         [self setPersonasEntrevistadas: [NSMutableSet new]];
         [self setPersonasSinEntrevistar: [NSMutableSet new]];
+        
+        [self setNumeroPersonasASuCargo: 0];
+        [self setNumeroPersonasEntrevistadas: 0];
     }
     return self;
 }
@@ -33,7 +39,6 @@
     [self setPersonas: nil];
     
     [self setPersonasEntrevistadas: nil];
-    [self setPersonasSinEntrevistar: nil];
 
     [super dealloc];
 }

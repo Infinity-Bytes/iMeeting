@@ -59,19 +59,6 @@
                         [personasPorZona retain];
                     }
                     
-                    NSArray * personasInteres = [persona personas];
-                    [persona setPersonasEntrevistadas: [[NSMutableSet new] autorelease]];
-                    [persona setPersonasSinEntrevistar: [[NSMutableSet new] autorelease]];
-                    
-                    for(id personaInterna in personasInteres) {
-                        BOOL personaInternaAsistio = [personaInterna asistio];
-                        
-                        if(personaInternaAsistio)
-                            [[persona personasEntrevistadas] addObject: personaInterna];
-                        else
-                            [[persona personasSinEntrevistar] addObject: personaInterna];
-                    }
-                    
                     [personasPorZona addObject: persona];
                     [personasPorZona release];
                     
@@ -152,13 +139,8 @@
 -(void) notificarRespuesta:(BOOL)respuesta
 {
     if(_ultimoEntrevistado && ![_ultimoEntrevistado asistio]) {
-        [_ultimoEntrevistado setAsistio: YES];
         
-        NSMutableSet * conjuntoEntrevistadoresInteres = [NSMutableSet new];
-        [self obtenEntrevistadoresAcumulador: conjuntoEntrevistadoresInteres aPartir: [_ultimoEntrevistado lider]];
-        
-        [conjuntoEntrevistadoresInteres release];
-        
+        [self procesaElementoTrabajado: _ultimoEntrevistado];
         // Notificar para generacion de archivo y envio posterior a iCloud
         NSNotification * myNotification =
         [NSNotification notificationWithName:@"registraElementoTrabajado" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:_meeting, @"meeting", _ultimoEntrevistado , @"elementoTrabajado", nil]];
@@ -168,6 +150,21 @@
                                                    coalesceMask: NSNotificationNoCoalescing
                                                        forModes: nil];
     }
+}
+
+- (void) procesaElementoTrabajado: (Entrevistado *) entrevistado {
+    [entrevistado setAsistio: YES];
+    
+    Entrevistador * entrevistadorLider = [entrevistado lider];
+    if(entrevistadorLider) {
+        [[entrevistadorLider personasSinEntrevistar] removeObject: entrevistado];
+        [[entrevistadorLider personasEntrevistadas] addObject: entrevistado];
+    }
+    
+    NSMutableSet * conjuntoEntrevistadoresInteres = [NSMutableSet new];
+    [self obtenEntrevistadoresAcumulador: conjuntoEntrevistadoresInteres aPartir: entrevistadorLider];
+    [self procesaAcumulado: conjuntoEntrevistadoresInteres];
+    [conjuntoEntrevistadoresInteres release];
 }
 
 - (void) obtenEntrevistadoresAcumulador:(NSMutableSet *) acumulador aPartir: (Entrevistador *) entrevistador {
@@ -181,7 +178,9 @@
 
 - (void) procesaAcumulado: (NSSet *) acumulador {
     for(Entrevistador * entrevistador in acumulador) {
-        // TODO Agregar en el acumulador
+
+        // Agregar en el acumulador
+        entrevistador.numeroPersonasEntrevistadas++;
     }
 }
 
@@ -216,7 +215,7 @@
     // Asignar trabajado
     Entrevistado * entrevistado = [[meeting conjuntoPersonas] objectForKey: elementoTrabajado];
     if(entrevistado) {
-        [entrevistado setAsistio: YES];
+        [self procesaElementoTrabajado: entrevistado];
         
         [[NSNotificationQueue defaultQueue] enqueueNotification: [NSNotification notificationWithName:@"refrescarPantallasConEntrevistador" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:entrevistado, @"entrevistado", meeting, @"meeting", nil]]
                                                    postingStyle: NSPostWhenIdle
