@@ -51,7 +51,7 @@
 - (NSArray *) cargaDefinicionMeetings;
 - (Meeting *) generaMeetingDePOCOs: (NSDictionary *) objetoPlano;
 - (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia conIdentificadorDeConjunto: (NSString *) identificadorConjunto usandoAcumulador: (NSMutableDictionary *) acumulador yPersonaOrigen:(id) lider;
-- (void) objeto: (id) objeto ejecutaSelector: (SEL) selector conArgumento: (id) argumento deTipo: (Class) clase;
+- (BOOL) objeto: (id) objeto ejecutaSelector: (SEL) selector conArgumento: (id) argumento deTipo: (Class) clase;
 
 
 @property (nonatomic, retain) NSURL * urlDocumentos;

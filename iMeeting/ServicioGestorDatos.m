@@ -14,6 +14,7 @@
 
 #import "Persona.h"
 #import "Entrevistado.h"
+#import "EntrevistadoRef.h"
 
 #pragma Macros Control
 #define REGENERARESTRUCTURA YES
@@ -563,9 +564,17 @@
                         agregarAcumulador = YES;
                     }
                     
-                    [self objeto:personaInteres ejecutaSelector: @selector(setIdentificador:) conArgumento: [persona objectForKey: @"identificador"] deTipo:[NSString class]];
+                    if(![self objeto:personaInteres ejecutaSelector: @selector(setNombre:) conArgumento: [persona objectForKey: @"nombre"] deTipo:[NSString class]]) {
+                        
+                        if(agregarAcumulador) {
+                            [personaInteres release];
+                            
+                            // TODO Agregar Entrevistado basado en Referencia
+                            personaInteres = [EntrevistadoRef new];
+                        }
+                    }
                     
-                    [self objeto:personaInteres ejecutaSelector: @selector(setNombre:) conArgumento: [persona objectForKey: @"nombre"] deTipo:[NSString class]];
+                    [self objeto:personaInteres ejecutaSelector: @selector(setIdentificador:) conArgumento: [persona objectForKey: @"identificador"] deTipo:[NSString class]];
                     
                     [self objeto:personaInteres ejecutaSelector: @selector(setZona:) conArgumento: [persona objectForKey: @"zona"] deTipo:[NSString class]];
                     
@@ -610,10 +619,12 @@
     return contenedorPersonal;
 }
 
-- (void) objeto: (id) objeto ejecutaSelector: (SEL) selector conArgumento: (id) argumento deTipo: (Class) clase {
+- (BOOL) objeto: (id) objeto ejecutaSelector: (SEL) selector conArgumento: (id) argumento deTipo: (Class) clase {
     if([objeto respondsToSelector: selector] && [argumento isKindOfClass: clase]) {
         [objeto performSelector: selector withObject: argumento];
+        return YES;
     }
+    return NO;
 }
 
 @end
