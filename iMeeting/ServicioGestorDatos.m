@@ -533,10 +533,10 @@
 - (Meeting * ) generaMeetingDePOCOs: (NSDictionary *) objetoPlano {
     Meeting * salida = [[Meeting new] autorelease];
     
-    id _nombreMeeting = [objetoPlano objectForKey: @"nombreMeeting"];
-    if([_nombreMeeting isKindOfClass: [NSString class]]) { 
-        [salida setNombreMeeting: _nombreMeeting];
-    }
+    [self objeto:salida ejecutaSelector: @selector(setNombreMeeting:) 
+                           conArgumento: [objetoPlano objectForKey: @"nombreMeeting"] 
+                                 deTipo:[NSString class]];
+    
     NSMutableDictionary * conjuntoEntrevistados = [NSMutableDictionary new];
     NSMutableDictionary * conjuntoEntrevistadores = [NSMutableDictionary new];
     
@@ -629,6 +629,20 @@
                                     [acumuladorEntrevistadores setObject: personaInteres forKey: identificador];
                                 }
                             }
+                        }
+                        
+                        
+                        // Calculo de numero de personas a cargo de cada líder
+                        if(lider) {
+                            Entrevistador * liderEntrevistador = lider;
+                            
+                            int numeroPersonas = 1;
+                            if([personaInteres isKindOfClass:[Entrevistador class]]) {
+                                Entrevistador * entrevistadorInteres = (Entrevistador *)personaInteres;
+                                numeroPersonas = [entrevistadorInteres numeroPersonasASuCargo];
+                            }
+                            
+                            [liderEntrevistador setNumeroPersonasASuCargo: [liderEntrevistador numeroPersonasASuCargo] +  numeroPersonas];
                         }
                         
                         [personaInteres release];
