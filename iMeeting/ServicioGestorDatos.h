@@ -50,7 +50,7 @@
 - (id) cargaDirectorioMeeting: (Meeting *) meeting enURL: (NSURL *) urlInteres;
 - (NSArray *) cargaDefinicionMeetings;
 - (Meeting *) generaMeetingDePOCOs: (NSDictionary *) objetoPlano;
-- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia usandoAcumulador: (NSMutableDictionary *) acumulador yPersonaOrigen: (id) persona;
+- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia conIdentificadorDeConjunto: (NSString *) identificadorConjunto usandoAcumulador: (NSMutableDictionary *) acumulador yPersonaOrigen:(id) lider;
 - (void) objeto: (id) objeto ejecutaSelector: (SEL) selector conArgumento: (id) argumento deTipo: (Class) clase;
 
 

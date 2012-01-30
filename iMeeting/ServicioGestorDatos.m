@@ -537,28 +537,30 @@
         [salida setNombreMeeting: _nombreMeeting];
     }
     NSMutableDictionary * conjuntoPersonal = [NSMutableDictionary new];
-    [salida setPersonal: [self procesaPersonas: objetoPlano usandoAcumulador: conjuntoPersonal yPersonaOrigen: nil]];
-    [salida setConjuntoPersonas: conjuntoPersonal];
+    [salida setPersonal: [self procesaPersonas: objetoPlano conIdentificadorDeConjunto: @"personas" usandoAcumulador: conjuntoPersonal yPersonaOrigen: nil]];
+    [salida setConjuntoEntrevistados: conjuntoPersonal];
     
     return salida;
 }
 
-- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia usandoAcumulador: (NSMutableDictionary *) acumulador yPersonaOrigen:(id) lider {
+- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia conIdentificadorDeConjunto: (NSString *) identificadorConjunto usandoAcumulador: (NSMutableDictionary *) acumulador yPersonaOrigen:(id) lider {
     NSMutableArray * contenedorPersonal = [NSMutableArray new];
     
-    id _personal = [objetoReferencia objectForKey:@"personas"];
+    id _personal = [objetoReferencia objectForKey: identificadorConjunto];
     if([_personal isKindOfClass: [NSArray class]]) {
         if([_personal count]) {
             
             for(id persona in _personal) {
                 if( [persona isKindOfClass: [NSDictionary class]] ) {
                     Persona * personaInteres = nil;
+                    BOOL agregarAcumulador = NO;
                     
                     id _tipoPersona = [persona objectForKey: @"tipo"];
                     if([_tipoPersona isKindOfClass: [NSString class]] && [_tipoPersona length] > 0) {
                         personaInteres = [NSClassFromString(_tipoPersona) new];
                     } else {
                         personaInteres = [Entrevistado new];
+                        agregarAcumulador = YES;
                     }
                     
                     [self objeto:personaInteres ejecutaSelector: @selector(setIdentificador:) conArgumento: [persona objectForKey: @"identificador"] deTipo:[NSString class]];
@@ -571,7 +573,15 @@
                     
                     if( [personaInteres respondsToSelector: @selector(setPersonas:)] ) {
                         
-                        [personaInteres performSelector: @selector(setPersonas:) withObject: [self procesaPersonas: persona usandoAcumulador: acumulador yPersonaOrigen: personaInteres]];
+                        [personaInteres performSelector: @selector(setPersonas:) withObject: [self procesaPersonas: persona conIdentificadorDeConjunto: @"personas" usandoAcumulador: acumulador yPersonaOrigen: personaInteres]];
+                    }
+                    
+                    if ([personaInteres respondsToSelector:@selector(setEntrevistadores:)]) {
+                        [personaInteres performSelector: @selector(setEntrevistadores:) withObject: [self procesaPersonas: persona conIdentificadorDeConjunto: @"entrevistadores" usandoAcumulador: acumulador yPersonaOrigen: personaInteres]];
+                    }
+                    
+                    if ([personaInteres respondsToSelector:@selector(setJefesEntrevistadores:)]) {
+                        [personaInteres performSelector: @selector(setJefesEntrevistadores:) withObject: [self procesaPersonas: persona conIdentificadorDeConjunto: @"jefesEntrevistadores" usandoAcumulador: acumulador yPersonaOrigen: personaInteres]];
                     }
                     
                     if(personaInteres) {
@@ -580,11 +590,12 @@
                             
                             [personaInteres setLider: lider];
                             
-                            // TODO Considerar al entrevistador para los jefes de entrevistadores
-                            
-                            NSString * identificador = [personaInteres performSelector: @selector(identificador)];
-                            if(identificador && [identificador length]) {
-                                [acumulador setObject:personaInteres forKey: identificador];
+                            // Considerar al entrevistador para los jefes de entrevistadores
+                            if(agregarAcumulador) {
+                                NSString * identificador = [personaInteres performSelector: @selector(identificador)];
+                                if(identificador && [identificador length]) {
+                                    [acumulador setObject:personaInteres forKey: identificador];
+                                }
                             }
                         }
                         

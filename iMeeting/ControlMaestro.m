@@ -46,8 +46,8 @@
     NSMutableSet * zonas = [NSMutableSet new];
     
     if(_meeting) {
-        for(id idPersona in [_meeting conjuntoPersonas]) {
-            id persona = [[_meeting conjuntoPersonas] objectForKey: idPersona];
+        for(id idPersona in [_meeting conjuntoEntrevistados]) {
+            id persona = [[_meeting conjuntoEntrevistados] objectForKey: idPersona];
             if([persona respondsToSelector: @selector(zona)]) {
                 NSString * zona = [persona performSelector:@selector(zona)];
                 if (zona) {
@@ -196,7 +196,7 @@
         _meeting = [meeting retain];
     }
     
-    [servicioBusqueda setPersonalMeeting: [_meeting conjuntoPersonas]];
+    [servicioBusqueda setPersonalMeeting: [_meeting conjuntoEntrevistados]];
     
     [[NSNotificationQueue defaultQueue] enqueueNotification: [NSNotification notificationWithName:@"refrescarPantallas" object:self 
         userInfo: [NSDictionary dictionaryWithObjectsAndKeys: meeting, @"meeting", nil]]
@@ -213,7 +213,7 @@
     NSString * elementoTrabajado = [[notificacion userInfo] objectForKey: @"elementoTrabajado"];
     
     // Asignar trabajado
-    Entrevistado * entrevistado = [[meeting conjuntoPersonas] objectForKey: elementoTrabajado];
+    Entrevistado * entrevistado = [[meeting conjuntoEntrevistados] objectForKey: elementoTrabajado];
     if(entrevistado) {
         [self procesaElementoTrabajado: entrevistado];
         
