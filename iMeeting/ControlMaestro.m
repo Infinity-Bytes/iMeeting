@@ -46,8 +46,8 @@
     NSMutableSet * zonas = [NSMutableSet new];
     
     if(_meeting) {
-        for(id idPersona in [_meeting conjuntoEntrevistados]) {
-            id persona = [[_meeting conjuntoEntrevistados] objectForKey: idPersona];
+        for(id idPersona in [_meeting conjuntoEntrevistadores]) {
+            id persona = [[_meeting conjuntoEntrevistadores] objectForKey: idPersona];
             if([persona respondsToSelector: @selector(zona)]) {
                 NSString * zona = [persona performSelector:@selector(zona)];
                 if (zona) {

@@ -53,7 +53,7 @@
 		F129873614BFB7240043C634 /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F129873014BFB6F80043C634 /* libsbjson-ios.a */; };
 		F129874D14BFD3B50043C634 /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874C14BFD3B50043C634 /* Meeting.m */; };
 		F129875014BFD47C0043C634 /* Persona.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874F14BFD47C0043C634 /* Persona.m */; };
-		F12C07BE14D701480014C2DC /* EntrevistadoRef.m in Sources */ = {isa = PBXBuildFile; fileRef = F12C07BD14D701480014C2DC /* EntrevistadoRef.m */; };
+		F12C07BE14D701480014C2DC /* ProxyRefEntrevistado.m in Sources */ = {isa = PBXBuildFile; fileRef = F12C07BD14D701480014C2DC /* ProxyRefEntrevistado.m */; };
 		F17EA15714D1E20000CB55DB /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17EA15614D1E20000CB55DB /* DropboxSDK.framework */; };
 		F17EA15914D1E21400CB55DB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17EA15814D1E21400CB55DB /* Security.framework */; };
 		F17EA1A314D354F800CB55DB /* JefeEntrevistadores.m in Sources */ = {isa = PBXBuildFile; fileRef = F17EA1A214D354F800CB55DB /* JefeEntrevistadores.m */; };
@@ -186,8 +186,8 @@
 		F129874C14BFD3B50043C634 /* Meeting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meeting.m; sourceTree = "<group>"; };
 		F129874E14BFD47C0043C634 /* Persona.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Persona.h; sourceTree = "<group>"; };
 		F129874F14BFD47C0043C634 /* Persona.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Persona.m; sourceTree = "<group>"; };
-		F12C07BC14D701480014C2DC /* EntrevistadoRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntrevistadoRef.h; sourceTree = "<group>"; };
-		F12C07BD14D701480014C2DC /* EntrevistadoRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntrevistadoRef.m; sourceTree = "<group>"; };
+		F12C07BC14D701480014C2DC /* ProxyRefEntrevistado.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ProxyRefEntrevistado.h; sourceTree = "<group>"; };
+		F12C07BD14D701480014C2DC /* ProxyRefEntrevistado.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProxyRefEntrevistado.m; sourceTree = "<group>"; };
 		F17EA15614D1E20000CB55DB /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		F17EA15814D1E21400CB55DB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F17EA1A114D354F800CB55DB /* JefeEntrevistadores.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JefeEntrevistadores.h; sourceTree = "<group>"; };
@@ -343,8 +343,8 @@
 				F129874F14BFD47C0043C634 /* Persona.m */,
 				F17EA1A114D354F800CB55DB /* JefeEntrevistadores.h */,
 				F17EA1A214D354F800CB55DB /* JefeEntrevistadores.m */,
-				F12C07BC14D701480014C2DC /* EntrevistadoRef.h */,
-				F12C07BD14D701480014C2DC /* EntrevistadoRef.m */,
+				F12C07BC14D701480014C2DC /* ProxyRefEntrevistado.h */,
+				F12C07BD14D701480014C2DC /* ProxyRefEntrevistado.m */,
 			);
 			name = modelo;
 			sourceTree = "<group>";
@@ -602,7 +602,7 @@
 				F1BC448A14C89C170089E264 /* ServicioGestorDatos.m in Sources */,
 				F1BC448D14C8A3810089E264 /* Documento.m in Sources */,
 				F17EA1A314D354F800CB55DB /* JefeEntrevistadores.m in Sources */,
-				F12C07BE14D701480014C2DC /* EntrevistadoRef.m in Sources */,
+				F12C07BE14D701480014C2DC /* ProxyRefEntrevistado.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

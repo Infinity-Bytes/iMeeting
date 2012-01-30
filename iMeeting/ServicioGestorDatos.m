@@ -14,7 +14,7 @@
 
 #import "Persona.h"
 #import "Entrevistado.h"
-#import "EntrevistadoRef.h"
+#import "ProxyRefEntrevistado.h"
 
 #pragma Macros Control
 #define REGENERARESTRUCTURA YES
@@ -537,14 +537,30 @@
     if([_nombreMeeting isKindOfClass: [NSString class]]) { 
         [salida setNombreMeeting: _nombreMeeting];
     }
-    NSMutableDictionary * conjuntoPersonal = [NSMutableDictionary new];
-    [salida setPersonal: [self procesaPersonas: objetoPlano conIdentificadorDeConjunto: @"personas" usandoAcumulador: conjuntoPersonal yPersonaOrigen: nil]];
-    [salida setConjuntoEntrevistados: conjuntoPersonal];
+    NSMutableDictionary * conjuntoEntrevistados = [NSMutableDictionary new];
+    NSMutableDictionary * conjuntoEntrevistadores = [NSMutableDictionary new];
+    
+    [salida setPersonal: [self procesaPersonas: objetoPlano 
+                    conIdentificadorDeConjunto: @"personas" 
+                 usandoAcumuladorEntrevistados: conjuntoEntrevistados 
+                     acumuladorEntrevistadores: conjuntoEntrevistadores
+                                yPersonaOrigen: nil]];
+    
+    [salida setConjuntoEntrevistados: conjuntoEntrevistados];
+    [salida setConjuntoEntrevistadores: conjuntoEntrevistadores];
+    
+    [conjuntoEntrevistados release];
+    [conjuntoEntrevistadores release];
     
     return salida;
 }
 
-- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia conIdentificadorDeConjunto: (NSString *) identificadorConjunto usandoAcumulador: (NSMutableDictionary *) acumulador yPersonaOrigen:(id) lider {
+- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia 
+   conIdentificadorDeConjunto: (NSString *) identificadorConjunto 
+             usandoAcumuladorEntrevistados: (NSMutableDictionary *) acumulador 
+    acumuladorEntrevistadores: (NSMutableDictionary *) acumuladorEntrevistadores
+               yPersonaOrigen:(id) lider {
+    
     NSMutableArray * contenedorPersonal = [NSMutableArray new];
     
     id _personal = [objetoReferencia objectForKey: identificadorConjunto];
@@ -569,8 +585,10 @@
                         if(agregarAcumulador) {
                             [personaInteres release];
                             
-                            // TODO Agregar Entrevistado basado en Referencia
-                            personaInteres = [EntrevistadoRef new];
+                            // Agregar Entrevistado basado en Referencia
+                            ProxyRefEntrevistado * entrevistadorRef = [ProxyRefEntrevistado new];
+                            [entrevistadorRef setConjuntoEntrevistadores: acumuladorEntrevistadores];
+                            personaInteres = entrevistadorRef;
                         }
                     }
                     
@@ -582,15 +600,18 @@
                     
                     if( [personaInteres respondsToSelector: @selector(setPersonas:)] ) {
                         
-                        [personaInteres performSelector: @selector(setPersonas:) withObject: [self procesaPersonas: persona conIdentificadorDeConjunto: @"personas" usandoAcumulador: acumulador yPersonaOrigen: personaInteres]];
+                        [personaInteres performSelector: @selector(setPersonas:) withObject: [self procesaPersonas: persona conIdentificadorDeConjunto: @"personas" usandoAcumuladorEntrevistados: acumulador
+                                                                                         acumuladorEntrevistadores: acumuladorEntrevistadores yPersonaOrigen: personaInteres]];
                     }
                     
                     if ([personaInteres respondsToSelector:@selector(setEntrevistadores:)]) {
-                        [personaInteres performSelector: @selector(setEntrevistadores:) withObject: [self procesaPersonas: persona conIdentificadorDeConjunto: @"entrevistadores" usandoAcumulador: acumulador yPersonaOrigen: personaInteres]];
+                        [personaInteres performSelector: @selector(setEntrevistadores:) withObject: [self procesaPersonas: persona conIdentificadorDeConjunto: @"entrevistadores" usandoAcumuladorEntrevistados: acumulador
+                                                                                                acumuladorEntrevistadores: acumuladorEntrevistadores yPersonaOrigen: personaInteres]];
                     }
                     
                     if ([personaInteres respondsToSelector:@selector(setJefesEntrevistadores:)]) {
-                        [personaInteres performSelector: @selector(setJefesEntrevistadores:) withObject: [self procesaPersonas: persona conIdentificadorDeConjunto: @"jefesEntrevistadores" usandoAcumulador: acumulador yPersonaOrigen: personaInteres]];
+                        [personaInteres performSelector: @selector(setJefesEntrevistadores:) withObject: [self procesaPersonas: persona conIdentificadorDeConjunto: @"jefesEntrevistadores" usandoAcumuladorEntrevistados: acumulador
+                                                                                                     acumuladorEntrevistadores: acumuladorEntrevistadores  yPersonaOrigen: personaInteres]];
                     }
                     
                     if(personaInteres) {
@@ -600,10 +621,12 @@
                             [personaInteres setLider: lider];
                             
                             // Considerar al entrevistador para los jefes de entrevistadores
-                            if(agregarAcumulador) {
-                                NSString * identificador = [personaInteres performSelector: @selector(identificador)];
-                                if(identificador && [identificador length]) {
+                            NSString * identificador = [personaInteres performSelector: @selector(identificador)];
+                            if(identificador && [identificador length]) {
+                                if(agregarAcumulador) {
                                     [acumulador setObject:personaInteres forKey: identificador];
+                                } else {
+                                    [acumuladorEntrevistadores setObject: personaInteres forKey: identificador];
                                 }
                             }
                         }
