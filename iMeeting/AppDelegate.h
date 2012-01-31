@@ -12,8 +12,9 @@
 #import "Meeting.h"
 #import "CustomTabBarController.h"
 #import "ServicioGestorDatos.h"
+#import <DropboxSDK/DropboxSDK.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, DBSessionDelegate>
 {
     CustomTabBarController *_controladorPestanias;
     
@@ -21,7 +22,6 @@
     ControlMaestro * controlMaestro;
     ServicioGestorDatos * servicioGestorDatos;
 }
-
 
 -(void) procesaInformacionActual:(NSTimer *) timer;
 

@@ -7,6 +7,8 @@
 //
 
 #import "SBJson.h"
+
+
 #import "ServicioGestorDatos.h"
 #import "Documento.h"
 
@@ -18,19 +20,20 @@
 #define BORRARDEFINICIONMEETING NO
 
 #pragma Macro de Apoyo
-#define PATRONARCHIVOS(x) [NSString stringWithFormat:@"__%@", x]
-#define SINPATRONARCHIVOS(x) [x substringFromIndex: 2]
+#define PATRONARCHIVOS(x) [NSString stringWithFormat:@"%@", x]
+#define SINPATRONARCHIVOS(x) x
 
 #pragma Macros de Constantes
 #define ARCHIVODEFINICIONMEETING PATRONARCHIVOS(@"Definicion.json")
 #define DIRECTORIOTRABAJADO @"trabajado"
 #define DIRECTORIOPENDIENTE @"pendiente"
+#define EXTENSIONMEETING @"-meeting"
 
 #pragma Implementación ServicioGestorDatos
 
+// TODO Evitar generar nuevos archivos de elementos que ya se encuentran previamente en la nube
 @implementation ServicioGestorDatos
 
-@synthesize metaDataQuery;
 @synthesize urlDocumentos;
 
 
@@ -40,16 +43,19 @@
         _meetingsPorNombre = [NSMutableDictionary new];
         _meetingsPorPathDefinicion = [NSMutableDictionary new];
         _elementoTrabajadoPorPath = [NSMutableSet new];
-        
-        [self setMetaDataQuery: nil];
+        _archivoGestionadoPorPath = [NSMutableSet new];
+        _revisionPorPath = [NSMutableDictionary new];
+
+        enviarPendientes = NO;
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        [self setUrlDocumentos: [[NSURL alloc] initFileURLWithPath: [paths objectAtIndex: 0]  isDirectory: YES]];
+        [self setUrlDocumentos: [[[NSURL alloc] initFileURLWithPath: [paths objectAtIndex: 0]  isDirectory: YES] autorelease]];
         
         [[NSNotificationCenter defaultCenter] addObserver: self 
                                                  selector: @selector(procesaElementoTrabajado:) 
                                                      name: @"registraElementoTrabajado" 
                                                    object: nil];
+        
     }
     return self;
 }
@@ -60,11 +66,20 @@
     [_meetingsPorNombre release]; _meetingsPorNombre = nil;
     [_meetingsPorPathDefinicion release]; _meetingsPorPathDefinicion = nil;
     [_elementoTrabajadoPorPath release]; _elementoTrabajadoPorPath = nil;
+    [_archivoGestionadoPorPath release]; _archivoGestionadoPorPath = nil;
+    [_revisionPorPath release]; _revisionPorPath = nil;
     
-    [self setMetaDataQuery: nil];
     [self setUrlDocumentos: nil];
     
     [super dealloc];
+}
+
+- (DBRestClient *)restClient {
+    if (!restClient) {
+        restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+        restClient.delegate = self;
+    }
+    return restClient;
 }
 
 - (void) procesaElementoTrabajado: (NSNotification *) theNotification {
@@ -213,8 +228,7 @@
                                      options:0 
                                        error:&error];
     for (NSURL *url in elementosEnDocumentos) {
-        NSString * extension = [url pathExtension];
-        if([extension isEqualToString: @"meeting"]) {
+        if([[url lastPathComponent] hasSuffix: EXTENSIONMEETING]) {
             NSURL * urlDefinicion = [url URLByAppendingPathComponent: ARCHIVODEFINICIONMEETING isDirectory: NO];
             BOOL directorio;
             if([defaultManager fileExistsAtPath: [urlDefinicion path] isDirectory: &directorio]) {
@@ -239,7 +253,7 @@
     NSString * lastPathComponent = nil;
     do {
         lastPathComponent = [urlInteres lastPathComponent];
-        if([lastPathComponent hasSuffix: @".meeting"]) {
+        if([lastPathComponent hasSuffix: EXTENSIONMEETING]) {
             NSURL * urlBase = [urlInteres URLByDeletingLastPathComponent];
             salida = [pathURL substringFromIndex: [[urlBase path] length] + 1];
         }
@@ -252,33 +266,21 @@
 #pragma Cargado de archivos de iCloud
 
 - (void)cargaMeetingsDeiCloud {
-    NSFileManager * defaultManager = [NSFileManager defaultManager];
-    NSURL *ubiq = [defaultManager URLForUbiquityContainerIdentifier:nil];
-    NSString * documentoDefinicion = PATRONARCHIVOS(@"");
-    if (ubiq) {
-        self.metaDataQuery = [[NSMetadataQuery alloc] init];
-        [self.metaDataQuery setSearchScopes:[NSArray arrayWithObject:NSMetadataQueryUbiquitousDocumentsScope]];
-        NSString * sentenciaPredicate = [@"%K " stringByAppendingString: [NSString stringWithFormat:@" like '%@*'", documentoDefinicion]];
-        NSPredicate *pred = [NSPredicate predicateWithFormat: sentenciaPredicate, NSMetadataItemFSNameKey];
-        [self.metaDataQuery setPredicate:pred];
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(queryDidFinishGathering:) 
-                                                     name:NSMetadataQueryDidFinishGatheringNotification 
-                                                   object:self.metaDataQuery];
+    
+    // Revisar acceso a Cloud
+    if([[DBSession sharedSession] isLinked]) {
+        [[self restClient] loadMetadata: @"/"];
         
-        [self.metaDataQuery startQuery];
-        
-        // Aquellos elementos trabajados que se encuentren en pendientes buscar envirles a iCloud
-        [self enviarPendientesATrabajados];
-        
-    } else {
-        NSLog(@"No iCloud access");
+        // Se descargan las versiones de cada archivo antes de enviar archivos locales
+        if(enviarPendientes == YES) {
+            // Aquellos elementos trabajados que se encuentren en pendientes buscar envirles a iCloud
+            [self enviarPendientesATrabajados];
+        }
     }
 }
 
 - (void) enviarPendientesATrabajados {
     NSFileManager * defaultManager = [NSFileManager defaultManager];
-    NSURL * urliCloud = [[defaultManager URLForUbiquityContainerIdentifier:nil] URLByAppendingPathComponent: @"Documents"];
 
     NSError *error;
     NSArray * elementosEnDocumentos = [defaultManager contentsOfDirectoryAtURL: [self urlDocumentos] 
@@ -286,8 +288,26 @@
                                                                        options:0 
                                                                          error:&error];
     for (NSURL *url in elementosEnDocumentos) {
-        NSString * extension = [url pathExtension];
-        if([extension isEqualToString: @"meeting"]) {
+        if( [[url lastPathComponent] hasSuffix: EXTENSIONMEETING] ) {
+            
+            // Enviar elemento de definicion si no existe registrado en Web
+            NSURL * urlElementoDefinicionLocal = [url URLByAppendingPathComponent: ARCHIVODEFINICIONMEETING isDirectory: NO];
+            if([defaultManager fileExistsAtPath: [urlElementoDefinicionLocal path] isDirectory: NO]) {
+                
+                NSString * subPathDefinicion = [@"/" stringByAppendingString:[self obtenSubPath: urlElementoDefinicionLocal]];
+                if(![_archivoGestionadoPorPath containsObject: subPathDefinicion]) {
+                    [_archivoGestionadoPorPath addObject: subPathDefinicion];
+                    
+                    NSString * subPath = [self obtenSubPath: [urlElementoDefinicionLocal URLByDeletingLastPathComponent]];
+                    NSString * localPath = [urlElementoDefinicionLocal path];
+                    NSString * filename = [urlElementoDefinicionLocal lastPathComponent];
+                    NSString * destDir = [@"/" stringByAppendingString: subPath];
+                    
+                    [[self restClient] uploadFile:filename toPath:destDir withParentRev:nil fromPath:localPath];
+                }
+            }
+            
+            // Se envian pendientes si existen
             NSURL * urlPendientes = [url URLByAppendingPathComponent: DIRECTORIOPENDIENTE isDirectory: YES];
             BOOL directorio;
             if([defaultManager fileExistsAtPath: [urlPendientes path] isDirectory: &directorio]) {
@@ -298,34 +318,17 @@
                                                                                        options:0 
                                                                                          error:&error];
                     for(NSURL * urlElementoEnDocumentosPendientes in elementosEnPendientes) {
-                        NSStringEncoding encoding;
-                        NSError * error;
-                        NSString * contenidoArchivoInteres = [NSString stringWithContentsOfURL:urlElementoEnDocumentosPendientes usedEncoding:&encoding error:&error];
-                        
                         
                         // Generar Path de Pendientes a Trabajados y para iCloud
-                        NSString * subPath = [[self obtenSubPath: urlElementoEnDocumentosPendientes] 
+                        NSString * subPath = [[self obtenSubPath: [urlElementoEnDocumentosPendientes URLByDeletingLastPathComponent]] 
                                    stringByReplacingOccurrencesOfString: DIRECTORIOPENDIENTE withString: DIRECTORIOTRABAJADO];
-                        NSURL * urlElementoTrabajadoiCloud = [urliCloud URLByAppendingPathComponent: subPath isDirectory: NO];
+
                         
-                        Documento * documentoAlmacenar = [[Documento alloc] initWithFileURL: urlElementoTrabajadoiCloud];
-                        [documentoAlmacenar setNoteContent: contenidoArchivoInteres];
-                        [documentoAlmacenar saveToURL: [documentoAlmacenar fileURL] 
-                                     forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
-                                    completionHandler:^(BOOL success) {
-                                        NSLog(@"Elemento %@ trabajado publicado: %@", urlElementoTrabajadoiCloud, success ? @"correctamente" : @"incorrectamente");
-                                        
-                                        if(success) {
-                                            NSLog(@"Borrar elemento pendiente: %@", urlElementoEnDocumentosPendientes);
-                                            // Borrar elemento en pendiente
-                                            NSError * error;
-                                            if(![defaultManager removeItemAtURL: urlElementoEnDocumentosPendientes error: &error]) {
-                                                NSLog(@"Borrando %@ elemento trabajado pendiente incorrectamente, con error: %@", urlElementoEnDocumentosPendientes, error);
-                                            }
-                                        }
-                                    }];
+                        NSString * localPath = [urlElementoEnDocumentosPendientes path];
+                        NSString * filename = [urlElementoEnDocumentosPendientes lastPathComponent];
+                        NSString * destDir = [@"/" stringByAppendingString: subPath];
                         
-                        [documentoAlmacenar release];
+                        [[self restClient] uploadFile:filename toPath:destDir withParentRev:nil fromPath:localPath];
                     }
                 }
             }
@@ -333,76 +336,90 @@
     }
 }
 
-- (void)queryDidFinishGathering:(NSNotification *)notification {
+- (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
+    NSError * error;
     
-    NSMetadataQuery *query = [notification object];
-    [query disableUpdates];
-    [query stopQuery];
-    
-    [self loadData:query];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
-                                                    name:NSMetadataQueryDidFinishGatheringNotification
-                                                  object:query];
-    
-    self.metaDataQuery = nil;
-}
-
-- (void)loadData:(NSMetadataQuery *)query {
-    
-    if([query resultCount]) {
-        for (NSMetadataItem *item in [query results]) {
+    if (metadata.isDirectory) {
+        for (DBMetadata * file in metadata.contents) {
             
-            NSURL *url = [item valueForAttribute: NSMetadataItemURLKey];
-            Documento * doc = [[[Documento alloc] initWithFileURL: url] autorelease]; 
-            [doc openWithCompletionHandler: ^(BOOL success) {
-                [self procesaDocumento: doc conPathRelativo: [self obtenSubPath: url] legible: success];
-            }];
+            if(!file.isDirectory) {
+                
+                // Evitar descargar multiples veces el mismo documento
+                NSString * revisionActual = [_revisionPorPath objectForKey: file.path];
+                NSString * revisionNuevo = file.rev;
+                
+                if(![_archivoGestionadoPorPath containsObject: file.path] || ![revisionActual isEqualToString: revisionNuevo] ) {
+                    [_archivoGestionadoPorPath addObject: file.path];
+                    [_revisionPorPath setObject:file.rev forKey: file.path];
+
+                    NSLog(@"Solicitando descarga: %@", file.path);
+                    
+                    NSURL * urlArchivoDocumentos = [self.urlDocumentos URLByAppendingPathComponent: [file.path substringFromIndex: 1]];
+                    
+                    
+                    if([[NSFileManager defaultManager] createDirectoryAtURL:  [urlArchivoDocumentos URLByDeletingLastPathComponent]
+                                                withIntermediateDirectories: YES
+                                                                 attributes: nil
+                                                                      error: &error]) {
+                        [[self restClient] loadFile: file.path intoPath: [urlArchivoDocumentos path]];
+                    } else {
+                        NSLog( @"No es posible crear el directorio local para almacenar elemento en la nube: %@ con error: %@", [urlArchivoDocumentos URLByDeletingLastPathComponent], error);
+                    }
+                }
+                
+                enviarPendientes = TRUE;
+            } else {
+                [client loadMetadata: [file path]];
+            }
         }
     }
 }
 
+- (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error {
+    NSLog(@"Error loading metadata: %@", error);
+}
 
-- (void) procesaDocumento: (Documento *) doc conPathRelativo: (NSString *) subPath legible: (BOOL) legible {
-    // Almacenar en Documentos usando el path relativo
-    NSURL * urlArchivoEnDocumentos = [[self urlDocumentos] URLByAppendingPathComponent: subPath];
+
+- (void)restClient:(DBRestClient *)client loadedFile:(NSString *)localPath {
+    // Procesar documento
+    NSURL * urlArchivoEnDocumentos = [[[NSURL alloc] initFileURLWithPath: localPath isDirectory: NO] autorelease];
+    NSURL * urlDirectorioPadreEnDocumentos = [urlArchivoEnDocumentos URLByDeletingLastPathComponent];
     
-    if (legible) {
-        NSLog(@"openend file from iCloud %@", doc);
-        
-        NSURL * urlDirectorioPadreEnDocumentos = [urlArchivoEnDocumentos URLByDeletingLastPathComponent];
-        
-        NSFileManager * fileManager = [NSFileManager defaultManager];
-        NSError * error;
-        if ([fileManager createDirectoryAtURL: urlDirectorioPadreEnDocumentos
-                  withIntermediateDirectories:YES
-                                   attributes:nil
-                                        error:&error]) {
-            Documento * docEnDocumentos = [[Documento alloc] initWithFileURL: urlArchivoEnDocumentos];
-            [docEnDocumentos setNoteContent: [doc noteContent]];
-            [docEnDocumentos saveToURL:[docEnDocumentos fileURL] 
-                      forSaveOperation:REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating 
-                     completionHandler:^(BOOL success) {
-                         NSLog(@"Archivo de iCloud almacenado en Documentos: %@", docEnDocumentos);
-                         
-                         // Registrar Meeting
-                         if ([[urlArchivoEnDocumentos lastPathComponent] isEqualToString: ARCHIVODEFINICIONMEETING]) {
-                             NSURL * urlDefinicionMeetingEnICloud = [[doc fileURL] URLByDeletingLastPathComponent];
-                             
-                             Meeting * meeting = [self obtenMeetingDeURL: [doc fileURL]];
-                             [self registraMeeting: meeting conURLDocumentos: urlDirectorioPadreEnDocumentos yURLCloud: urlDefinicionMeetingEnICloud];
-                         }
-                         
-                         // Registrar Elementos trabajados
-                         if([[urlDirectorioPadreEnDocumentos lastPathComponent] isEqualToString: DIRECTORIOTRABAJADO]) {
-                             [self registraElementoTrabajadoPorURL: [docEnDocumentos fileURL]];
-                         }
-                     }];
-            [docEnDocumentos release];
-        }
-    } else {
-        NSLog(@"failed to open from iCloud %@", doc);
+    // Registrar Meeting
+    if ([[urlArchivoEnDocumentos lastPathComponent] isEqualToString: ARCHIVODEFINICIONMEETING]) {
+        Meeting * meeting = [self obtenMeetingDeURL: urlArchivoEnDocumentos];
+        [self registraMeeting: meeting conURLDocumentos: urlDirectorioPadreEnDocumentos yURLCloud: nil];
     }
+    
+    // Registrar Elementos trabajados
+    if([[urlDirectorioPadreEnDocumentos lastPathComponent] isEqualToString: DIRECTORIOTRABAJADO]) {
+        [self registraElementoTrabajadoPorURL: urlArchivoEnDocumentos];
+    }
+}
+
+- (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error {
+    NSLog(@"There was an error loading the file - %@", error);
+}
+
+- (void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath
+              from:(NSString*)srcPath metadata:(DBMetadata*)metadata {
+    
+    NSLog(@"File uploaded successfully to path: %@", metadata.path);
+    NSURL * urlElementoOrigen = [[[NSURL alloc] initFileURLWithPath:srcPath isDirectory: NO] autorelease];
+    
+    if(![[urlElementoOrigen lastPathComponent] isEqualToString: ARCHIVODEFINICIONMEETING]) {
+        // Borrar elemento en pendiente
+        NSError * error;
+        if(![[NSFileManager defaultManager] removeItemAtURL: urlElementoOrigen error: &error]) {
+            NSLog(@"Borrando %@ elemento trabajado pendiente incorrectamente, con error: %@", srcPath, error);
+        }
+    }
+}
+
+- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
+    NSLog(@"File upload failed with error - %@", error);
+    
+    // TODO Revisar que hacer cuando la definición no se publicara a la nube correctamente
 }
 
 #pragma Cargado de Meetings a partir de definición dada por iTunes Shared Folder
@@ -412,7 +429,7 @@
     NSArray * archivosDefinicionMeetings = [self cargaDefinicionMeetings];
     if( [archivosDefinicionMeetings count] > 0 ) {
         for(NSString * definicionMeetingFileSharing in archivosDefinicionMeetings) {
-            NSURL * urlArchivo = [[NSURL alloc] initFileURLWithPath: definicionMeetingFileSharing isDirectory: FALSE];
+            NSURL * urlArchivo = [[[NSURL alloc] initFileURLWithPath: definicionMeetingFileSharing isDirectory: FALSE] autorelease];
             Meeting * meetingInteres = [self obtenMeetingDeURL: urlArchivo];
             if(meetingInteres) {
                 [self generaEstructuraDeMeeting: meetingInteres];
@@ -430,13 +447,8 @@
 }
 
 - (void) generaEstructuraDeMeeting: (Meeting *) meeting {
-    
-    NSURL * ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
-    
     NSURL * urlDocumentosMeeting = [self cargaDirectorioMeeting: meeting enURL: [self urlDocumentos]];
-    NSURL * urlCloudMeeting = [self cargaDirectorioMeeting: meeting enURL: [ubiq URLByAppendingPathComponent: @"Documents"]];
-    
-    [self registraMeeting: meeting conURLDocumentos: urlDocumentosMeeting yURLCloud: urlCloudMeeting];
+    [self registraMeeting: meeting conURLDocumentos: urlDocumentosMeeting yURLCloud: nil];
 }
 
 - (id) cargaDirectorioMeeting: (Meeting *) meeting enURL: (NSURL *) urlInteres {
@@ -444,7 +456,7 @@
     NSError *error = nil;
     
     if(urlInteres) {
-        NSString * pathMeetingBase = [NSString stringWithFormat: @"%@.meeting", [meeting nombreMeeting]];
+        NSString * pathMeetingBase = [NSString stringWithFormat: @"%@%@", [meeting nombreMeeting], EXTENSIONMEETING];
         NSString * nombrePathMeetingPatron = PATRONARCHIVOS(pathMeetingBase);
         pathMeeting = [urlInteres URLByAppendingPathComponent: nombrePathMeetingPatron isDirectory:YES];
         

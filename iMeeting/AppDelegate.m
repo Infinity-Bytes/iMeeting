@@ -14,6 +14,7 @@
 #import "ServicioBusqueda.h"
 
 
+
 @implementation AppDelegate
 
 @synthesize window = _window;
@@ -33,14 +34,25 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    DBSession* dbSession =
+    [[[DBSession alloc]
+      initWithAppKey:@"9fheg8l7y4ppzas"
+      appSecret:@"z5loq8yt4xedegu"
+      root:kDBRootAppFolder]
+     autorelease];
+    dbSession.delegate = self;
+    [DBSession setSharedSession:dbSession];
+    
     controlMaestro  = [ControlMaestro new];
     servicioGestorDatos = [ServicioGestorDatos new];
-    timerActualizacion = [NSTimer scheduledTimerWithTimeInterval:5.0 target: self selector: @selector(procesaInformacionActual:)  userInfo: nil repeats: YES];
+    timerActualizacion = [NSTimer scheduledTimerWithTimeInterval:10.0 target: self selector: @selector(procesaInformacionActual:)  userInfo: nil repeats: YES];
     
     [controlMaestro setServicioBusqueda:[[ServicioBusqueda new] autorelease]];
 
     [servicioGestorDatos cargaMeetingsDeDocumentos];
     [servicioGestorDatos cargaMeetingsDeiTunesFileSharing];
+    [servicioGestorDatos cargaMeetingsDeiCloud];
+    
     [servicioGestorDatos cargaMeetingsDeiCloud];
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
@@ -120,6 +132,22 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    if ([[DBSession sharedSession] handleOpenURL:url]) {
+        if ([[DBSession sharedSession] isLinked]) {
+            NSLog(@"Aplicacion enlazada a DB correctamente!");
+            
+        }
+        return YES;
+    }
+    // Add whatever other url handling code your app requires here
+    return NO;
+}
+
+- (void)sessionDidReceiveAuthorizationFailure:(DBSession *)session userId:(NSString *)userId {
+    
 }
 
 @end

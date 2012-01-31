@@ -6,6 +6,7 @@
 //  Copyright (c) 2011 INEGI. All rights reserved.
 //
 
+#import <DropboxSDK/DropboxSDK.h>
 #import "ControladorListaRegiones.h"
 #import "Entrevistador.h"
 
@@ -50,9 +51,20 @@
 
 -(void) viewWillAppear:(BOOL)animated
 {
-    //recargar cada vez que sea visible exigira los datos al controlador
-    [self setEncargadosPorRegion:[[self delegadoControladorLista] obtenerDatosSeparadosPorRegionesUsandoDefinicionOrden: [[NSMutableArray new] autorelease] ]];
-    [[self tablaDatos] reloadData];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(refrescarPantallas:) name:@"refrescarPantallas" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(refrescarPantallasConEntrevistador:) name:@"refrescarPantallasConEntrevistador" object: nil];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (![[DBSession sharedSession] isLinked]) {
+        [[DBSession sharedSession] link];
+    }
+}
+
+-(void) viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 - (void)viewDidLoad
@@ -66,6 +78,7 @@
 
 - (void)viewDidUnload
 {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
     [super viewDidUnload];
 }
 
@@ -151,6 +164,19 @@
     
     [[self delegadoControladorNavegacion] mostrarPanelSiguienteSegunEntrevistador:entrevistador bajoIdentificador:self.identificador  usandoControlNavegacion:self.navigationController];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+-(void) cargaInfo {
+    [self setEncargadosPorRegion:[[self delegadoControladorLista] obtenerDatosSeparadosPorRegionesUsandoDefinicionOrden: [[NSMutableArray new] autorelease] ]];
+    [[self tablaDatos] reloadData];
+}
+
+-(void) refrescarPantallas: (NSNotification *) notification {
+    [self cargaInfo];
+}
+
+-(void) refrescarPantallasConEntrevistador: (NSNotification *) notification {
+    [self cargaInfo];
 }
 
 @end
