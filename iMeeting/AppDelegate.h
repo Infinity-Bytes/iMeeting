@@ -11,18 +11,19 @@
 #import "ControlMaestro.h"
 #import "Meeting.h"
 #import "CustomTabBarController.h"
+#import "ServicioGestorDatos.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
     CustomTabBarController *_controladorPestanias;
+    
+    NSTimer * timerActualizacion;
     ControlMaestro * controlMaestro;
+    ServicioGestorDatos * servicioGestorDatos;
 }
 
-- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia usandoAcumulador: (NSMutableDictionary *) acumulador;
-- (Meeting *) generaMeetingDePOCOs: (NSDictionary *) objetoPlano;
-- (void) inicializaMeeting;
-+ (NSArray *) definicionMeetings;
-- (void) objeto: (id) objeto ejecutaSelector: (SEL) selector conArgumento: (id) argumento deTipo: (Class) clase;
+
+-(void) procesaInformacionActual:(NSTimer *) timer;
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, retain) CustomTabBarController *controladorPestanias;

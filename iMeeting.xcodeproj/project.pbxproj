@@ -10,14 +10,14 @@
 		838D516B14BE62C500DF03BD /* CeldaEncargadoPorRegion.mm in Sources */ = {isa = PBXBuildFile; fileRef = 838D516614BE62C500DF03BD /* CeldaEncargadoPorRegion.mm */; };
 		838D516C14BE62C500DF03BD /* CeldaEncargadoPorRegion.xib in Resources */ = {isa = PBXBuildFile; fileRef = 838D516714BE62C500DF03BD /* CeldaEncargadoPorRegion.xib */; };
 		838D516D14BE62C500DF03BD /* ControladorListaRegiones.xib in Resources */ = {isa = PBXBuildFile; fileRef = 838D516814BE62C500DF03BD /* ControladorListaRegiones.xib */; };
-		83BFC60014BFAD6F00B0EE47 /* ControladorListaPersonas.mm in Sources */ = {isa = PBXBuildFile; fileRef = 83BFC5FE14BFAD6F00B0EE47 /* ControladorListaPersonas.mm */; };
+		83BFC60014BFAD6F00B0EE47 /* ControladorListaPersonas.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BFC5FE14BFAD6F00B0EE47 /* ControladorListaPersonas.m */; };
 		83BFC60114BFAD6F00B0EE47 /* ControladorListaPersonas.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83BFC5FF14BFAD6F00B0EE47 /* ControladorListaPersonas.xib */; };
 		D77563F014BCD00100A112A7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77563EF14BCD00100A112A7 /* UIKit.framework */; };
 		D77563F214BCD00100A112A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77563F114BCD00100A112A7 /* Foundation.framework */; };
 		D77563F414BCD00100A112A7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77563F314BCD00100A112A7 /* CoreGraphics.framework */; };
 		D77563FA14BCD00100A112A7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D77563F814BCD00100A112A7 /* InfoPlist.strings */; };
 		D77563FC14BCD00100A112A7 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = D77563FB14BCD00100A112A7 /* main.mm */; };
-		D775640014BCD00100A112A7 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = D77563FF14BCD00100A112A7 /* AppDelegate.mm */; };
+		D775640014BCD00100A112A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D77563FF14BCD00100A112A7 /* AppDelegate.m */; };
 		D775642014BCD41D00A112A7 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D775641A14BCD20D00A112A7 /* libZXingWidget.a */; };
 		D775642214BCD44A00A112A7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D775642114BCD44A00A112A7 /* AudioToolbox.framework */; };
 		D775642514BCD46C00A112A7 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D775642314BCD46C00A112A7 /* CoreMedia.framework */; };
@@ -30,7 +30,7 @@
 		D775643E14BCDC3100A112A7 /* ControladorScannner.xib in Resources */ = {isa = PBXBuildFile; fileRef = D775643C14BCDC3100A112A7 /* ControladorScannner.xib */; };
 		D78DD95014BE224E00C6B0D3 /* Entrevistador.m in Sources */ = {isa = PBXBuildFile; fileRef = D78DD94F14BE224E00C6B0D3 /* Entrevistador.m */; };
 		D78DD95314BE240A00C6B0D3 /* Entrevistado.m in Sources */ = {isa = PBXBuildFile; fileRef = D78DD95214BE240A00C6B0D3 /* Entrevistado.m */; };
-		D78DD95714BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.mm in Sources */ = {isa = PBXBuildFile; fileRef = D78DD95514BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.mm */; };
+		D78DD95714BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.m in Sources */ = {isa = PBXBuildFile; fileRef = D78DD95514BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.m */; };
 		D78DD95814BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.xib in Resources */ = {isa = PBXBuildFile; fileRef = D78DD95614BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.xib */; };
 		D78DD95C14BE28AF00C6B0D3 /* FondoCelda.mm in Sources */ = {isa = PBXBuildFile; fileRef = D78DD95B14BE28AF00C6B0D3 /* FondoCelda.mm */; };
 		D78DD96014BE297800C6B0D3 /* azul.png in Resources */ = {isa = PBXBuildFile; fileRef = D78DD95E14BE297800C6B0D3 /* azul.png */; };
@@ -46,7 +46,7 @@
 		D7951E3B14BF46A3003593E6 /* cameraTabBarItem.png in Resources */ = {isa = PBXBuildFile; fileRef = D7951E3514BF46A3003593E6 /* cameraTabBarItem.png */; };
 		D7951E3C14BF46A3003593E6 /* cameraTabBarItem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7951E3614BF46A3003593E6 /* cameraTabBarItem@2x.png */; };
 		D7951E3F14BF6F1E003593E6 /* ControlMaestro.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7951E3E14BF6F1E003593E6 /* ControlMaestro.mm */; };
-		D7951E4514BF75CE003593E6 /* ControladorListaRegiones.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7951E4414BF75CD003593E6 /* ControladorListaRegiones.mm */; };
+		D7951E4514BF75CE003593E6 /* ControladorListaRegiones.m in Sources */ = {isa = PBXBuildFile; fileRef = D7951E4414BF75CD003593E6 /* ControladorListaRegiones.m */; };
 		F11D97DC14C1FB1500ECAB12 /* 100pxl_invest.png in Resources */ = {isa = PBXBuildFile; fileRef = F11D97DB14C1FB1500ECAB12 /* 100pxl_invest.png */; };
 		F129870114BFB1900043C634 /* CloudMe.m in Sources */ = {isa = PBXBuildFile; fileRef = F12986FE14BFB1900043C634 /* CloudMe.m */; };
 		F129870214BFB1900043C634 /* NoteSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = F129870014BFB1900043C634 /* NoteSheet.m */; };
@@ -54,6 +54,8 @@
 		F129874D14BFD3B50043C634 /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874C14BFD3B50043C634 /* Meeting.m */; };
 		F129875014BFD47C0043C634 /* Persona.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874F14BFD47C0043C634 /* Persona.m */; };
 		F1B2BAF314C12A7C00C3370F /* ServicioBusqueda.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BAF214C12A7C00C3370F /* ServicioBusqueda.m */; };
+		F1BC448A14C89C170089E264 /* ServicioGestorDatos.m in Sources */ = {isa = PBXBuildFile; fileRef = F1BC448914C89C170089E264 /* ServicioGestorDatos.m */; };
+		F1BC448D14C8A3810089E264 /* Documento.m in Sources */ = {isa = PBXBuildFile; fileRef = F1BC448C14C8A3810089E264 /* Documento.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,7 +116,7 @@
 		838D516714BE62C500DF03BD /* CeldaEncargadoPorRegion.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CeldaEncargadoPorRegion.xib; sourceTree = "<group>"; };
 		838D516814BE62C500DF03BD /* ControladorListaRegiones.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControladorListaRegiones.xib; sourceTree = "<group>"; };
 		83BFC5FD14BFAD6F00B0EE47 /* ControladorListaPersonas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControladorListaPersonas.h; sourceTree = "<group>"; };
-		83BFC5FE14BFAD6F00B0EE47 /* ControladorListaPersonas.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ControladorListaPersonas.mm; sourceTree = "<group>"; };
+		83BFC5FE14BFAD6F00B0EE47 /* ControladorListaPersonas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControladorListaPersonas.m; sourceTree = "<group>"; };
 		83BFC5FF14BFAD6F00B0EE47 /* ControladorListaPersonas.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControladorListaPersonas.xib; sourceTree = "<group>"; };
 		D77563EB14BCD00100A112A7 /* iMeeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMeeting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D77563EF14BCD00100A112A7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -125,7 +127,7 @@
 		D77563FB14BCD00100A112A7 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		D77563FD14BCD00100A112A7 /* iMeeting-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMeeting-Prefix.pch"; sourceTree = "<group>"; };
 		D77563FE14BCD00100A112A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		D77563FF14BCD00100A112A7 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		D77563FF14BCD00100A112A7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D775641114BCD20C00A112A7 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
 		D775642114BCD44A00A112A7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D775642314BCD46C00A112A7 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -142,7 +144,7 @@
 		D78DD95114BE240A00C6B0D3 /* Entrevistado.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entrevistado.h; sourceTree = "<group>"; };
 		D78DD95214BE240A00C6B0D3 /* Entrevistado.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entrevistado.m; sourceTree = "<group>"; };
 		D78DD95414BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControladorDetalleEntrevistador.h; sourceTree = "<group>"; };
-		D78DD95514BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ControladorDetalleEntrevistador.mm; sourceTree = "<group>"; };
+		D78DD95514BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControladorDetalleEntrevistador.m; sourceTree = "<group>"; };
 		D78DD95614BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControladorDetalleEntrevistador.xib; sourceTree = "<group>"; };
 		D78DD95A14BE28AF00C6B0D3 /* FondoCelda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FondoCelda.h; sourceTree = "<group>"; };
 		D78DD95B14BE28AF00C6B0D3 /* FondoCelda.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FondoCelda.mm; sourceTree = "<group>"; };
@@ -166,8 +168,7 @@
 		D7951E4114BF7258003593E6 /* iDelegadoControladorNavegacion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iDelegadoControladorNavegacion.h; sourceTree = "<group>"; };
 		D7951E4214BF731A003593E6 /* iDelegadoControladorLista.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iDelegadoControladorLista.h; sourceTree = "<group>"; };
 		D7951E4314BF75CC003593E6 /* ControladorListaRegiones.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControladorListaRegiones.h; sourceTree = "<group>"; };
-		D7951E4414BF75CD003593E6 /* ControladorListaRegiones.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ControladorListaRegiones.mm; sourceTree = "<group>"; };
-		D7951E4714BF8EE7003593E6 /* iServicioGestorDatos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioGestorDatos.h; sourceTree = "<group>"; };
+		D7951E4414BF75CD003593E6 /* ControladorListaRegiones.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControladorListaRegiones.m; sourceTree = "<group>"; };
 		D7A5193214C0C357003AE69B /* iServicioBusqueda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iServicioBusqueda.h; sourceTree = "<group>"; };
 		D7A5193314C0C499003AE69B /* iDelegadoControladorScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iDelegadoControladorScanner.h; sourceTree = "<group>"; };
 		F11D97DB14C1FB1500ECAB12 /* 100pxl_invest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 100pxl_invest.png; path = recursos/100pxl_invest.png; sourceTree = SOURCE_ROOT; };
@@ -183,6 +184,10 @@
 		F129874F14BFD47C0043C634 /* Persona.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Persona.m; sourceTree = "<group>"; };
 		F1B2BAF114C12A7C00C3370F /* ServicioBusqueda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicioBusqueda.h; sourceTree = "<group>"; };
 		F1B2BAF214C12A7C00C3370F /* ServicioBusqueda.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicioBusqueda.m; sourceTree = "<group>"; };
+		F1BC448814C89C170089E264 /* ServicioGestorDatos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicioGestorDatos.h; sourceTree = "<group>"; };
+		F1BC448914C89C170089E264 /* ServicioGestorDatos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicioGestorDatos.m; sourceTree = "<group>"; };
+		F1BC448B14C8A3810089E264 /* Documento.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Documento.h; sourceTree = "<group>"; };
+		F1BC448C14C8A3810089E264 /* Documento.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Documento.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,7 +260,7 @@
 				D78DD94B14BE219000C6B0D3 /* modelo */,
 				D775643F14BCDC3800A112A7 /* Vista */,
 				D775643914BCDAAA00A112A7 /* ControladorVista */,
-				D77563FF14BCD00100A112A7 /* AppDelegate.mm */,
+				D77563FF14BCD00100A112A7 /* AppDelegate.m */,
 				D77563FE14BCD00100A112A7 /* AppDelegate.h */,
 				D77563F614BCD00100A112A7 /* Supporting Files */,
 			);
@@ -287,13 +292,13 @@
 			children = (
 				D78DD96214BE2D4600C6B0D3 /* Componentes */,
 				D7951E4314BF75CC003593E6 /* ControladorListaRegiones.h */,
-				D7951E4414BF75CD003593E6 /* ControladorListaRegiones.mm */,
+				D7951E4414BF75CD003593E6 /* ControladorListaRegiones.m */,
 				D775643A14BCDC3100A112A7 /* ControladorScannner.h */,
 				D775643B14BCDC3100A112A7 /* ControladorScannner.mm */,
 				D78DD95414BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.h */,
-				D78DD95514BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.mm */,
+				D78DD95514BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.m */,
 				83BFC5FD14BFAD6F00B0EE47 /* ControladorListaPersonas.h */,
-				83BFC5FE14BFAD6F00B0EE47 /* ControladorListaPersonas.mm */,
+				83BFC5FE14BFAD6F00B0EE47 /* ControladorListaPersonas.m */,
 			);
 			name = ControladorVista;
 			sourceTree = "<group>";
@@ -342,6 +347,8 @@
 				D7951E4614BF8EA9003593E6 /* Protocolo */,
 				F1B2BAF114C12A7C00C3370F /* ServicioBusqueda.h */,
 				F1B2BAF214C12A7C00C3370F /* ServicioBusqueda.m */,
+				F1BC448814C89C170089E264 /* ServicioGestorDatos.h */,
+				F1BC448914C89C170089E264 /* ServicioGestorDatos.m */,
 			);
 			name = Servicio;
 			sourceTree = "<group>";
@@ -351,6 +358,8 @@
 			children = (
 				D78DD95A14BE28AF00C6B0D3 /* FondoCelda.h */,
 				D78DD95B14BE28AF00C6B0D3 /* FondoCelda.mm */,
+				F1BC448B14C8A3810089E264 /* Documento.h */,
+				F1BC448C14C8A3810089E264 /* Documento.m */,
 			);
 			name = Utilidades;
 			sourceTree = "<group>";
@@ -399,7 +408,6 @@
 		D7951E4614BF8EA9003593E6 /* Protocolo */ = {
 			isa = PBXGroup;
 			children = (
-				D7951E4714BF8EE7003593E6 /* iServicioGestorDatos.h */,
 				D7A5193214C0C357003AE69B /* iServicioBusqueda.h */,
 			);
 			name = Protocolo;
@@ -555,24 +563,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				D77563FC14BCD00100A112A7 /* main.mm in Sources */,
-				D775640014BCD00100A112A7 /* AppDelegate.mm in Sources */,
+				D775640014BCD00100A112A7 /* AppDelegate.m in Sources */,
 				D775643D14BCDC3100A112A7 /* ControladorScannner.mm in Sources */,
 				D78DD95014BE224E00C6B0D3 /* Entrevistador.m in Sources */,
 				D78DD95314BE240A00C6B0D3 /* Entrevistado.m in Sources */,
-				D78DD95714BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.mm in Sources */,
+				D78DD95714BE25AF00C6B0D3 /* ControladorDetalleEntrevistador.m in Sources */,
 				D78DD95C14BE28AF00C6B0D3 /* FondoCelda.mm in Sources */,
 				D78DD96614BE2E4400C6B0D3 /* CeldaDetalleGrafica.mm in Sources */,
 				D78DD96A14BE2F5000C6B0D3 /* DetalleGrafica.mm in Sources */,
 				838D516B14BE62C500DF03BD /* CeldaEncargadoPorRegion.mm in Sources */,
 				D7951E2814BF4017003593E6 /* CustomTabBarController.mm in Sources */,
 				D7951E3F14BF6F1E003593E6 /* ControlMaestro.mm in Sources */,
-				D7951E4514BF75CE003593E6 /* ControladorListaRegiones.mm in Sources */,
+				D7951E4514BF75CE003593E6 /* ControladorListaRegiones.m in Sources */,
 				F129870114BFB1900043C634 /* CloudMe.m in Sources */,
 				F129870214BFB1900043C634 /* NoteSheet.m in Sources */,
-				83BFC60014BFAD6F00B0EE47 /* ControladorListaPersonas.mm in Sources */,
+				83BFC60014BFAD6F00B0EE47 /* ControladorListaPersonas.m in Sources */,
 				F129874D14BFD3B50043C634 /* Meeting.m in Sources */,
 				F129875014BFD47C0043C634 /* Persona.m in Sources */,
 				F1B2BAF314C12A7C00C3370F /* ServicioBusqueda.m in Sources */,
+				F1BC448A14C89C170089E264 /* ServicioGestorDatos.m in Sources */,
+				F1BC448D14C8A3810089E264 /* Documento.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

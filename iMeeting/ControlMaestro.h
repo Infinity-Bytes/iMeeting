@@ -20,14 +20,16 @@
     Entrevistado * _ultimoEntrevistado;
 }
 
--(void) asignarMeeting: (Meeting *) meeting;
-
 #pragma Delegado Control Lista
 -(NSDictionary *)obtenerDatosSeparadosPorRegionesUsandoDefinicionOrden: (NSMutableArray * ) definicionOrden;
 
 #pragma Delegado Control Navegacion
 //un selector para desglosar informacion en detalle grafica asi mismo elegir a que ventana lo llevara la seleccion
 -(void) mostrarPanelSiguienteSegunEntrevistador:(Entrevistador*)entrevistador bajoIdentificador:(NSString*) identificador  usandoControlNavegacion: (UINavigationController*) controlNavegacion;
+
+#pragma Delegado Gestor Datos
+- (void) registraMeeting: (NSNotification *) notificacion;
+-(void) registraElementoTrabajadoPorURL: (NSNotification *) notificacion;
 
 
 @property (nonatomic, retain) id<iServicioBusqueda> servicioBusqueda;

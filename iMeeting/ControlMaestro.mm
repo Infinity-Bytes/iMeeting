@@ -3,6 +3,7 @@
 #import "ControladorDetalleEntrevistador.h"
 #import "ControladorListaPersonas.h"
 #import "DetalleGrafica.h"
+#import "ServicioGestorDatos.h"
 
 @implementation ControlMaestro
 
@@ -11,23 +12,32 @@
 - (id)init {
     self = [super init];
     if (self) {
+        [self setServicioBusqueda: nil];
+        
         _ultimoEntrevistado = nil;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector: @selector(registraMeeting:) 
+                                                     name: @"RegistraMeeting" object:nil];
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector: @selector(registraElementoTrabajadoPorURL:) 
+                                                     name: @"registraElementoTrabajadoPorURL" object:nil];
     }
     return self;
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+    
     [_meeting release]; _meeting = nil;
+    
     [self setServicioBusqueda: nil];
+    
     [super dealloc];
 }
 
-
--(void) asignarMeeting: (Meeting *) meeting {
-    _meeting = [meeting retain];
-    
-    [servicioBusqueda setPersonalMeeting: [_meeting conjuntoPersonas]];
-}
 
 #pragma Delegado Control Lista
 -(NSDictionary *)obtenerDatosSeparadosPorRegionesUsandoDefinicionOrden: (NSMutableArray * ) definicionOrden;
@@ -142,9 +152,55 @@
 -(void) notificarRespuesta:(BOOL)respuesta
 {
     if(_ultimoEntrevistado && ![_ultimoEntrevistado asistio]) {
-        [_ultimoEntrevistado setAsistio: !respuesta];
+        [_ultimoEntrevistado setAsistio: YES];
         
-        // TODO Notificar para generacion de archivo y envio posterior a iCloud
+        // Notificar para generacion de archivo y envio posterior a iCloud
+        NSNotification * myNotification =
+        [NSNotification notificationWithName:@"registraElementoTrabajado" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:_meeting, @"meeting", _ultimoEntrevistado , @"elementoTrabajado", nil]];
+        
+        [[NSNotificationQueue defaultQueue] enqueueNotification: myNotification
+                                                   postingStyle: NSPostWhenIdle
+                                                   coalesceMask: NSNotificationNoCoalescing
+                                                       forModes: nil];
+    }
+}
+
+#pragma Delegado Gestor Datos
+
+- (void) registraMeeting: (NSNotification *) notificacion {
+    NSLog(@"registraMeeting: %@", notificacion);
+    Meeting * meeting = [[notificacion userInfo] objectForKey: @"meeting"];
+
+    if(meeting != _meeting) {
+        [_meeting release];
+        _meeting = [meeting retain];
+    }
+    
+    [servicioBusqueda setPersonalMeeting: [_meeting conjuntoPersonas]];
+    
+    [[NSNotificationQueue defaultQueue] enqueueNotification: [NSNotification notificationWithName:@"refrescarPantallas" object:self 
+        userInfo: [NSDictionary dictionaryWithObjectsAndKeys: meeting, @"meeting", nil]]
+                                               postingStyle: NSPostWhenIdle
+                                               coalesceMask: NSNotificationNoCoalescing
+                                                   forModes: nil];
+}
+
+
+-(void) registraElementoTrabajadoPorURL: (NSNotification *) notificacion {
+    NSLog(@"registraElementoTrabajadoPorURL: %@", notificacion);
+    
+    Meeting * meeting = [[notificacion userInfo] objectForKey: @"meeting"];
+    NSString * elementoTrabajado = [[notificacion userInfo] objectForKey: @"elementoTrabajado"];
+    
+    // Asignar trabajado
+    Entrevistado * entrevistado = [[meeting conjuntoPersonas] objectForKey: elementoTrabajado];
+    if(entrevistado) {
+        [entrevistado setAsistio: YES];
+        
+        [[NSNotificationQueue defaultQueue] enqueueNotification: [NSNotification notificationWithName:@"refrescarPantallasConEntrevistador" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:entrevistado, @"entrevistado", meeting, @"meeting", nil]]
+                                                   postingStyle: NSPostWhenIdle
+                                                   coalesceMask: NSNotificationNoCoalescing
+                                                       forModes: nil];
     }
 }
 
