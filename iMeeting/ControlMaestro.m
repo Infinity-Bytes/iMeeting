@@ -152,18 +152,20 @@
 }
 
 - (void) procesaElementoTrabajado: (Entrevistado *) entrevistado {
-    [entrevistado setAsistio: YES];
-    
-    Entrevistador * entrevistadorLider = [entrevistado lider];
-    if(entrevistadorLider) {
-        [[entrevistadorLider personasSinEntrevistar] removeObject: entrevistado];
-        [[entrevistadorLider personasEntrevistadas] addObject: entrevistado];
+    if(![entrevistado asistio]) {
+        [entrevistado setAsistio: YES];
+        
+        Entrevistador * entrevistadorLider = [entrevistado lider];
+        if(![[entrevistadorLider personasEntrevistadas] containsObject: entrevistado]) {
+            [[entrevistadorLider personasSinEntrevistar] removeObject: entrevistado];
+            [[entrevistadorLider personasEntrevistadas] addObject: entrevistado];
+            
+            NSMutableSet * conjuntoEntrevistadoresInteres = [NSMutableSet new];
+            [self obtenEntrevistadoresAcumulador: conjuntoEntrevistadoresInteres aPartir: entrevistadorLider];
+            [self procesaAcumulado: conjuntoEntrevistadoresInteres];
+            [conjuntoEntrevistadoresInteres release];
+        }
     }
-    
-    NSMutableSet * conjuntoEntrevistadoresInteres = [NSMutableSet new];
-    [self obtenEntrevistadoresAcumulador: conjuntoEntrevistadoresInteres aPartir: entrevistadorLider];
-    [self procesaAcumulado: conjuntoEntrevistadoresInteres];
-    [conjuntoEntrevistadoresInteres release];
 }
 
 - (void) obtenEntrevistadoresAcumulador:(NSMutableSet *) acumulador aPartir: (Entrevistador *) entrevistador {

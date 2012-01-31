@@ -367,13 +367,13 @@
                         NSLog( @"No es posible crear el directorio local para almacenar elemento en la nube: %@ con error: %@", [urlArchivoDocumentos URLByDeletingLastPathComponent], error);
                     }
                 }
-                
-                enviarPendientes = TRUE;
             } else {
                 [client loadMetadata: [file path]];
             }
         }
     }
+    
+    enviarPendientes = TRUE;
 }
 
 - (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error {
