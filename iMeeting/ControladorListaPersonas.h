@@ -7,12 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Entrevistador.h"
 
 @interface ControladorListaPersonas : UIViewController<UITableViewDelegate, UITableViewDataSource>
 
+- (void) cargaInfo;
 
+@property(nonatomic, assign) IBOutlet  UITableView * tablaDatos;
 
-@property(nonatomic, retain) NSArray *datos;
-@property(nonatomic, assign) IBOutlet  UITableView *tablaDatos;
+@property(nonatomic, retain) NSArray * datos;
+
+@property(nonatomic, retain) NSSet * origenDatos;
+@property(nonatomic, retain) Entrevistador * entrevistador;
 
 @end

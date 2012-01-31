@@ -11,8 +11,11 @@
 
 @implementation ControladorListaPersonas
 
-@synthesize datos;
 @synthesize tablaDatos;
+
+@synthesize datos;
+@synthesize origenDatos;
+@synthesize entrevistador;
 
 
 -(void)dealloc
@@ -41,15 +44,34 @@
 
 #pragma mark - View lifecycle
 
+-(void) viewWillAppear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(refrescarPantallasConEntrevistador:) name:@"refrescarPantallasConEntrevistador" object: nil];
+    
+    [super viewWillAppear:animated];
+}
+
+
+-(void) viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+    
+    [super viewWillDisappear:animated];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear: animated];
+    [self cargaInfo];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    }
+}
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    }
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -109,6 +131,19 @@
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void) refrescarPantallasConEntrevistador: (NSNotification *) notification {
+    Entrevistado * entrevistadoInteres = [[notification userInfo] objectForKey: @"entrevistado"];
+    
+    if([[[self entrevistador] personas] containsObject: entrevistadoInteres]) {
+        [self cargaInfo];
+    }
+}
+
+- (void) cargaInfo {
+    [self setDatos: [[self origenDatos] allObjects]];
+    [[self tablaDatos] reloadData];
 }
 
 @end

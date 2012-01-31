@@ -85,6 +85,7 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(refrescarPantallasConEntrevistador:) name:@"refrescarPantallasConEntrevistador" object: nil];
     
+    [self cargaInfo: _entrevistador];
     [super viewWillAppear:animated];
 }
 

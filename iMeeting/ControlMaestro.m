@@ -96,13 +96,16 @@
         {
             ControladorListaPersonas * controladorListaPersonas = [[ControladorListaPersonas alloc] initWithNibName:@"ControladorListaPersonas" bundle:[NSBundle mainBundle]];
             
+            NSSet * origenDatos = [NSSet set];
             if ([identificador isEqualToString:@"personasEntrevistadas"])
-                [controladorListaPersonas setDatos:[[entrevistador personasEntrevistadas] allObjects]];
-            
+                origenDatos = [entrevistador personasEntrevistadas];
             if ([identificador isEqualToString:@"personasSinEntrevistar"])
-                [controladorListaPersonas setDatos:[[entrevistador personasSinEntrevistar] allObjects]];
+                origenDatos = [entrevistador personasSinEntrevistar];
             
-            [controlNavegacion pushViewController:controladorListaPersonas animated:YES];
+            [controladorListaPersonas setEntrevistador: entrevistador];
+            [controladorListaPersonas setOrigenDatos: origenDatos];
+            
+            [controlNavegacion pushViewController:controladorListaPersonas animated: YES];
             [controladorListaPersonas release];
         }
     }
