@@ -640,6 +640,10 @@
                             if([personaInteres isKindOfClass:[Entrevistador class]]) {
                                 Entrevistador * entrevistadorInteres = (Entrevistador *)personaInteres;
                                 numeroPersonas = [entrevistadorInteres numeroPersonasASuCargo];
+                            } else {
+                                if([personaInteres isKindOfClass: [Entrevistado class]]) {
+                                    [[liderEntrevistador personasSinEntrevistar] addObject: personaInteres];
+                                }
                             }
                             
                             [liderEntrevistador setNumeroPersonasASuCargo: [liderEntrevistador numeroPersonasASuCargo] +  numeroPersonas];

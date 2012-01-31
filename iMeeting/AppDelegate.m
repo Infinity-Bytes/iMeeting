@@ -70,6 +70,7 @@
     UINavigationController *controladorNavegacionPersonas = [[[UINavigationController alloc] initWithRootViewController:controladorListaRegiones] autorelease];
     controladorNavegacionPersonas.navigationBar.tintColor=[UIColor blackColor];
 
+    [controlMaestro setControlNavegacionPrincipal: controladorNavegacionPersonas];
     
     UIViewController * controlador = [[self controladorPestanias] viewControllerWithTabTitle:@"Scanner" image:nil];
     

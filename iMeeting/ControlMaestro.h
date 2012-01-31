@@ -18,7 +18,6 @@
 {
     Meeting * _meeting;
     Entrevistado * _ultimoEntrevistado;
-    
 }
 
 
@@ -37,5 +36,6 @@
 - (void) procesaAcumulado: (NSSet *) acumulador;
 
 @property (nonatomic, retain) id<iServicioBusqueda> servicioBusqueda;
+@property (nonatomic, assign) UINavigationController * controlNavegacionPrincipal;
 
 @end

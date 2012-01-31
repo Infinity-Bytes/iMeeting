@@ -10,11 +10,13 @@
 @implementation ControlMaestro
 
 @synthesize servicioBusqueda;
+@synthesize controlNavegacionPrincipal;
 
 - (id)init {
     self = [super init];
     if (self) {
         [self setServicioBusqueda: nil];
+        [self setControlNavegacionPrincipal: nil];
         
         _ultimoEntrevistado = nil;
         
@@ -36,6 +38,7 @@
     [_meeting release]; _meeting = nil;
     
     [self setServicioBusqueda: nil];
+    [self setControlNavegacionPrincipal: nil];
     
     [super dealloc];
 }
@@ -52,7 +55,6 @@
 //un selector para desglosar informacion en detalle grafica asi mismo elegir a que ventana lo llevara la seleccion
 -(void) mostrarPanelSiguienteSegunEntrevistador:(Entrevistador*)entrevistador bajoIdentificador:(NSString*) identificador  usandoControlNavegacion: (UINavigationController*) controlNavegacion
 {
-    
     if([entrevistador isKindOfClass: [JefeEntrevistadores class]])
     {
         ControladorListaRegiones* controladorListaRegiones = [[ControladorListaRegiones alloc] initWithNibName:@"ControladorListaRegiones" bundle:nil];
@@ -195,15 +197,19 @@
     if(meeting != _meeting) {
         [_meeting release];
         _meeting = [meeting retain];
+        
+        
+        // Reiniciar ventanas de trabajo
+        [[self controlNavegacionPrincipal] popViewControllerAnimated: NO];
+        
+        [servicioBusqueda setPersonalMeeting: [_meeting conjuntoEntrevistados]];
+        
+        [[NSNotificationQueue defaultQueue] enqueueNotification: [NSNotification notificationWithName:@"refrescarPantallas" object:self 
+                                                                                             userInfo: [NSDictionary dictionaryWithObjectsAndKeys: meeting, @"meeting", nil]]
+                                                   postingStyle: NSPostWhenIdle
+                                                   coalesceMask: NSNotificationNoCoalescing
+                                                       forModes: nil];
     }
-    
-    [servicioBusqueda setPersonalMeeting: [_meeting conjuntoEntrevistados]];
-    
-    [[NSNotificationQueue defaultQueue] enqueueNotification: [NSNotification notificationWithName:@"refrescarPantallas" object:self 
-                                                                                         userInfo: [NSDictionary dictionaryWithObjectsAndKeys: meeting, @"meeting", nil]]
-                                               postingStyle: NSPostWhenIdle
-                                               coalesceMask: NSNotificationNoCoalescing
-                                                   forModes: nil];
 }
 
 
