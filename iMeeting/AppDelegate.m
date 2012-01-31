@@ -65,12 +65,12 @@
     [controladorListaRegiones setIdentificador:@"ListaRegiones"];
     controladorListaRegiones.tabBarItem.title = @"Personas";
     controladorListaRegiones.tabBarItem.image = [UIImage imageNamed:@"112-group.png"];
-    [controladorListaRegiones setDelegadoControladorLista:controlMaestro];
     [controladorListaRegiones setDelegadoControladorNavegacion:controlMaestro];
     
     UINavigationController *controladorNavegacionPersonas = [[[UINavigationController alloc] initWithRootViewController:controladorListaRegiones] autorelease];
     controladorNavegacionPersonas.navigationBar.tintColor=[UIColor blackColor];
 
+    [controlMaestro setControlNavegacionPrincipal: controladorNavegacionPersonas];
     
     UIViewController * controlador = [[self controladorPestanias] viewControllerWithTabTitle:@"Scanner" image:nil];
     

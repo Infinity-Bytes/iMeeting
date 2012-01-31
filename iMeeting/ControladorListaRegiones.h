@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "CeldaEncargadoPorRegion.h"
-#import "iDelegadoControladorLista.h"
 #import "iDelegadoControladorNavegacion.h"
 
 /**
@@ -39,10 +38,9 @@
     
 }
 
--(void) cargaInfo;
-
 -(void) refrescarPantallas: (NSNotification *) notification;
 -(void) refrescarPantallasConEntrevistador: (NSNotification *) notification;
+-(NSDictionary *) establecerOriginDatos:(NSArray*)arregloDatos bajoNombre:(NSString*)nombre;
 
 @property(nonatomic, retain) IBOutlet  UITableView *tablaDatos;
 @property(nonatomic, retain) IBOutlet  CeldaEncargadoPorRegion* celda;
@@ -52,7 +50,6 @@
 @property (nonatomic, retain) NSString *identificador;
 //Delegados
 
-@property (nonatomic, assign) id<iDelegadoControladorLista> delegadoControladorLista;
 @property (nonatomic, assign) id<iDelegadoControladorNavegacion> delegadoControladorNavegacion;
 
 @end

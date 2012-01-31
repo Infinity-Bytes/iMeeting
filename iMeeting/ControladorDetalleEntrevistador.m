@@ -7,6 +7,7 @@
 //
 
 #import "ControladorDetalleEntrevistador.h"
+#import "Meeting.h"
 
 @implementation ControladorDetalleEntrevistador
 
@@ -40,6 +41,27 @@
 -(void)establecerEntrevistador:(Entrevistador*)entrevistador
 {
     _entrevistador = entrevistador;
+    [self cargaInfo: entrevistador];
+}
+
+- (void) cargaInfo: (Entrevistador *) entrevistador {
+    
+    DetalleGrafica *personasEntrevistadas = [DetalleGrafica new];
+    
+    [personasEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.personasEntrevistadas.count]];
+    [personasEntrevistadas setPorcentaje: (entrevistador.personasEntrevistadas.count *100 ) / entrevistador.personas.count]; 
+    [personasEntrevistadas setNombreLeyenda:@"Si"];
+    
+    DetalleGrafica *personasNoEntrevistadas = [DetalleGrafica new];
+    
+    [personasNoEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.personasSinEntrevistar.count]];
+    [personasNoEntrevistadas setPorcentaje: (entrevistador.personasSinEntrevistar.count *100 ) / entrevistador.personas.count]; 
+    [personasNoEntrevistadas setNombreLeyenda:@"No"];
+    
+    [self setDetallesDeGrafica:[[NSArray alloc] initWithObjects:personasEntrevistadas, personasNoEntrevistadas, nil]];
+    
+    [personasEntrevistadas release];
+    [personasNoEntrevistadas release];
 }
 
 
@@ -59,6 +81,27 @@
 
 #pragma mark - View lifecycle
 
+-(void) viewWillAppear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(refrescarPantallasConEntrevistador:) name:@"refrescarPantallasConEntrevistador" object: nil];
+    
+    [self cargaInfo: _entrevistador];
+    [super viewWillAppear:animated];
+}
+
+
+-(void) viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+    
+    [super viewWillDisappear:animated];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear: animated];
+    
+    [[self tablaDatos] reloadData];
+}
+
 - (void)viewDidLoad
 {    
     
@@ -75,10 +118,8 @@
     
     self.nombreEntrevistador.text = [_entrevistador nombre];
     self.zona.text = [_entrevistador zona];
-        
-    [super viewDidLoad];
-
     
+    [super viewDidLoad];
 }
 
 - (void)viewDidUnload
@@ -209,6 +250,14 @@
     }
     
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void) refrescarPantallasConEntrevistador: (NSNotification *) notification {
+    Entrevistado * entrevistadoInteres = [[notification userInfo] objectForKey: @"entrevistado"];
+    if([[_entrevistador personas] containsObject: entrevistadoInteres]) {
+        [self cargaInfo: _entrevistador];
+        [[self tablaDatos] reloadData];
+    }
 }
 
 @end

@@ -18,8 +18,9 @@
     Entrevistador * _entrevistador;
 }
 
-
--(void)establecerEntrevistador:(Entrevistador*)entrevistador;
+- (void) establecerEntrevistador:(Entrevistador*)entrevistador;
+- (void) cargaInfo: (Entrevistador *) entrevistador;
+- (void) refrescarPantallasConEntrevistador: (NSNotification *) notification;
 
 @property(nonatomic, assign) IBOutlet UILabel * nombreEntrevistador;
 @property(nonatomic, assign) IBOutlet UILabel * zona;
