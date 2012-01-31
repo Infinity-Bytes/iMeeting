@@ -200,7 +200,7 @@
         
         
         // Reiniciar ventanas de trabajo
-        [[self controlNavegacionPrincipal] popViewControllerAnimated: NO];
+        [[self controlNavegacionPrincipal] popToRootViewControllerAnimated: NO];
         
         [servicioBusqueda setPersonalMeeting: [_meeting conjuntoEntrevistados]];
         
