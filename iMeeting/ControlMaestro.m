@@ -4,6 +4,8 @@
 #import "ControladorListaPersonas.h"
 #import "DetalleGrafica.h"
 #import "ServicioGestorDatos.h"
+#import "ControladorListaRegiones.h"
+#import "JefeEntrevistadores.h"
 
 @implementation ControlMaestro
 
@@ -38,42 +40,11 @@
     [super dealloc];
 }
 
-
-#pragma Delegado Control Lista
--(NSDictionary *)obtenerDatosSeparadosPorRegionesUsandoDefinicionOrden: (NSMutableArray * ) definicionOrden;
+-(NSDictionary *) establecerOriginDatos:(NSArray*)arregloDatos bajoNombre:(NSString*)nombre
 {
     NSMutableDictionary * salida = [[NSMutableDictionary new] autorelease];
-    NSMutableSet * zonas = [NSMutableSet new];
+    [salida setObject:arregloDatos forKey:nombre];
     
-    if(_meeting) {
-        for(id idPersona in [_meeting conjuntoEntrevistadores]) {
-            id persona = [[_meeting conjuntoEntrevistadores] objectForKey: idPersona];
-            if([persona respondsToSelector: @selector(zona)]) {
-                NSString * zona = [persona performSelector:@selector(zona)];
-                if (zona) {
-                    NSMutableArray * personasPorZona = [salida objectForKey: zona];
-                    if(!personasPorZona) {
-                        personasPorZona = [NSMutableArray new];
-                        [salida setObject:personasPorZona forKey: zona];
-                    } else {
-                        [personasPorZona retain];
-                    }
-                    
-                    [personasPorZona addObject: persona];
-                    [personasPorZona release];
-                    
-                    [zonas addObject:zona];
-                }
-            }
-        }
-        
-        // TODO Orden alfabético
-        NSEnumerator * it_zonas = [zonas objectEnumerator];
-        id zonaInteres = nil;
-        while(zonaInteres = [it_zonas nextObject]) {
-            [definicionOrden addObject: zonaInteres];
-        }
-    }
     return salida;
 }
 
@@ -81,46 +52,74 @@
 //un selector para desglosar informacion en detalle grafica asi mismo elegir a que ventana lo llevara la seleccion
 -(void) mostrarPanelSiguienteSegunEntrevistador:(Entrevistador*)entrevistador bajoIdentificador:(NSString*) identificador  usandoControlNavegacion: (UINavigationController*) controlNavegacion
 {
-    if ([identificador isEqualToString:@"ListaRegiones"]) {
+    
+    if([entrevistador isKindOfClass: [JefeEntrevistadores class]])
+    {
+        ControladorListaRegiones* controladorListaRegiones = [[ControladorListaRegiones alloc] initWithNibName:@"ControladorListaRegiones" bundle:nil];
         
-        ControladorDetalleEntrevistador * controladorDetalle = [[ControladorDetalleEntrevistador alloc] initWithNibName:@"ControladorDetalleEntrevistador" bundle:[NSBundle mainBundle]];
+        [controladorListaRegiones setDelegadoControladorNavegacion:self];
         
-        [controladorDetalle establecerEntrevistador:entrevistador];
-        [controladorDetalle setDelegadoControladorNavegacion:self];
-        
-        DetalleGrafica *personasEntrevistadas = [DetalleGrafica new];
-        
-        [personasEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.personasEntrevistadas.count]];
-        [personasEntrevistadas setPorcentaje: (entrevistador.personasEntrevistadas.count *100 ) / entrevistador.personas.count]; 
-        [personasEntrevistadas setNombreLeyenda:@"Si"];
-        
-        DetalleGrafica *personasNoEntrevistadas = [DetalleGrafica new];
-        
-        [personasNoEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.personasSinEntrevistar.count]];
-        [personasNoEntrevistadas setPorcentaje: (entrevistador.personasSinEntrevistar.count *100 ) / entrevistador.personas.count]; 
-        [personasNoEntrevistadas setNombreLeyenda:@"No"];
-        
-        
-        [controladorDetalle setDetallesDeGrafica:[[NSArray alloc] initWithObjects:personasEntrevistadas,personasNoEntrevistadas, nil]];
-        
-        [controlNavegacion pushViewController:controladorDetalle animated:YES];
-        
-        [controladorDetalle release];
-        [personasEntrevistadas release];
-        [personasNoEntrevistadas release];
-        
+        NSArray *personaAsuCargo;
+        NSString *nombreLista;
+        JefeEntrevistadores* jefeEntrevistadores = (JefeEntrevistadores*)entrevistador;
+        if([[jefeEntrevistadores jefesEntrevistadores] count]){
+            personaAsuCargo = [jefeEntrevistadores jefesEntrevistadores];
+            nombreLista = @"Subjefe";
+        } else
+        {
+            if([[jefeEntrevistadores entrevistadores] count])
+            {   
+                personaAsuCargo = [jefeEntrevistadores entrevistadores];
+                nombreLista = @"Entrevistadores";
+            }
+        }
+        [controladorListaRegiones setEncargadosPorRegion:[self establecerOriginDatos:personaAsuCargo bajoNombre:nombreLista]];
+        [controladorListaRegiones setIdentificador:@"ListaRegiones"];
+        [controlNavegacion pushViewController:controladorListaRegiones animated:YES];
+        [controladorListaRegiones release];
     }else
     {
-        ControladorListaPersonas * controladorListaPersonas = [[ControladorListaPersonas alloc] initWithNibName:@"ControladorListaPersonas" bundle:[NSBundle mainBundle]];
-        
-        if ([identificador isEqualToString:@"personasEntrevistadas"])
-            [controladorListaPersonas setDatos:[[entrevistador personasEntrevistadas] allObjects]];
-        
-        if ([identificador isEqualToString:@"personasSinEntrevistar"])
-            [controladorListaPersonas setDatos:[[entrevistador personasSinEntrevistar] allObjects]];
-        
-        [controlNavegacion pushViewController:controladorListaPersonas animated:YES];
-        [controladorListaPersonas release];
+        if ([identificador isEqualToString:@"ListaRegiones"]) {
+            
+            ControladorDetalleEntrevistador * controladorDetalle = [[ControladorDetalleEntrevistador alloc] initWithNibName:@"ControladorDetalleEntrevistador" bundle:[NSBundle mainBundle]];
+            
+            [controladorDetalle establecerEntrevistador:entrevistador];
+            [controladorDetalle setDelegadoControladorNavegacion:self];
+            
+            DetalleGrafica *personasEntrevistadas = [DetalleGrafica new];
+            
+            [personasEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.personasEntrevistadas.count]];
+            [personasEntrevistadas setPorcentaje: (entrevistador.personasEntrevistadas.count *100 ) / entrevistador.personas.count]; 
+            [personasEntrevistadas setNombreLeyenda:@"Si"];
+            
+            DetalleGrafica *personasNoEntrevistadas = [DetalleGrafica new];
+            
+            [personasNoEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.personasSinEntrevistar.count]];
+            [personasNoEntrevistadas setPorcentaje: (entrevistador.personasSinEntrevistar.count *100 ) / entrevistador.personas.count]; 
+            [personasNoEntrevistadas setNombreLeyenda:@"No"];
+            
+            
+            [controladorDetalle setDetallesDeGrafica:[[NSArray alloc] initWithObjects:personasEntrevistadas,personasNoEntrevistadas, nil]];
+            
+            [controlNavegacion pushViewController:controladorDetalle animated:YES];
+            
+            [controladorDetalle release];
+            [personasEntrevistadas release];
+            [personasNoEntrevistadas release];
+            
+        }else
+        {
+            ControladorListaPersonas * controladorListaPersonas = [[ControladorListaPersonas alloc] initWithNibName:@"ControladorListaPersonas" bundle:[NSBundle mainBundle]];
+            
+            if ([identificador isEqualToString:@"personasEntrevistadas"])
+                [controladorListaPersonas setDatos:[[entrevistador personasEntrevistadas] allObjects]];
+            
+            if ([identificador isEqualToString:@"personasSinEntrevistar"])
+                [controladorListaPersonas setDatos:[[entrevistador personasSinEntrevistar] allObjects]];
+            
+            [controlNavegacion pushViewController:controladorListaPersonas animated:YES];
+            [controladorListaPersonas release];
+        }
     }
 }
 
@@ -178,7 +177,7 @@
 
 - (void) procesaAcumulado: (NSSet *) acumulador {
     for(Entrevistador * entrevistador in acumulador) {
-
+        
         // Agregar en el acumulador
         entrevistador.numeroPersonasEntrevistadas++;
     }
@@ -190,7 +189,7 @@
 - (void) registraMeeting: (NSNotification *) notificacion {
     NSLog(@"registraMeeting: %@", notificacion);
     Meeting * meeting = [[notificacion userInfo] objectForKey: @"meeting"];
-
+    
     if(meeting != _meeting) {
         [_meeting release];
         _meeting = [meeting retain];
@@ -199,7 +198,7 @@
     [servicioBusqueda setPersonalMeeting: [_meeting conjuntoEntrevistados]];
     
     [[NSNotificationQueue defaultQueue] enqueueNotification: [NSNotification notificationWithName:@"refrescarPantallas" object:self 
-        userInfo: [NSDictionary dictionaryWithObjectsAndKeys: meeting, @"meeting", nil]]
+                                                                                         userInfo: [NSDictionary dictionaryWithObjectsAndKeys: meeting, @"meeting", nil]]
                                                postingStyle: NSPostWhenIdle
                                                coalesceMask: NSNotificationNoCoalescing
                                                    forModes: nil];

@@ -9,6 +9,7 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "ControladorListaRegiones.h"
 #import "Entrevistador.h"
+#import "Meeting.h"
 
 @implementation ControladorListaRegiones
 
@@ -18,7 +19,7 @@
 @synthesize encargadosPorRegion = _encargadosPorRegion;
 
 @synthesize identificador;
-@synthesize delegadoControladorLista;
+
 @synthesize delegadoControladorNavegacion;
 
 -(void)dealloc
@@ -29,7 +30,7 @@
     [_encargadosPorRegion release];
     
     self.identificador=nil;
-    self.delegadoControladorLista = nil;
+
     self.delegadoControladorNavegacion = nil;
 }
 
@@ -37,6 +38,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.encargadosPorRegion = nil;
     }
     return self;
 }
@@ -61,6 +63,8 @@
     if (![[DBSession sharedSession] isLinked]) {
         [[DBSession sharedSession] link];
     }
+    
+    [[self tablaDatos] reloadData];
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
@@ -166,17 +170,28 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
--(void) cargaInfo {
-    [self setEncargadosPorRegion:[[self delegadoControladorLista] obtenerDatosSeparadosPorRegionesUsandoDefinicionOrden: [[NSMutableArray new] autorelease] ]];
-    [[self tablaDatos] reloadData];
-}
 
 -(void) refrescarPantallas: (NSNotification *) notification {
-    [self cargaInfo];
+    //TODO refactoring cambiar a todo modificar la infor por le meeting
+    Meeting* meeting = [[notification userInfo] objectForKey:@"meeting"];
+    if(meeting)
+    {
+        self.encargadosPorRegion = [self establecerOriginDatos:[meeting personal]  bajoNombre:@"Jefes"];
+        [[self tablaDatos] reloadData];
+    }
+    
 }
 
 -(void) refrescarPantallasConEntrevistador: (NSNotification *) notification {
-    [self cargaInfo];
+    [[self tablaDatos] reloadData];
+}
+
+-(NSDictionary *) establecerOriginDatos:(NSArray*)arregloDatos bajoNombre:(NSString*)nombre
+{
+    NSMutableDictionary * salida = [[NSMutableDictionary new] autorelease];
+    [salida setObject:arregloDatos forKey:nombre];
+    
+    return salida;
 }
 
 @end

@@ -65,7 +65,6 @@
     [controladorListaRegiones setIdentificador:@"ListaRegiones"];
     controladorListaRegiones.tabBarItem.title = @"Personas";
     controladorListaRegiones.tabBarItem.image = [UIImage imageNamed:@"112-group.png"];
-    [controladorListaRegiones setDelegadoControladorLista:controlMaestro];
     [controladorListaRegiones setDelegadoControladorNavegacion:controlMaestro];
     
     UINavigationController *controladorNavegacionPersonas = [[[UINavigationController alloc] initWithRootViewController:controladorListaRegiones] autorelease];

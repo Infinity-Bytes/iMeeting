@@ -186,8 +186,9 @@
 		F129874C14BFD3B50043C634 /* Meeting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meeting.m; sourceTree = "<group>"; };
 		F129874E14BFD47C0043C634 /* Persona.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Persona.h; sourceTree = "<group>"; };
 		F129874F14BFD47C0043C634 /* Persona.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Persona.m; sourceTree = "<group>"; };
-		F12C07BC14D701480014C2DC /* ProxyRefEntrevistado.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ProxyRefEntrevistado.h; sourceTree = "<group>"; };
+		F12C07BC14D701480014C2DC /* ProxyRefEntrevistado.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProxyRefEntrevistado.h; sourceTree = "<group>"; };
 		F12C07BD14D701480014C2DC /* ProxyRefEntrevistado.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProxyRefEntrevistado.m; sourceTree = "<group>"; };
+		F12C07C014D7419C0014C2DC /* iControladorVista.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iControladorVista.h; sourceTree = "<group>"; };
 		F17EA15614D1E20000CB55DB /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		F17EA15814D1E21400CB55DB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F17EA1A114D354F800CB55DB /* JefeEntrevistadores.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JefeEntrevistadores.h; sourceTree = "<group>"; };
@@ -304,6 +305,7 @@
 		D775643914BCDAAA00A112A7 /* ControladorVista */ = {
 			isa = PBXGroup;
 			children = (
+				F12C07BF14D7417F0014C2DC /* Protocolo */,
 				D78DD96214BE2D4600C6B0D3 /* Componentes */,
 				D7951E4314BF75CC003593E6 /* ControladorListaRegiones.h */,
 				D7951E4414BF75CD003593E6 /* ControladorListaRegiones.m */,
@@ -451,6 +453,14 @@
 				F129873214BFB6F80043C634 /* sbjson-iosTests.octest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F12C07BF14D7417F0014C2DC /* Protocolo */ = {
+			isa = PBXGroup;
+			children = (
+				F12C07C014D7419C0014C2DC /* iControladorVista.h */,
+			);
+			name = Protocolo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -14,14 +14,13 @@
 #import "iDelegadoControladorScanner.h"
 #import "iServicioBusqueda.h"
 
-@interface ControlMaestro : NSObject<iDelegadoControladorLista, iDelegadoControladorNavegacion, iDelegadoControladorScanner>
+@interface ControlMaestro : NSObject<iDelegadoControladorNavegacion, iDelegadoControladorScanner>
 {
     Meeting * _meeting;
     Entrevistado * _ultimoEntrevistado;
+    
 }
 
-#pragma Delegado Control Lista
--(NSDictionary *)obtenerDatosSeparadosPorRegionesUsandoDefinicionOrden: (NSMutableArray * ) definicionOrden;
 
 #pragma Delegado Control Navegacion
 //un selector para desglosar informacion en detalle grafica asi mismo elegir a que ventana lo llevara la seleccion
@@ -31,6 +30,7 @@
 - (void) registraMeeting: (NSNotification *) notificacion;
 -(void) registraElementoTrabajadoPorURL: (NSNotification *) notificacion;
 
+-(NSDictionary *) establecerOriginDatos:(NSArray*)arregloDatos bajoNombre:(NSString*)nombre;
 
 - (void) procesaElementoTrabajado: (Entrevistado *) entrevistado;
 - (void) obtenEntrevistadoresAcumulador:(NSMutableSet *) acumulador aPartir: (Entrevistador *) entrevistador;

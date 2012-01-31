@@ -10,6 +10,6 @@
 
 @protocol iDelegadoControladorLista <NSObject>
 
--(NSDictionary *)obtenerDatosSeparadosPorRegionesUsandoDefinicionOrden: (NSMutableArray * ) definicionOrden;
+-(NSDictionary *)obtenerDatosSeparadosPorRegiones;
 
 @end
