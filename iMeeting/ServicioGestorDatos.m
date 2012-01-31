@@ -14,6 +14,7 @@
 
 #import "Persona.h"
 #import "Entrevistado.h"
+#import "ProxyRefEntrevistado.h"
 
 #pragma Macros Control
 #define REGENERARESTRUCTURA YES
@@ -532,38 +533,66 @@
 - (Meeting * ) generaMeetingDePOCOs: (NSDictionary *) objetoPlano {
     Meeting * salida = [[Meeting new] autorelease];
     
-    id _nombreMeeting = [objetoPlano objectForKey: @"nombreMeeting"];
-    if([_nombreMeeting isKindOfClass: [NSString class]]) { 
-        [salida setNombreMeeting: _nombreMeeting];
-    }
-    NSMutableDictionary * conjuntoPersonal = [NSMutableDictionary new];
-    [salida setPersonal: [self procesaPersonas: objetoPlano usandoAcumulador: conjuntoPersonal]];
-    [salida setConjuntoPersonas: conjuntoPersonal];
+    [self objeto:salida ejecutaSelector: @selector(setNombreMeeting:) 
+                           conArgumento: [objetoPlano objectForKey: @"nombreMeeting"] 
+                                 deTipo:[NSString class]];
+    
+    NSMutableDictionary * conjuntoEntrevistados = [NSMutableDictionary new];
+    NSMutableDictionary * conjuntoEntrevistadores = [NSMutableDictionary new];
+    
+    [salida setPersonal: [self procesaPersonas: objetoPlano 
+                    conIdentificadorDeConjunto: @"personas" 
+                 usandoAcumuladorEntrevistados: conjuntoEntrevistados 
+                     acumuladorEntrevistadores: conjuntoEntrevistadores
+                                yPersonaOrigen: nil]];
+    
+    [salida setConjuntoEntrevistados: conjuntoEntrevistados];
+    [salida setConjuntoEntrevistadores: conjuntoEntrevistadores];
+    
+    [conjuntoEntrevistados release];
+    [conjuntoEntrevistadores release];
     
     return salida;
 }
 
-- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia usandoAcumulador: (NSMutableDictionary *) acumulador {
+- (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia 
+   conIdentificadorDeConjunto: (NSString *) identificadorConjunto 
+             usandoAcumuladorEntrevistados: (NSMutableDictionary *) acumulador 
+    acumuladorEntrevistadores: (NSMutableDictionary *) acumuladorEntrevistadores
+               yPersonaOrigen:(id) lider {
+    
     NSMutableArray * contenedorPersonal = [NSMutableArray new];
     
-    id _personal = [objetoReferencia objectForKey:@"personas"];
+    id _personal = [objetoReferencia objectForKey: identificadorConjunto];
     if([_personal isKindOfClass: [NSArray class]]) {
         if([_personal count]) {
             
             for(id persona in _personal) {
                 if( [persona isKindOfClass: [NSDictionary class]] ) {
                     Persona * personaInteres = nil;
+                    BOOL agregarAcumulador = NO;
                     
                     id _tipoPersona = [persona objectForKey: @"tipo"];
                     if([_tipoPersona isKindOfClass: [NSString class]] && [_tipoPersona length] > 0) {
                         personaInteres = [NSClassFromString(_tipoPersona) new];
                     } else {
                         personaInteres = [Entrevistado new];
+                        agregarAcumulador = YES;
+                    }
+                    
+                    if(![self objeto:personaInteres ejecutaSelector: @selector(setNombre:) conArgumento: [persona objectForKey: @"nombre"] deTipo:[NSString class]]) {
+                        
+                        if(agregarAcumulador) {
+                            [personaInteres release];
+                            
+                            // Agregar Entrevistado basado en Referencia
+                            ProxyRefEntrevistado * entrevistadorRef = [ProxyRefEntrevistado new];
+                            [entrevistadorRef setConjuntoEntrevistadores: acumuladorEntrevistadores];
+                            personaInteres = entrevistadorRef;
+                        }
                     }
                     
                     [self objeto:personaInteres ejecutaSelector: @selector(setIdentificador:) conArgumento: [persona objectForKey: @"identificador"] deTipo:[NSString class]];
-                    
-                    [self objeto:personaInteres ejecutaSelector: @selector(setNombre:) conArgumento: [persona objectForKey: @"nombre"] deTipo:[NSString class]];
                     
                     [self objeto:personaInteres ejecutaSelector: @selector(setZona:) conArgumento: [persona objectForKey: @"zona"] deTipo:[NSString class]];
                     
@@ -571,17 +600,49 @@
                     
                     if( [personaInteres respondsToSelector: @selector(setPersonas:)] ) {
                         
-                        [personaInteres performSelector: @selector(setPersonas:) withObject: [self procesaPersonas: persona usandoAcumulador: acumulador]];
+                        [personaInteres performSelector: @selector(setPersonas:) withObject: [self procesaPersonas: persona conIdentificadorDeConjunto: @"personas" usandoAcumuladorEntrevistados: acumulador
+                                                                                         acumuladorEntrevistadores: acumuladorEntrevistadores yPersonaOrigen: personaInteres]];
+                    }
+                    
+                    if ([personaInteres respondsToSelector:@selector(setEntrevistadores:)]) {
+                        [personaInteres performSelector: @selector(setEntrevistadores:) withObject: [self procesaPersonas: persona conIdentificadorDeConjunto: @"entrevistadores" usandoAcumuladorEntrevistados: acumulador
+                                                                                                acumuladorEntrevistadores: acumuladorEntrevistadores yPersonaOrigen: personaInteres]];
+                    }
+                    
+                    if ([personaInteres respondsToSelector:@selector(setJefesEntrevistadores:)]) {
+                        [personaInteres performSelector: @selector(setJefesEntrevistadores:) withObject: [self procesaPersonas: persona conIdentificadorDeConjunto: @"jefesEntrevistadores" usandoAcumuladorEntrevistados: acumulador
+                                                                                                     acumuladorEntrevistadores: acumuladorEntrevistadores  yPersonaOrigen: personaInteres]];
                     }
                     
                     if(personaInteres) {
                         if([personaInteres isKindOfClass: [Persona class]]) {
                             [contenedorPersonal addObject: personaInteres];
                             
+                            [personaInteres setLider: lider];
+                            
+                            // Considerar al entrevistador para los jefes de entrevistadores
                             NSString * identificador = [personaInteres performSelector: @selector(identificador)];
                             if(identificador && [identificador length]) {
-                                [acumulador setObject:personaInteres forKey: identificador];
+                                if(agregarAcumulador) {
+                                    [acumulador setObject:personaInteres forKey: identificador];
+                                } else {
+                                    [acumuladorEntrevistadores setObject: personaInteres forKey: identificador];
+                                }
                             }
+                        }
+                        
+                        
+                        // Calculo de numero de personas a cargo de cada líder
+                        if(lider) {
+                            Entrevistador * liderEntrevistador = lider;
+                            
+                            int numeroPersonas = 1;
+                            if([personaInteres isKindOfClass:[Entrevistador class]]) {
+                                Entrevistador * entrevistadorInteres = (Entrevistador *)personaInteres;
+                                numeroPersonas = [entrevistadorInteres numeroPersonasASuCargo];
+                            }
+                            
+                            [liderEntrevistador setNumeroPersonasASuCargo: [liderEntrevistador numeroPersonasASuCargo] +  numeroPersonas];
                         }
                         
                         [personaInteres release];
@@ -595,10 +656,12 @@
     return contenedorPersonal;
 }
 
-- (void) objeto: (id) objeto ejecutaSelector: (SEL) selector conArgumento: (id) argumento deTipo: (Class) clase {
+- (BOOL) objeto: (id) objeto ejecutaSelector: (SEL) selector conArgumento: (id) argumento deTipo: (Class) clase {
     if([objeto respondsToSelector: selector] && [argumento isKindOfClass: clase]) {
         [objeto performSelector: selector withObject: argumento];
+        return YES;
     }
+    return NO;
 }
 
 @end

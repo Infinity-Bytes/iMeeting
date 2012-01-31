@@ -12,7 +12,9 @@
 
 @synthesize nombreMeeting;
 @synthesize personal;
-@synthesize conjuntoPersonas;
+
+@synthesize conjuntoEntrevistados;
+@synthesize conjuntoEntrevistadores;
 
 @synthesize definicion;
 @synthesize encodingDefinicion;
@@ -26,7 +28,9 @@
     if (self) {
         [self setNombreMeeting: @""];
         [self setPersonal: [NSArray array]];
-        [self setConjuntoPersonas: [[NSDictionary new] autorelease]];
+        
+        [self setConjuntoEntrevistados: [NSDictionary dictionary]];
+        [self setConjuntoEntrevistadores: [NSDictionary dictionary]];
         
         [self setDefinicion:@""];
         
@@ -41,7 +45,9 @@
 - (void)dealloc {
     [self setNombreMeeting: nil];
     [self setPersonal: nil];
-    [self setConjuntoPersonas: nil];
+    
+    [self setConjuntoEntrevistados: nil];
+    [self setConjuntoEntrevistadores: nil];
     
     [self setDefinicion: nil];
     [self setUrlLocal: nil];

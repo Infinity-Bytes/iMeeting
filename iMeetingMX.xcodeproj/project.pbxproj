@@ -45,7 +45,7 @@
 		D7951E3A14BF46A3003593E6 /* 123-id-card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7951E3414BF46A3003593E6 /* 123-id-card@2x.png */; };
 		D7951E3B14BF46A3003593E6 /* cameraTabBarItem.png in Resources */ = {isa = PBXBuildFile; fileRef = D7951E3514BF46A3003593E6 /* cameraTabBarItem.png */; };
 		D7951E3C14BF46A3003593E6 /* cameraTabBarItem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7951E3614BF46A3003593E6 /* cameraTabBarItem@2x.png */; };
-		D7951E3F14BF6F1E003593E6 /* ControlMaestro.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7951E3E14BF6F1E003593E6 /* ControlMaestro.mm */; };
+		D7951E3F14BF6F1E003593E6 /* ControlMaestro.m in Sources */ = {isa = PBXBuildFile; fileRef = D7951E3E14BF6F1E003593E6 /* ControlMaestro.m */; };
 		D7951E4514BF75CE003593E6 /* ControladorListaRegiones.m in Sources */ = {isa = PBXBuildFile; fileRef = D7951E4414BF75CD003593E6 /* ControladorListaRegiones.m */; };
 		F11D97DC14C1FB1500ECAB12 /* 100pxl_invest.png in Resources */ = {isa = PBXBuildFile; fileRef = F11D97DB14C1FB1500ECAB12 /* 100pxl_invest.png */; };
 		F129870114BFB1900043C634 /* CloudMe.m in Sources */ = {isa = PBXBuildFile; fileRef = F12986FE14BFB1900043C634 /* CloudMe.m */; };
@@ -53,6 +53,7 @@
 		F129873614BFB7240043C634 /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F129873014BFB6F80043C634 /* libsbjson-ios.a */; };
 		F129874D14BFD3B50043C634 /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874C14BFD3B50043C634 /* Meeting.m */; };
 		F129875014BFD47C0043C634 /* Persona.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874F14BFD47C0043C634 /* Persona.m */; };
+		F12C07BE14D701480014C2DC /* ProxyRefEntrevistado.m in Sources */ = {isa = PBXBuildFile; fileRef = F12C07BD14D701480014C2DC /* ProxyRefEntrevistado.m */; };
 		F17EA15714D1E20000CB55DB /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17EA15614D1E20000CB55DB /* DropboxSDK.framework */; };
 		F17EA15914D1E21400CB55DB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17EA15814D1E21400CB55DB /* Security.framework */; };
 		F17EA1A314D354F800CB55DB /* JefeEntrevistadores.m in Sources */ = {isa = PBXBuildFile; fileRef = F17EA1A214D354F800CB55DB /* JefeEntrevistadores.m */; };
@@ -167,7 +168,7 @@
 		D7951E3514BF46A3003593E6 /* cameraTabBarItem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cameraTabBarItem.png; path = recursos/cameraTabBarItem.png; sourceTree = SOURCE_ROOT; };
 		D7951E3614BF46A3003593E6 /* cameraTabBarItem@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cameraTabBarItem@2x.png"; path = "recursos/cameraTabBarItem@2x.png"; sourceTree = SOURCE_ROOT; };
 		D7951E3D14BF6F1E003593E6 /* ControlMaestro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlMaestro.h; sourceTree = "<group>"; };
-		D7951E3E14BF6F1E003593E6 /* ControlMaestro.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ControlMaestro.mm; sourceTree = "<group>"; };
+		D7951E3E14BF6F1E003593E6 /* ControlMaestro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControlMaestro.m; sourceTree = "<group>"; };
 		D7951E4114BF7258003593E6 /* iDelegadoControladorNavegacion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iDelegadoControladorNavegacion.h; sourceTree = "<group>"; };
 		D7951E4214BF731A003593E6 /* iDelegadoControladorLista.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iDelegadoControladorLista.h; sourceTree = "<group>"; };
 		D7951E4314BF75CC003593E6 /* ControladorListaRegiones.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControladorListaRegiones.h; sourceTree = "<group>"; };
@@ -185,6 +186,8 @@
 		F129874C14BFD3B50043C634 /* Meeting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meeting.m; sourceTree = "<group>"; };
 		F129874E14BFD47C0043C634 /* Persona.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Persona.h; sourceTree = "<group>"; };
 		F129874F14BFD47C0043C634 /* Persona.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Persona.m; sourceTree = "<group>"; };
+		F12C07BC14D701480014C2DC /* ProxyRefEntrevistado.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ProxyRefEntrevistado.h; sourceTree = "<group>"; };
+		F12C07BD14D701480014C2DC /* ProxyRefEntrevistado.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProxyRefEntrevistado.m; sourceTree = "<group>"; };
 		F17EA15614D1E20000CB55DB /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		F17EA15814D1E21400CB55DB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F17EA1A114D354F800CB55DB /* JefeEntrevistadores.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JefeEntrevistadores.h; sourceTree = "<group>"; };
@@ -340,6 +343,8 @@
 				F129874F14BFD47C0043C634 /* Persona.m */,
 				F17EA1A114D354F800CB55DB /* JefeEntrevistadores.h */,
 				F17EA1A214D354F800CB55DB /* JefeEntrevistadores.m */,
+				F12C07BC14D701480014C2DC /* ProxyRefEntrevistado.h */,
+				F12C07BD14D701480014C2DC /* ProxyRefEntrevistado.m */,
 			);
 			name = modelo;
 			sourceTree = "<group>";
@@ -349,7 +354,7 @@
 			children = (
 				D7951E4014BF6F42003593E6 /* Protocolo */,
 				D7951E3D14BF6F1E003593E6 /* ControlMaestro.h */,
-				D7951E3E14BF6F1E003593E6 /* ControlMaestro.mm */,
+				D7951E3E14BF6F1E003593E6 /* ControlMaestro.m */,
 			);
 			name = ControladorNegocio;
 			sourceTree = "<group>";
@@ -586,7 +591,7 @@
 				D78DD96A14BE2F5000C6B0D3 /* DetalleGrafica.mm in Sources */,
 				838D516B14BE62C500DF03BD /* CeldaEncargadoPorRegion.mm in Sources */,
 				D7951E2814BF4017003593E6 /* CustomTabBarController.mm in Sources */,
-				D7951E3F14BF6F1E003593E6 /* ControlMaestro.mm in Sources */,
+				D7951E3F14BF6F1E003593E6 /* ControlMaestro.m in Sources */,
 				D7951E4514BF75CE003593E6 /* ControladorListaRegiones.m in Sources */,
 				F129870114BFB1900043C634 /* CloudMe.m in Sources */,
 				F129870214BFB1900043C634 /* NoteSheet.m in Sources */,
@@ -597,6 +602,7 @@
 				F1BC448A14C89C170089E264 /* ServicioGestorDatos.m in Sources */,
 				F1BC448D14C8A3810089E264 /* Documento.m in Sources */,
 				F17EA1A314D354F800CB55DB /* JefeEntrevistadores.m in Sources */,
+				F12C07BE14D701480014C2DC /* ProxyRefEntrevistado.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -632,8 +638,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -653,8 +659,8 @@
 					"-lstdc++",
 					"-ObjC",
 				);
-				PROVISIONING_PROFILE = "002EE82C-9D18-44ED-BA36-5534809D5288";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "002EE82C-9D18-44ED-BA36-5534809D5288";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ZXingWidget/Classes\"";
 			};
@@ -665,8 +671,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Missael Rodriguez (6AZPVPSR8C)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -680,8 +686,8 @@
 					"-lstdc++",
 					"-ObjC",
 				);
-				PROVISIONING_PROFILE = "002EE82C-9D18-44ED-BA36-5534809D5288";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "002EE82C-9D18-44ED-BA36-5534809D5288";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ZXingWidget/Classes\"";
 				VALIDATE_PRODUCT = YES;
@@ -692,7 +698,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = iMeeting/iMeeting.entitlements;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -702,6 +708,7 @@
 				GCC_PREFIX_HEADER = "iMeeting/iMeetingMX-Prefix.pch";
 				INFOPLIST_FILE = "iMeeting/iMeeting-Info.plist";
 				PRODUCT_NAME = iMeetingMX;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ZXingWidget/Classes\" \"$(SRCROOT)/json-framework/Classes\"";
 				WRAPPER_EXTENSION = app;
@@ -712,7 +719,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = iMeeting/iMeeting.entitlements;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -722,6 +729,7 @@
 				GCC_PREFIX_HEADER = "iMeeting/iMeetingMX-Prefix.pch";
 				INFOPLIST_FILE = "iMeeting/iMeeting-Info.plist";
 				PRODUCT_NAME = iMeetingMX;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ZXingWidget/Classes\" \"$(SRCROOT)/json-framework/Classes\"";
 				WRAPPER_EXTENSION = app;

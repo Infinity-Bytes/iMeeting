@@ -46,8 +46,8 @@
     NSMutableSet * zonas = [NSMutableSet new];
     
     if(_meeting) {
-        for(id idPersona in [_meeting conjuntoPersonas]) {
-            id persona = [[_meeting conjuntoPersonas] objectForKey: idPersona];
+        for(id idPersona in [_meeting conjuntoEntrevistadores]) {
+            id persona = [[_meeting conjuntoEntrevistadores] objectForKey: idPersona];
             if([persona respondsToSelector: @selector(zona)]) {
                 NSString * zona = [persona performSelector:@selector(zona)];
                 if (zona) {
@@ -57,19 +57,6 @@
                         [salida setObject:personasPorZona forKey: zona];
                     } else {
                         [personasPorZona retain];
-                    }
-                    
-                    NSArray * personasInteres = [persona personas];
-                    [persona setPersonasEntrevistadas: [[NSMutableSet new] autorelease]];
-                    [persona setPersonasSinEntrevistar: [[NSMutableSet new] autorelease]];
-                    
-                    for(id personaInterna in personasInteres) {
-                        BOOL personaInternaAsistio = [personaInterna asistio];
-                        
-                        if(personaInternaAsistio)
-                            [[persona personasEntrevistadas] addObject: personaInterna];
-                        else
-                            [[persona personasSinEntrevistar] addObject: personaInterna];
                     }
                     
                     [personasPorZona addObject: persona];
@@ -152,9 +139,8 @@
 -(void) notificarRespuesta:(BOOL)respuesta
 {
     if(_ultimoEntrevistado && ![_ultimoEntrevistado asistio]) {
-        [_ultimoEntrevistado setAsistio: YES];
         
-        
+        [self procesaElementoTrabajado: _ultimoEntrevistado];
         // Notificar para generacion de archivo y envio posterior a iCloud
         NSNotification * myNotification =
         [NSNotification notificationWithName:@"registraElementoTrabajado" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:_meeting, @"meeting", _ultimoEntrevistado , @"elementoTrabajado", nil]];
@@ -166,20 +152,37 @@
     }
 }
 
-- (void) procesaElementoEntrevistado: (Entrevistado *) entrevistado enEntrevistador: (Entrevistador *) entrevistador {
-    Entrevistador * lider = [entrevistador lider];
+- (void) procesaElementoTrabajado: (Entrevistado *) entrevistado {
+    [entrevistado setAsistio: YES];
     
-    if(![[entrevistador personasEntrevistadas] containsObject: entrevistado]) {
+    Entrevistador * entrevistadorLider = [entrevistado lider];
+    if(entrevistadorLider) {
+        [[entrevistadorLider personasSinEntrevistar] removeObject: entrevistado];
+        [[entrevistadorLider personasEntrevistadas] addObject: entrevistado];
+    }
+    
+    NSMutableSet * conjuntoEntrevistadoresInteres = [NSMutableSet new];
+    [self obtenEntrevistadoresAcumulador: conjuntoEntrevistadoresInteres aPartir: entrevistadorLider];
+    [self procesaAcumulado: conjuntoEntrevistadoresInteres];
+    [conjuntoEntrevistadoresInteres release];
+}
+
+- (void) obtenEntrevistadoresAcumulador:(NSMutableSet *) acumulador aPartir: (Entrevistador *) entrevistador {
+    if(entrevistador && ![acumulador containsObject: entrevistador]) {
+        [acumulador addObject: entrevistador];
         
-        [[entrevistador personasEntrevistadas] addObject: entrevistado];
-        [[entrevistador personasSinEntrevistar] removeObject: entrevistado];
-        
-        if(lider) {
-            [self procesaElementoEntrevistado: entrevistado enEntrevistador: lider];
-        }
+        Entrevistador * lider = [entrevistador lider];
+        [self obtenEntrevistadoresAcumulador:acumulador aPartir: lider];
     }
 }
 
+- (void) procesaAcumulado: (NSSet *) acumulador {
+    for(Entrevistador * entrevistador in acumulador) {
+
+        // Agregar en el acumulador
+        entrevistador.numeroPersonasEntrevistadas++;
+    }
+}
 
 
 #pragma Delegado Gestor Datos
@@ -193,7 +196,7 @@
         _meeting = [meeting retain];
     }
     
-    [servicioBusqueda setPersonalMeeting: [_meeting conjuntoPersonas]];
+    [servicioBusqueda setPersonalMeeting: [_meeting conjuntoEntrevistados]];
     
     [[NSNotificationQueue defaultQueue] enqueueNotification: [NSNotification notificationWithName:@"refrescarPantallas" object:self 
         userInfo: [NSDictionary dictionaryWithObjectsAndKeys: meeting, @"meeting", nil]]
@@ -210,9 +213,9 @@
     NSString * elementoTrabajado = [[notificacion userInfo] objectForKey: @"elementoTrabajado"];
     
     // Asignar trabajado
-    Entrevistado * entrevistado = [[meeting conjuntoPersonas] objectForKey: elementoTrabajado];
+    Entrevistado * entrevistado = [[meeting conjuntoEntrevistados] objectForKey: elementoTrabajado];
     if(entrevistado) {
-        [entrevistado setAsistio: YES];
+        [self procesaElementoTrabajado: entrevistado];
         
         [[NSNotificationQueue defaultQueue] enqueueNotification: [NSNotification notificationWithName:@"refrescarPantallasConEntrevistador" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:entrevistado, @"entrevistado", meeting, @"meeting", nil]]
                                                    postingStyle: NSPostWhenIdle
