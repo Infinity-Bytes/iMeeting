@@ -85,29 +85,12 @@
             
             ControladorDetalleEntrevistador * controladorDetalle = [[ControladorDetalleEntrevistador alloc] initWithNibName:@"ControladorDetalleEntrevistador" bundle:[NSBundle mainBundle]];
             
-            [controladorDetalle establecerEntrevistador:entrevistador];
             [controladorDetalle setDelegadoControladorNavegacion:self];
-            
-            DetalleGrafica *personasEntrevistadas = [DetalleGrafica new];
-            
-            [personasEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.personasEntrevistadas.count]];
-            [personasEntrevistadas setPorcentaje: (entrevistador.personasEntrevistadas.count *100 ) / entrevistador.personas.count]; 
-            [personasEntrevistadas setNombreLeyenda:@"Si"];
-            
-            DetalleGrafica *personasNoEntrevistadas = [DetalleGrafica new];
-            
-            [personasNoEntrevistadas setCantidad: [NSString  stringWithFormat:@"%d", entrevistador.personasSinEntrevistar.count]];
-            [personasNoEntrevistadas setPorcentaje: (entrevistador.personasSinEntrevistar.count *100 ) / entrevistador.personas.count]; 
-            [personasNoEntrevistadas setNombreLeyenda:@"No"];
-            
-            
-            [controladorDetalle setDetallesDeGrafica:[[NSArray alloc] initWithObjects:personasEntrevistadas,personasNoEntrevistadas, nil]];
+            [controladorDetalle establecerEntrevistador:entrevistador];
             
             [controlNavegacion pushViewController:controladorDetalle animated:YES];
             
             [controladorDetalle release];
-            [personasEntrevistadas release];
-            [personasNoEntrevistadas release];
             
         }else
         {

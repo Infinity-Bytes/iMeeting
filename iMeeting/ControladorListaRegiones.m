@@ -55,6 +55,8 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(refrescarPantallas:) name:@"refrescarPantallas" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(refrescarPantallasConEntrevistador:) name:@"refrescarPantallasConEntrevistador" object: nil];
+    
+    [super viewWillAppear:animated];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -69,6 +71,8 @@
 
 -(void) viewWillDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver: self];
+    
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidLoad
