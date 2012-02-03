@@ -55,32 +55,30 @@
 //un selector para desglosar informacion en detalle grafica asi mismo elegir a que ventana lo llevara la seleccion
 -(void) mostrarPanelSiguienteSegunEntrevistador:(Entrevistador*)entrevistador bajoIdentificador:(NSString*) identificador  usandoControlNavegacion: (UINavigationController*) controlNavegacion
 {
-    if([entrevistador isKindOfClass: [JefeEntrevistadores class]])
-    {
-        ControladorListaRegiones* controladorListaRegiones = [[ControladorListaRegiones alloc] initWithNibName:@"ControladorListaRegiones" bundle:nil];
+    if([entrevistador isKindOfClass: [JefeEntrevistadores class]]) {
+        NSArray * personaAsuCargo = nil;
+        NSString * nombreLista = nil;
         
-        [controladorListaRegiones setDelegadoControladorNavegacion:self];
-        
-        NSArray *personaAsuCargo;
-        NSString *nombreLista;
-        JefeEntrevistadores* jefeEntrevistadores = (JefeEntrevistadores*)entrevistador;
-        if([[jefeEntrevistadores jefesEntrevistadores] count]){
+        JefeEntrevistadores* jefeEntrevistadores = (JefeEntrevistadores *)entrevistador;
+        if([[jefeEntrevistadores jefesEntrevistadores] count]) {
             personaAsuCargo = [jefeEntrevistadores jefesEntrevistadores];
             nombreLista = @"Subjefe";
-        } else
-        {
-            if([[jefeEntrevistadores entrevistadores] count])
-            {   
+        } else {
+            if([[jefeEntrevistadores entrevistadores] count]) {
                 personaAsuCargo = [jefeEntrevistadores entrevistadores];
                 nombreLista = @"Entrevistadores";
             }
         }
-        [controladorListaRegiones setEncargadosPorRegion:[self establecerOriginDatos:personaAsuCargo bajoNombre:nombreLista]];
-        [controladorListaRegiones setIdentificador:@"ListaRegiones"];
-        [controlNavegacion pushViewController:controladorListaRegiones animated:YES];
-        [controladorListaRegiones release];
-    }else
-    {
+        
+        if ( nombreLista != nil && personaAsuCargo != nil) {
+            ControladorListaRegiones* controladorListaRegiones = [[ControladorListaRegiones alloc] initWithNibName:@"ControladorListaRegiones" bundle:nil];
+            [controladorListaRegiones setDelegadoControladorNavegacion:self];
+            [controladorListaRegiones setEncargadosPorRegion:[self establecerOriginDatos:personaAsuCargo bajoNombre:nombreLista]];
+            [controladorListaRegiones setIdentificador:@"ListaRegiones"];
+            [controlNavegacion pushViewController:controladorListaRegiones animated:YES];
+            [controladorListaRegiones release];
+        }
+    } else {
         if ([identificador isEqualToString:@"ListaRegiones"]) {
             
             ControladorDetalleEntrevistador * controladorDetalle = [[ControladorDetalleEntrevistador alloc] initWithNibName:@"ControladorDetalleEntrevistador" bundle:[NSBundle mainBundle]];
@@ -92,8 +90,7 @@
             
             [controladorDetalle release];
             
-        }else
-        {
+        } else {
             ControladorListaPersonas * controladorListaPersonas = [[ControladorListaPersonas alloc] initWithNibName:@"ControladorListaPersonas" bundle:[NSBundle mainBundle]];
             
             NSSet * origenDatos = [NSSet set];

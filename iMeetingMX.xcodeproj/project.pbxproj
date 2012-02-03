@@ -60,6 +60,7 @@
 		F1B2BAF314C12A7C00C3370F /* ServicioBusqueda.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BAF214C12A7C00C3370F /* ServicioBusqueda.m */; };
 		F1BC448A14C89C170089E264 /* ServicioGestorDatos.m in Sources */ = {isa = PBXBuildFile; fileRef = F1BC448914C89C170089E264 /* ServicioGestorDatos.m */; };
 		F1BC448D14C8A3810089E264 /* Documento.m in Sources */ = {isa = PBXBuildFile; fileRef = F1BC448C14C8A3810089E264 /* Documento.m */; };
+		F1F6AF6214DC87FD000D017E /* JefeEntrevistadoresOtro.m in Sources */ = {isa = PBXBuildFile; fileRef = F1F6AF6114DC87FD000D017E /* JefeEntrevistadoresOtro.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -199,6 +200,8 @@
 		F1BC448914C89C170089E264 /* ServicioGestorDatos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicioGestorDatos.m; sourceTree = "<group>"; };
 		F1BC448B14C8A3810089E264 /* Documento.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Documento.h; sourceTree = "<group>"; };
 		F1BC448C14C8A3810089E264 /* Documento.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Documento.m; sourceTree = "<group>"; };
+		F1F6AF6014DC87FD000D017E /* JefeEntrevistadoresOtro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JefeEntrevistadoresOtro.h; sourceTree = "<group>"; };
+		F1F6AF6114DC87FD000D017E /* JefeEntrevistadoresOtro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JefeEntrevistadoresOtro.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -347,6 +350,8 @@
 				F17EA1A214D354F800CB55DB /* JefeEntrevistadores.m */,
 				F12C07BC14D701480014C2DC /* ProxyRefEntrevistado.h */,
 				F12C07BD14D701480014C2DC /* ProxyRefEntrevistado.m */,
+				F1F6AF6014DC87FD000D017E /* JefeEntrevistadoresOtro.h */,
+				F1F6AF6114DC87FD000D017E /* JefeEntrevistadoresOtro.m */,
 			);
 			name = modelo;
 			sourceTree = "<group>";
@@ -613,6 +618,7 @@
 				F1BC448D14C8A3810089E264 /* Documento.m in Sources */,
 				F17EA1A314D354F800CB55DB /* JefeEntrevistadores.m in Sources */,
 				F12C07BE14D701480014C2DC /* ProxyRefEntrevistado.m in Sources */,
+				F1F6AF6214DC87FD000D017E /* JefeEntrevistadoresOtro.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
