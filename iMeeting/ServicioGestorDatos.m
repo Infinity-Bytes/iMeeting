@@ -15,6 +15,7 @@
 #import "Persona.h"
 #import "Entrevistado.h"
 #import "ProxyRefEntrevistado.h"
+#import "JefeEntrevistadoresOtro.h"
 
 #pragma Macros Control
 #define REGENERARESTRUCTURA YES
@@ -149,6 +150,9 @@
         
         // Registrar elemento trabajado para Meeting específico
         NSString * elementoTrabajado = SINPATRONARCHIVOS([urlElementoTrabajado lastPathComponent]);
+        
+        // Obtener el nombre base del archivo
+        elementoTrabajado = [[elementoTrabajado componentsSeparatedByString: @"-"] objectAtIndex: 0];
         
         NSString * pathDefinicion = [[[subPathElementoTrabajado componentsSeparatedByString: @"/"] objectAtIndex: 0] 
                                      stringByAppendingPathComponent: ARCHIVODEFINICIONMEETING];
@@ -614,6 +618,7 @@
                                                                                                      acumuladorEntrevistadores: acumuladorEntrevistadores  yPersonaOrigen: personaInteres]];
                     }
                     
+                    
                     if(personaInteres) {
                         if([personaInteres isKindOfClass: [Persona class]]) {
                             [contenedorPersonal addObject: personaInteres];
@@ -626,6 +631,12 @@
                                 if(agregarAcumulador) {
                                     [acumulador setObject:personaInteres forKey: identificador];
                                 } else {
+                                    [acumuladorEntrevistadores setObject: personaInteres forKey: identificador];
+                                }
+                                
+                                // TODO Revisar forma de agregar a acumulador sin necesidad de hard code
+                                if ([personaInteres isKindOfClass: [JefeEntrevistadoresOtro class]]) {
+                                    [acumulador setObject:personaInteres forKey: identificador];
                                     [acumuladorEntrevistadores setObject: personaInteres forKey: identificador];
                                 }
                             }

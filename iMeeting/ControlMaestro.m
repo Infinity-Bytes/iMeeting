@@ -6,6 +6,7 @@
 #import "ServicioGestorDatos.h"
 #import "ControladorListaRegiones.h"
 #import "JefeEntrevistadores.h"
+#import "JefeEntrevistadoresOtro.h"
 
 @implementation ControlMaestro
 
@@ -167,6 +168,11 @@
         
         // Agregar en el acumulador
         entrevistador.numeroPersonasEntrevistadas++;
+        
+        // TODO Evitar hard code
+        if([entrevistador isKindOfClass: [JefeEntrevistadoresOtro class]]) {
+            entrevistador.numeroPersonasASuCargo++;
+        }
     }
 }
 
