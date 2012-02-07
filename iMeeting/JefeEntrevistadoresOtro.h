@@ -10,4 +10,6 @@
 
 @interface JefeEntrevistadoresOtro : JefeEntrevistadores
 
+- (void) elementoRegistrado: (NSNotification *) notification;
+
 @end

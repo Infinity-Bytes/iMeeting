@@ -31,7 +31,7 @@
 
 -(NSDictionary *) establecerOriginDatos:(NSArray*)arregloDatos bajoNombre:(NSString*)nombre;
 
-- (void) procesaElementoTrabajado: (Entrevistado *) entrevistado;
+- (void) procesaElementoTrabajado: (Entrevistado *) entrevistado enMeeting: (Meeting *) meeting;
 - (void) obtenEntrevistadoresAcumulador:(NSMutableSet *) acumulador aPartir: (Entrevistador *) entrevistador;
 - (void) procesaAcumulado: (NSSet *) acumulador;
 

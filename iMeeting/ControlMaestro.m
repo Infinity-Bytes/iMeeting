@@ -125,10 +125,12 @@
 {
     if(_ultimoEntrevistado && ![_ultimoEntrevistado asistio]) {
         
-        [self procesaElementoTrabajado: _ultimoEntrevistado];
+        [self procesaElementoTrabajado: _ultimoEntrevistado enMeeting: _meeting];
+        
         // Notificar para generacion de archivo y envio posterior a iCloud
-        NSNotification * myNotification =
-        [NSNotification notificationWithName:@"registraElementoTrabajado" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:_meeting, @"meeting", _ultimoEntrevistado , @"elementoTrabajado", nil]];
+        NSNotification * myNotification = [NSNotification notificationWithName:@"registraElementoTrabajado" 
+                                                                        object:self 
+                                                                      userInfo: [NSDictionary dictionaryWithObjectsAndKeys:_meeting, @"meeting", _ultimoEntrevistado , @"elementoTrabajado", nil]];
         
         [[NSNotificationQueue defaultQueue] enqueueNotification: myNotification
                                                    postingStyle: NSPostWhenIdle
@@ -137,7 +139,7 @@
     }
 }
 
-- (void) procesaElementoTrabajado: (Entrevistado *) entrevistado {
+- (void) procesaElementoTrabajado: (Entrevistado *) entrevistado enMeeting: (Meeting *) meeting {
     if(![entrevistado asistio]) {
         [entrevistado setAsistio: YES];
         
@@ -151,6 +153,11 @@
             [self procesaAcumulado: conjuntoEntrevistadoresInteres];
             [conjuntoEntrevistadoresInteres release];
         }
+        
+        [[NSNotificationQueue defaultQueue] enqueueNotification: [NSNotification notificationWithName:@"refrescarPantallasConEntrevistador" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:entrevistado, @"entrevistado", meeting, @"meeting", nil]]
+                                                   postingStyle: NSPostWhenIdle
+                                                   coalesceMask: NSNotificationNoCoalescing
+                                                       forModes: nil];
     }
 }
 
@@ -168,11 +175,6 @@
         
         // Agregar en el acumulador
         entrevistador.numeroPersonasEntrevistadas++;
-        
-        // TODO Evitar hard code
-        if([entrevistador isKindOfClass: [JefeEntrevistadoresOtro class]]) {
-            entrevistador.numeroPersonasASuCargo++;
-        }
     }
 }
 
@@ -211,12 +213,7 @@
     // Asignar trabajado
     Entrevistado * entrevistado = [[meeting conjuntoEntrevistados] objectForKey: elementoTrabajado];
     if(entrevistado) {
-        [self procesaElementoTrabajado: entrevistado];
-        
-        [[NSNotificationQueue defaultQueue] enqueueNotification: [NSNotification notificationWithName:@"refrescarPantallasConEntrevistador" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:entrevistado, @"entrevistado", meeting, @"meeting", nil]]
-                                                   postingStyle: NSPostWhenIdle
-                                                   coalesceMask: NSNotificationNoCoalescing
-                                                       forModes: nil];
+        [self procesaElementoTrabajado: entrevistado enMeeting:meeting];
     }
 }
 
