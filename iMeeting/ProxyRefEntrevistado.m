@@ -16,6 +16,7 @@
     self = [super init];
     if (self) {
         [self setConjuntoEntrevistadores: [NSDictionary dictionary]];
+        [self setEntrevistable: YES];
     }
     return self;
 }

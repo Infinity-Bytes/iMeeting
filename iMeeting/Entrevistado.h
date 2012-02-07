@@ -12,7 +12,8 @@
 
 @interface Entrevistado : Persona
 
-@property(nonatomic, retain) NSString *telefono;
+@property(nonatomic, retain) NSString * telefono;
 @property(nonatomic, assign) BOOL asistio;
+@property(nonatomic, assign) BOOL entrevistable;
 
 @end

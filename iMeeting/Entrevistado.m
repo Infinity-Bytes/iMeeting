@@ -12,7 +12,15 @@
 
 @synthesize asistio;
 @synthesize telefono;
+@synthesize entrevistable;
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        [self setEntrevistable: NO];
+    }
+    return self;
+}
 
 -(void)dealloc
 {

@@ -15,6 +15,7 @@
     if (self) {
         [self setNumeroPersonasASuCargo: 0];
         [self setNumeroPersonasEntrevistadas: 0];
+        [self setEntrevistable: YES];
         
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector: @selector(elementoRegistrado:) 

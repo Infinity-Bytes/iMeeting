@@ -574,19 +574,19 @@
             for(id persona in _personal) {
                 if( [persona isKindOfClass: [NSDictionary class]] ) {
                     Persona * personaInteres = nil;
-                    BOOL agregarAcumulador = NO;
                     
                     id _tipoPersona = [persona objectForKey: @"tipo"];
                     if([_tipoPersona isKindOfClass: [NSString class]] && [_tipoPersona length] > 0) {
                         personaInteres = [NSClassFromString(_tipoPersona) new];
                     } else {
-                        personaInteres = [Entrevistado new];
-                        agregarAcumulador = YES;
+                        Entrevistado * entrevistado = [Entrevistado new];
+                        [entrevistado setEntrevistable: YES];
+                        personaInteres = entrevistado;
                     }
                     
                     if(![self objeto:personaInteres ejecutaSelector: @selector(setNombre:) conArgumento: [persona objectForKey: @"nombre"] deTipo:[NSString class]]) {
                         
-                        if(agregarAcumulador) {
+                        if([personaInteres isMemberOfClass:[Entrevistado class]]) {
                             [personaInteres release];
                             
                             // Agregar Entrevistado basado en Referencia
@@ -628,15 +628,13 @@
                             // Considerar al entrevistador para los jefes de entrevistadores
                             NSString * identificador = [personaInteres performSelector: @selector(identificador)];
                             if(identificador && [identificador length]) {
-                                if(agregarAcumulador) {
+                                
+                                if([personaInteres respondsToSelector: @selector(entrevistable)] 
+                                   && [personaInteres performSelector: @selector(entrevistable)]) {
                                     [acumulador setObject:personaInteres forKey: identificador];
-                                } else {
-                                    [acumuladorEntrevistadores setObject: personaInteres forKey: identificador];
                                 }
                                 
-                                // TODO Revisar forma de agregar a acumulador sin necesidad de hard code
-                                if ([personaInteres isKindOfClass: [JefeEntrevistadoresOtro class]]) {
-                                    [acumulador setObject:personaInteres forKey: identificador];
+                                if ([personaInteres isKindOfClass: [Entrevistador class]]) {
                                     [acumuladorEntrevistadores setObject: personaInteres forKey: identificador];
                                 }
                             }
