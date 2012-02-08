@@ -33,7 +33,7 @@
 
 #pragma Implementación ServicioGestorDatos
 
-// TODO Evitar generar nuevos archivos de elementos que ya se encuentran previamente en la nube
+// TODO Generar registros unicos para comportamiento de Otros que incluyan metainformacion como fecha/hora
 @implementation ServicioGestorDatos
 
 @synthesize urlDocumentos;
