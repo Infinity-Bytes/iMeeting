@@ -113,6 +113,10 @@
                          forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
                         completionHandler:^(BOOL success) {
                             NSLog(@"Elemento %@ pendiente publicado: %@", [documentoAlmacenar fileURL], success ? @"correctamente" : @"incorrectamente");
+                            
+                            NSString * subPathElementoTrabajado = [self obtenSubPath: urlLocal];
+                            subPathElementoTrabajado = [subPathElementoTrabajado stringByReplacingOccurrencesOfString: DIRECTORIOPENDIENTE withString: DIRECTORIOTRABAJADO];
+                            [_elementoTrabajadoPorPath addObject: subPathElementoTrabajado];
                         }];
             
             [documentoAlmacenar release];
