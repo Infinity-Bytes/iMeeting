@@ -45,14 +45,13 @@
 {
     [self setEntrevistador:entrevistador];
     CGRect bar = [[self graficaBarra] frame];
+
     int personasEncargadas = self.entrevistador.numeroPersonasASuCargo;
-    
-    NSString * capacidad = [NSString stringWithFormat: @"%d", personasEncargadas];
-    
-    float ancho = (( self.entrevistador.numeroPersonasEntrevistadas * 100) / personasEncargadas);
+    float ancho = personasEncargadas ? (( self.entrevistador.numeroPersonasEntrevistadas * 100) / personasEncargadas) : 0;
     if(ancho < 0 || ancho > 100)
         ancho = 0.0f;
     
+    NSString * capacidad = [NSString stringWithFormat: @"%d", personasEncargadas];
 	bar.size = CGSizeMake(320.0f * 0.01f * ancho, bar.size.height);
 	[[self graficaBarra] setFrame:bar];
     [[self capacidad ] setText:[NSString stringWithFormat:@"%@", capacidad]];

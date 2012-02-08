@@ -16,22 +16,8 @@
         [self setNumeroPersonasASuCargo: 0];
         [self setNumeroPersonasEntrevistadas: 0];
         [self setEntrevistable: YES];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector: @selector(elementoRegistrado:) 
-                                                     name: @"refrescarPantallasConEntrevistador" object:nil];
     }
     return self;
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-    
-    [super dealloc];
-}
-
-- (void) elementoRegistrado: (NSNotification *) notification {
-    [self setNumeroPersonasASuCargo: [self numeroPersonasASuCargo] + 1];
 }
 
 - (id) lider {
@@ -56,6 +42,10 @@
 
 - (NSMutableArray *) entrevistadores {
     return nil;
+}
+
+- (int) numeroPersonasASuCargo {
+    return [self numeroPersonasEntrevistadas];
 }
 
 @end
