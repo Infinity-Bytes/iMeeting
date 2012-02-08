@@ -30,6 +30,7 @@
 #define DIRECTORIOTRABAJADO @"trabajado"
 #define DIRECTORIOPENDIENTE @"pendiente"
 #define EXTENSIONMEETING @"-meeting"
+#define STRINGSEPARACIONELEMENTOTRABAJADO @"~"
 
 #pragma Implementación ServicioGestorDatos
 
@@ -90,10 +91,17 @@
     Meeting * meeting = [[theNotification userInfo] objectForKey:@"meeting"];
     Entrevistado * entrevistado = [[theNotification userInfo] objectForKey:@"elementoTrabajado"];
     if(meeting && entrevistado && [meeting urlLocal]) {
+        
+        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        [format setDateFormat:@"yyyyMMdd_HHmmss"];
+        NSDate *now = [[NSDate alloc] init];
+        NSString *dateString = [format stringFromDate:now];
+        
         // Generacion de fichero correspondiente
         NSError * error;
         NSURL * urlPendientesLocal = [[meeting urlLocal] URLByAppendingPathComponent: DIRECTORIOPENDIENTE isDirectory: YES]; 
-        NSURL * urlLocal = [ urlPendientesLocal URLByAppendingPathComponent: PATRONARCHIVOS([entrevistado identificador]) isDirectory: NO];
+        NSString * nombreElementoTrabajado = [NSString stringWithFormat:@"%@%@%@%@%@", [entrevistado identificador], STRINGSEPARACIONELEMENTOTRABAJADO, [[UIDevice currentDevice] uniqueIdentifier], STRINGSEPARACIONELEMENTOTRABAJADO, dateString];
+        NSURL * urlLocal = [ urlPendientesLocal URLByAppendingPathComponent: PATRONARCHIVOS(nombreElementoTrabajado) isDirectory: NO];
         
         if([[NSFileManager defaultManager] createDirectoryAtURL: urlPendientesLocal 
                  withIntermediateDirectories:YES attributes:nil error: &error]) {
@@ -152,7 +160,7 @@
         NSString * elementoTrabajado = SINPATRONARCHIVOS([urlElementoTrabajado lastPathComponent]);
         
         // Obtener el nombre base del archivo
-        elementoTrabajado = [[elementoTrabajado componentsSeparatedByString: @"-"] objectAtIndex: 0];
+        elementoTrabajado = [[elementoTrabajado componentsSeparatedByString: STRINGSEPARACIONELEMENTOTRABAJADO] objectAtIndex: 0];
         
         NSString * pathDefinicion = [[[subPathElementoTrabajado componentsSeparatedByString: @"/"] objectAtIndex: 0] 
                                      stringByAppendingPathComponent: ARCHIVODEFINICIONMEETING];
