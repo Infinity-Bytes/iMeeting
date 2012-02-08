@@ -48,7 +48,9 @@
         _elementoTrabajadoPorPath = [NSMutableSet new];
         _archivoGestionadoPorPath = [NSMutableSet new];
         _revisionPorPath = [NSMutableDictionary new];
-
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        [_dateFormatter setDateFormat:@"yyyyMMdd_HHmmss"];
+        
         enviarPendientes = NO;
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -71,6 +73,7 @@
     [_elementoTrabajadoPorPath release]; _elementoTrabajadoPorPath = nil;
     [_archivoGestionadoPorPath release]; _archivoGestionadoPorPath = nil;
     [_revisionPorPath release]; _revisionPorPath = nil;
+    [_dateFormatter release]; _dateFormatter = nil;
     
     [self setUrlDocumentos: nil];
     
@@ -91,23 +94,21 @@
     Meeting * meeting = [[theNotification userInfo] objectForKey:@"meeting"];
     Entrevistado * entrevistado = [[theNotification userInfo] objectForKey:@"elementoTrabajado"];
     if(meeting && entrevistado && [meeting urlLocal]) {
-        
-        NSDateFormatter *format = [[NSDateFormatter alloc] init];
-        [format setDateFormat:@"yyyyMMdd_HHmmss"];
-        NSDate *now = [[NSDate alloc] init];
-        NSString *dateString = [format stringFromDate:now];
+        NSDate *now = [[NSDate new] autorelease];
+        NSString *dateString = [_dateFormatter stringFromDate:now];
         
         // Generacion de fichero correspondiente
+        // TODO Evitar elemento deprecated de identificador de dispositivo
         NSError * error;
         NSURL * urlPendientesLocal = [[meeting urlLocal] URLByAppendingPathComponent: DIRECTORIOPENDIENTE isDirectory: YES]; 
-        NSString * nombreElementoTrabajado = [NSString stringWithFormat:@"%@%@%@%@%@", [entrevistado identificador], STRINGSEPARACIONELEMENTOTRABAJADO, [[UIDevice currentDevice] uniqueIdentifier], STRINGSEPARACIONELEMENTOTRABAJADO, dateString];
+        NSString * nombreElementoTrabajado = [NSString stringWithFormat:@"%@%@%@", [entrevistado identificador], STRINGSEPARACIONELEMENTOTRABAJADO, [[UIDevice currentDevice] uniqueIdentifier]];
         NSURL * urlLocal = [ urlPendientesLocal URLByAppendingPathComponent: PATRONARCHIVOS(nombreElementoTrabajado) isDirectory: NO];
         
         if([[NSFileManager defaultManager] createDirectoryAtURL: urlPendientesLocal 
                  withIntermediateDirectories:YES attributes:nil error: &error]) {
             
             Documento * documentoAlmacenar = [[Documento alloc] initWithFileURL: urlLocal];
-            [documentoAlmacenar setNoteContent: @""];
+            [documentoAlmacenar setNoteContent: dateString];
             [documentoAlmacenar saveToURL: [documentoAlmacenar fileURL] 
                          forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
                         completionHandler:^(BOOL success) {

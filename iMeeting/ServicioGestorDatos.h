@@ -25,6 +25,8 @@
     NSMutableSet * _archivoGestionadoPorPath;
     NSMutableDictionary * _revisionPorPath;
     BOOL enviarPendientes;
+    
+    NSDateFormatter *_dateFormatter;
 }
 
 - (DBRestClient *) restClient;
