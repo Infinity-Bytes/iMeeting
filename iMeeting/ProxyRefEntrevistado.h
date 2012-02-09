@@ -17,7 +17,6 @@
 
 #pragma Entrevistado
 -(NSString *) telefono;
--(BOOL) asistio;
 
 
 @property(nonatomic, assign) NSDictionary * conjuntoEntrevistadores;

@@ -29,7 +29,11 @@
 
 
 -(Entrevistador *) obtenReferencia {
-    return [[self conjuntoEntrevistadores] objectForKey: [self identificador]];
+    id salida = [[self conjuntoEntrevistadores] objectForKey: [self identificador]];
+    if (salida == nil) {
+        NSLog(@"Error en obtencion del origen del proxy");
+    }
+    return salida;
 }
 
 #pragma Persona
@@ -42,10 +46,5 @@
 -(NSString *) telefono {
     return [[self obtenReferencia] telefono];
 }
-
--(BOOL) asistio {
-    return [[self obtenReferencia] asistio];
-}
-
 
 @end
