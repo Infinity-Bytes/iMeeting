@@ -329,6 +329,8 @@
             BOOL directorio;
             if([defaultManager fileExistsAtPath: [urlPendientes path] isDirectory: &directorio]) {
                 if(directorio) {
+                    // TODO Borrar cualquier empaquetado anterior
+                    // TODO Comprimir elementos trabajados y enviar empaquetado a la nube
                     
                     NSArray * elementosEnPendientes = [defaultManager contentsOfDirectoryAtURL: urlPendientes 
                                                                     includingPropertiesForKeys:[NSArray array] 
@@ -378,6 +380,11 @@
                                                 withIntermediateDirectories: YES
                                                                  attributes: nil
                                                                       error: &error]) {
+                        
+                        // TODO Revisar si archivo es de tipo Definicion
+                        // TODO Si es archivo definicion y no existe localmente descargarle
+                        // TODO En caso contrario validar si el permiso es de Entrevistador o Jefe de Entrevistadores para proceder a la descarga (Solo Jefe de Entrevistadores)
+                        
                         [[self restClient] loadFile: file.path intoPath: [urlArchivoDocumentos path]];
                     } else {
                         NSLog( @"No es posible crear el directorio local para almacenar elemento en la nube: %@ con error: %@", [urlArchivoDocumentos URLByDeletingLastPathComponent], error);
@@ -410,6 +417,9 @@
     
     // Registrar Elementos trabajados
     if([[urlDirectorioPadreEnDocumentos lastPathComponent] isEqualToString: DIRECTORIOTRABAJADO]) {
+        
+        // TODO Descomprimir elementos recibidos
+        // TODO Registrar cada elemento obtenido en el archivo compreso
         [self registraElementoTrabajadoPorURL: urlArchivoEnDocumentos];
     }
 }
