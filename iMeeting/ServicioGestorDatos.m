@@ -460,10 +460,24 @@
     NSURL * urlElementoOrigen = [[[NSURL alloc] initFileURLWithPath:srcPath isDirectory: NO] autorelease];
     
     if(![[urlElementoOrigen lastPathComponent] isEqualToString: ARCHIVODEFINICIONMEETING]) {
-        // Borrar elemento en pendiente
-        NSError * error;
-        if(![[NSFileManager defaultManager] removeItemAtURL: urlElementoOrigen error: &error]) {
-            NSLog(@"Borrando %@ elemento trabajado pendiente incorrectamente, con error: %@", srcPath, error);
+        // Borrar elementos pendientes para evitar envio multiple
+        if([[urlElementoOrigen lastPathComponent] hasSuffix: @".zip"]) {
+            NSURL * urlPendientes = [[[urlElementoOrigen URLByDeletingLastPathComponent] URLByDeletingLastPathComponent] URLByAppendingPathComponent:DIRECTORIOPENDIENTE isDirectory: NO];
+            
+            ZipFile * zipFile= [[ZipFile alloc] initWithFileName: [urlElementoOrigen path] mode:ZipFileModeUnzip];
+            for (FileInZipInfo * zipInfo in [zipFile listFileInZipInfos]) {
+                NSURL * urlElementoEliminar = [urlPendientes URLByAppendingPathComponent: [zipInfo name] isDirectory: NO];
+                NSError * error;
+                if(![[NSFileManager defaultManager] removeItemAtURL: urlElementoEliminar  error: &error]) {
+                    NSLog(@"Error en eliminado de archivo: %@ pendiente de envio con error: %@", urlElementoEliminar, error);
+                }
+            }
+        } else {
+            // Borrar elemento en pendiente
+            NSError * error;
+            if(![[NSFileManager defaultManager] removeItemAtURL: urlElementoOrigen error: &error]) {
+                NSLog(@"Borrando %@ elemento trabajado pendiente incorrectamente, con error: %@", srcPath, error);
+            }
         }
     }
 }
