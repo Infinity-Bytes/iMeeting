@@ -8,13 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "ZXingWidgetController.h"
+#import "iDelegadoControladorScanner.h"
 
 @interface ControladorScannner : UIViewController <ZXingDelegate> 
 
-@property (nonatomic, assign) IBOutlet UITextField *Tbtexto;
+@property (nonatomic, assign) NSString *identificador;
 
 - (IBAction)cmdScanner:(id)sender;
 
+
+@property(nonatomic, assign) id<iDelegadoControladorScanner> delegadoControladorScanner;
 
 #pragma mark -
 #pragma mark ZXingDelegateMethods

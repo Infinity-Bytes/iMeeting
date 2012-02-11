@@ -11,7 +11,8 @@
 
 @implementation ControladorScannner
 
-@synthesize Tbtexto;
+@synthesize identificador;
+@synthesize delegadoControladorScanner;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,7 +41,7 @@
 
 - (void)viewDidUnload
 {
-    [self setTbtexto:nil];
+    [self setIdentificador:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -68,6 +69,7 @@
 }
 
 - (void)dealloc {
+    self.delegadoControladorScanner = nil;
     [super dealloc];
 }
 
@@ -76,9 +78,13 @@
 
 - (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result {
        if (self.isViewLoaded) {
-           [[self Tbtexto] setText:result];   
+        
+          [self setIdentificador:[delegadoControladorScanner obtenerEntrevistado:result]];
        }
-    [self dismissModalViewControllerAnimated:NO];
+    [self dismissModalViewControllerAnimated:YES];
+    
+    
+    
 }
 
 - (void)zxingControllerDidCancel:(ZXingWidgetController*)controller {
