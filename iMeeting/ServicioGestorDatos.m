@@ -482,10 +482,19 @@
     }
 }
 
-- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
-    NSLog(@"File upload failed with error - %@", error);
-    
-    // TODO Revisar que hacer cuando la definición no se publicara a la nube correctamente
+- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)errorUpload {
+    NSLog(@"File upload failed with error - %@", errorUpload);
+    NSString * sourcePath = [[errorUpload userInfo] objectForKey:@"sourcePath"];
+    if(sourcePath) {
+        NSURL * urlElementoOrigen = [[[NSURL alloc] initFileURLWithPath:sourcePath isDirectory: NO] autorelease];
+        
+        if(![[urlElementoOrigen lastPathComponent] isEqualToString: ARCHIVODEFINICIONMEETING]) {
+            NSError * error;
+            if(![[NSFileManager defaultManager] removeItemAtURL: urlElementoOrigen error: &error]) {
+                NSLog(@"Error en eliminacion de archivo %@ fallido de envio: %@", urlElementoOrigen, error);
+            }
+        }
+    }
 }
 
 #pragma Cargado de Meetings a partir de definición dada por iTunes Shared Folder
