@@ -7,7 +7,7 @@
 //
 
 #import "SBJson.h"
-
+#import "ZipFile.h"
 
 #import "ServicioGestorDatos.h"
 #import "Documento.h"
@@ -326,25 +326,50 @@
             
             // Se envian pendientes si existen
             NSURL * urlPendientes = [url URLByAppendingPathComponent: DIRECTORIOPENDIENTE isDirectory: YES];
+            NSURL * urlTrabajado = [url URLByAppendingPathComponent: DIRECTORIOTRABAJADO isDirectory: YES];
+            
             BOOL directorio;
             if([defaultManager fileExistsAtPath: [urlPendientes path] isDirectory: &directorio]) {
                 if(directorio) {
-                    // TODO Borrar cualquier empaquetado anterior
-                    // TODO Comprimir elementos trabajados y enviar empaquetado a la nube
-                    
                     NSArray * elementosEnPendientes = [defaultManager contentsOfDirectoryAtURL: urlPendientes 
                                                                     includingPropertiesForKeys:[NSArray array] 
                                                                                        options:0 
                                                                                          error:&error];
-                    for(NSURL * urlElementoEnDocumentosPendientes in elementosEnPendientes) {
+                    if ([elementosEnPendientes count]) {
+                        
+                        // Comprimir elementos trabajados y enviar empaquetado a la nube
+                        NSStringEncoding encoding;
+                        NSError * error;
+                        
+                        NSDate *now = [[NSDate new] autorelease];
+                        NSString *dateString = [_dateFormatter stringFromDate:now];
+                        
+                        NSString * nombreArchivo = [NSString stringWithFormat: @"%@.zip", dateString];
+                        NSURL * urlArchivoZip = [urlTrabajado URLByAppendingPathComponent: nombreArchivo isDirectory: NO];
+                        ZipFile * zipFile = [[ZipFile alloc] initWithFileName: [urlArchivoZip path] mode: ZipFileModeCreate];
+                        
+                        
+                        
+                        for(NSURL * urlElementoEnDocumentosPendientes in elementosEnPendientes) {
+                            
+                            ZipWriteStream * stream = [zipFile writeFileInZipWithName: [urlElementoEnDocumentosPendientes lastPathComponent] 
+                                                                             fileDate: [NSDate dateWithTimeIntervalSinceNow:-86400.0] 
+                                                                     compressionLevel: ZipCompressionLevelBest];
+                            
+                            
+                            NSString * text = [NSString stringWithContentsOfURL:urlElementoEnDocumentosPendientes usedEncoding:&encoding error:&error];
+                            [stream writeData: [text dataUsingEncoding: encoding]];
+                            [stream finishedWriting];
+                        }
+                        
+                        [zipFile close];
+                        [zipFile release];
                         
                         // Generar Path de Pendientes a Trabajados y para iCloud
-                        NSString * subPath = [[self obtenSubPath: [urlElementoEnDocumentosPendientes URLByDeletingLastPathComponent]] 
-                                   stringByReplacingOccurrencesOfString: DIRECTORIOPENDIENTE withString: DIRECTORIOTRABAJADO];
-
-                        
-                        NSString * localPath = [urlElementoEnDocumentosPendientes path];
-                        NSString * filename = [urlElementoEnDocumentosPendientes lastPathComponent];
+                        NSString * subPath = [[self obtenSubPath: [urlArchivoZip URLByDeletingLastPathComponent]] 
+                                              stringByReplacingOccurrencesOfString: DIRECTORIOPENDIENTE withString: DIRECTORIOTRABAJADO];
+                        NSString * localPath = [urlArchivoZip path];
+                        NSString * filename = [urlArchivoZip lastPathComponent];
                         NSString * destDir = [@"/" stringByAppendingString: subPath];
                         
                         [[self restClient] uploadFile:filename toPath:destDir withParentRev:nil fromPath:localPath];
