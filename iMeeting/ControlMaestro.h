@@ -17,9 +17,12 @@
 
 @interface ControlMaestro : NSObject<iDelegadoControladorNavegacion, iDelegadoControladorScanner, iDelegadoLogin>
 {
-    Meeting * _meeting;
     Entrevistado * _ultimoEntrevistado;
     Entrevistado * usuario;
+
+@public
+    Meeting * _meeting;
+    
 }
 
 

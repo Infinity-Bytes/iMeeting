@@ -10,6 +10,7 @@
 #import "CeldaEncargadoPorRegion.h"
 #import "iDelegadoControladorNavegacion.h"
 
+#import "Meeting.h"
 /**
  Controlador de vista que representa el listado de las diferentes administradores del estado
  */
@@ -41,6 +42,9 @@
 -(void) refrescarPantallas: (NSNotification *) notification;
 -(void) refrescarPantallasConEntrevistador: (NSNotification *) notification;
 -(NSDictionary *) establecerOriginDatos:(NSArray*)arregloDatos bajoNombre:(NSString*)nombre;
+
+
+-(void)refrescarDatos:(Meeting*) meeting;
 
 @property(nonatomic, retain) IBOutlet  UITableView *tablaDatos;
 @property(nonatomic, retain) IBOutlet  CeldaEncargadoPorRegion* celda;

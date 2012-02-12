@@ -7,7 +7,7 @@
 //
 
 #import "SBJson.h"
-
+#import "ZipFile.h"
 
 #import "ServicioGestorDatos.h"
 #import "Documento.h"
@@ -151,6 +151,9 @@
     }
 }
 
+
+// TODO Revisar no descargar archivos que esten de manera local
+
 - (void) registraElementoTrabajadoPorURL: (NSURL *) urlElementoTrabajado {
 
     // Obtener elementos publicados por URL de manera singleton (evitar trabajo por cada llamada de iCloud)
@@ -193,7 +196,7 @@
     if(!(meetingInteres = [_meetingsPorPathDefinicion objectForKey: subPathArchivoDefinicion])) {
         
         NSStringEncoding encoding;
-        NSError * error;
+        NSError * error = nil;
         NSString * definicionMeeting = [NSString stringWithContentsOfURL: urlArchivoDefinicion usedEncoding:&encoding error:&error];
         id definicion = [definicionMeeting JSONValue];
         if([definicion isKindOfClass: [NSDictionary class]]) {
@@ -231,7 +234,12 @@
                                                                              options:0 
                                                                                error:&error];
             for(NSURL * urlElementoTrabajado in elementosTrabajados) {
-                [self registraElementoTrabajadoPorURL: urlElementoTrabajado];
+                NSString * subPathDefinicion = [@"/" stringByAppendingString:[self obtenSubPath: urlElementoTrabajado]];
+                [_archivoGestionadoPorPath addObject: subPathDefinicion];
+                
+                if(![[urlElementoTrabajado lastPathComponent] hasPrefix: @".zip"]) {
+                    [self registraElementoTrabajadoPorURL: urlElementoTrabajado];
+                }
             }
         }
     }
@@ -250,6 +258,9 @@
             BOOL directorio;
             if([defaultManager fileExistsAtPath: [urlDefinicion path] isDirectory: &directorio]) {
                 if(!directorio) {
+                    NSString * subPathDefinicion = [@"/" stringByAppendingString:[self obtenSubPath: urlDefinicion]];
+                    [_archivoGestionadoPorPath addObject: subPathDefinicion];
+                        
                     Meeting * meeting = [self obtenMeetingDeURL: urlDefinicion];
                     if(meeting) {
                         [self registraMeeting: meeting conURLDocumentos: url yURLCloud: nil];
@@ -326,23 +337,50 @@
             
             // Se envian pendientes si existen
             NSURL * urlPendientes = [url URLByAppendingPathComponent: DIRECTORIOPENDIENTE isDirectory: YES];
+            NSURL * urlTrabajado = [url URLByAppendingPathComponent: DIRECTORIOTRABAJADO isDirectory: YES];
+            
             BOOL directorio;
             if([defaultManager fileExistsAtPath: [urlPendientes path] isDirectory: &directorio]) {
                 if(directorio) {
-                    
                     NSArray * elementosEnPendientes = [defaultManager contentsOfDirectoryAtURL: urlPendientes 
                                                                     includingPropertiesForKeys:[NSArray array] 
                                                                                        options:0 
                                                                                          error:&error];
-                    for(NSURL * urlElementoEnDocumentosPendientes in elementosEnPendientes) {
+                    if ([elementosEnPendientes count]) {
+                        
+                        // Comprimir elementos trabajados y enviar empaquetado a la nube
+                        NSStringEncoding encoding;
+                        NSError * error;
+                        
+                        NSDate *now = [[NSDate new] autorelease];
+                        NSString *dateString = [_dateFormatter stringFromDate:now];
+                        
+                        NSString * nombreArchivo = [NSString stringWithFormat: @"%@.zip", dateString];
+                        NSURL * urlArchivoZip = [urlTrabajado URLByAppendingPathComponent: nombreArchivo isDirectory: NO];
+                        ZipFile * zipFile = [[ZipFile alloc] initWithFileName: [urlArchivoZip path] mode: ZipFileModeCreate];
+                        
+                        
+                        
+                        for(NSURL * urlElementoEnDocumentosPendientes in elementosEnPendientes) {
+                            
+                            ZipWriteStream * stream = [zipFile writeFileInZipWithName: [urlElementoEnDocumentosPendientes lastPathComponent] 
+                                                                             fileDate: [NSDate dateWithTimeIntervalSinceNow:-86400.0] 
+                                                                     compressionLevel: ZipCompressionLevelBest];
+                            
+                            
+                            NSString * text = [NSString stringWithContentsOfURL:urlElementoEnDocumentosPendientes usedEncoding:&encoding error:&error];
+                            [stream writeData: [text dataUsingEncoding: encoding]];
+                            [stream finishedWriting];
+                        }
+                        
+                        [zipFile close];
+                        [zipFile release];
                         
                         // Generar Path de Pendientes a Trabajados y para iCloud
-                        NSString * subPath = [[self obtenSubPath: [urlElementoEnDocumentosPendientes URLByDeletingLastPathComponent]] 
-                                   stringByReplacingOccurrencesOfString: DIRECTORIOPENDIENTE withString: DIRECTORIOTRABAJADO];
-
-                        
-                        NSString * localPath = [urlElementoEnDocumentosPendientes path];
-                        NSString * filename = [urlElementoEnDocumentosPendientes lastPathComponent];
+                        NSString * subPath = [[self obtenSubPath: [urlArchivoZip URLByDeletingLastPathComponent]] 
+                                              stringByReplacingOccurrencesOfString: DIRECTORIOPENDIENTE withString: DIRECTORIOTRABAJADO];
+                        NSString * localPath = [urlArchivoZip path];
+                        NSString * filename = [urlArchivoZip lastPathComponent];
                         NSString * destDir = [@"/" stringByAppendingString: subPath];
                         
                         [[self restClient] uploadFile:filename toPath:destDir withParentRev:nil fromPath:localPath];
@@ -361,11 +399,7 @@
             
             if(!file.isDirectory) {
                 
-                // Evitar descargar multiples veces el mismo documento
-                NSString * revisionActual = [_revisionPorPath objectForKey: file.path];
-                NSString * revisionNuevo = file.rev;
-                
-                if(![_archivoGestionadoPorPath containsObject: file.path] || ![revisionActual isEqualToString: revisionNuevo] ) {
+                if(![_archivoGestionadoPorPath containsObject: file.path]) {
                     [_archivoGestionadoPorPath addObject: file.path];
                     [_revisionPorPath setObject:file.rev forKey: file.path];
 
@@ -378,6 +412,11 @@
                                                 withIntermediateDirectories: YES
                                                                  attributes: nil
                                                                       error: &error]) {
+                        
+                        // TODO Revisar si archivo es de tipo Definicion
+                        // TODO Si es archivo definicion y no existe localmente descargarle
+                        // TODO En caso contrario validar si el permiso es de Entrevistador o Jefe de Entrevistadores para proceder a la descarga (Solo Jefe de Entrevistadores)
+                        
                         [[self restClient] loadFile: file.path intoPath: [urlArchivoDocumentos path]];
                     } else {
                         NSLog( @"No es posible crear el directorio local para almacenar elemento en la nube: %@ con error: %@", [urlArchivoDocumentos URLByDeletingLastPathComponent], error);
@@ -410,7 +449,27 @@
     
     // Registrar Elementos trabajados
     if([[urlDirectorioPadreEnDocumentos lastPathComponent] isEqualToString: DIRECTORIOTRABAJADO]) {
-        [self registraElementoTrabajadoPorURL: urlArchivoEnDocumentos];
+        
+        if([[urlArchivoEnDocumentos lastPathComponent] hasSuffix:@".zip"]) {
+            ZipFile * zipFile = [[ZipFile alloc] initWithFileName: [urlArchivoEnDocumentos path] mode: ZipFileModeUnzip];
+            
+            for(FileInZipInfo * zipInfo in [zipFile listFileInZipInfos]) {
+                // Registrar cada elemento obtenido en el archivo compreso
+                NSURL * urlElementoTrabajado = [urlDirectorioPadreEnDocumentos URLByAppendingPathComponent:[zipInfo name] isDirectory: NO];
+                
+                if([zipFile locateFileInZip: [zipInfo name]]) {
+                    ZipReadStream * readStream = [zipFile readCurrentFileInZip];
+                    NSData * data = [readStream readDataOfLength: [zipInfo length]];
+                    [readStream finishedReading];
+                    
+                    [data writeToURL: urlElementoTrabajado atomically: YES];
+                    [self registraElementoTrabajadoPorURL: urlElementoTrabajado];
+                }
+            }
+            
+            [zipFile close];
+            [zipFile release];
+        }
     }
 }
 
@@ -425,18 +484,49 @@
     NSURL * urlElementoOrigen = [[[NSURL alloc] initFileURLWithPath:srcPath isDirectory: NO] autorelease];
     
     if(![[urlElementoOrigen lastPathComponent] isEqualToString: ARCHIVODEFINICIONMEETING]) {
-        // Borrar elemento en pendiente
-        NSError * error;
-        if(![[NSFileManager defaultManager] removeItemAtURL: urlElementoOrigen error: &error]) {
-            NSLog(@"Borrando %@ elemento trabajado pendiente incorrectamente, con error: %@", srcPath, error);
+        // Borrar elementos pendientes para evitar envio multiple
+        if([[urlElementoOrigen lastPathComponent] hasSuffix: @".zip"]) {
+            NSURL * urlPendientes = [[[urlElementoOrigen URLByDeletingLastPathComponent] URLByDeletingLastPathComponent] URLByAppendingPathComponent:DIRECTORIOPENDIENTE isDirectory: NO];
+            NSURL * urlTrabajados = [[[urlElementoOrigen URLByDeletingLastPathComponent] URLByDeletingLastPathComponent] URLByAppendingPathComponent:DIRECTORIOTRABAJADO isDirectory: NO];
+            
+            ZipFile * zipFile= [[ZipFile alloc] initWithFileName: [urlElementoOrigen path] mode:ZipFileModeUnzip];
+            for (FileInZipInfo * zipInfo in [zipFile listFileInZipInfos]) {
+
+                NSURL * urlElementoEliminar = [urlPendientes URLByAppendingPathComponent: [zipInfo name] isDirectory: NO];
+                NSURL * urlElementoTrabajado = [urlTrabajados URLByAppendingPathComponent: [zipInfo name] isDirectory: NO];
+                
+                NSError * error;
+                
+                if(![[NSFileManager defaultManager] moveItemAtURL:urlElementoEliminar toURL:urlElementoTrabajado error: &error]) {
+                    NSLog(@"Error en mover de archivo: %@ pendiente a trabajado con error: %@", urlElementoEliminar, error);
+                }
+            }
+            
+            [zipFile close];
+            [zipFile release];
+        } else {
+            // Borrar elemento en pendiente
+            NSError * error;
+            if(![[NSFileManager defaultManager] removeItemAtURL: urlElementoOrigen error: &error]) {
+                NSLog(@"Borrando %@ elemento trabajado pendiente incorrectamente, con error: %@", srcPath, error);
+            }
         }
     }
 }
 
-- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
-    NSLog(@"File upload failed with error - %@", error);
-    
-    // TODO Revisar que hacer cuando la definición no se publicara a la nube correctamente
+- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)errorUpload {
+    NSLog(@"File upload failed with error - %@", errorUpload);
+    NSString * sourcePath = [[errorUpload userInfo] objectForKey:@"sourcePath"];
+    if(sourcePath) {
+        NSURL * urlElementoOrigen = [[[NSURL alloc] initFileURLWithPath:sourcePath isDirectory: NO] autorelease];
+        
+        if(![[urlElementoOrigen lastPathComponent] isEqualToString: ARCHIVODEFINICIONMEETING]) {
+            NSError * error;
+            if(![[NSFileManager defaultManager] removeItemAtURL: urlElementoOrigen error: &error]) {
+                NSLog(@"Error en eliminacion de archivo %@ fallido de envio: %@", urlElementoOrigen, error);
+            }
+        }
+    }
 }
 
 #pragma Cargado de Meetings a partir de definición dada por iTunes Shared Folder
@@ -449,7 +539,7 @@
             NSURL * urlArchivo = [[[NSURL alloc] initFileURLWithPath: definicionMeetingFileSharing isDirectory: FALSE] autorelease];
             Meeting * meetingInteres = [self obtenMeetingDeURL: urlArchivo];
             if(meetingInteres) {
-                [self generaEstructuraDeMeeting: meetingInteres];
+                [self generaEstructuraDeMeeting: meetingInteres conURLOrigen: urlArchivo];
                 
                 if (BORRARDEFINICIONMEETING && !REGENERARESTRUCTURA) {
                     // Borrar definicion de iTunes File Sharing
@@ -463,12 +553,12 @@
     }
 }
 
-- (void) generaEstructuraDeMeeting: (Meeting *) meeting {
-    NSURL * urlDocumentosMeeting = [self cargaDirectorioMeeting: meeting enURL: [self urlDocumentos]];
+- (void) generaEstructuraDeMeeting: (Meeting *) meeting conURLOrigen: (NSURL *) urlOrigen {
+    NSURL * urlDocumentosMeeting = [self cargaDirectorioMeeting: meeting enURL: [self urlDocumentos] yURLOrigen: urlOrigen];
     [self registraMeeting: meeting conURLDocumentos: urlDocumentosMeeting yURLCloud: nil];
 }
 
-- (id) cargaDirectorioMeeting: (Meeting *) meeting enURL: (NSURL *) urlInteres {
+- (id) cargaDirectorioMeeting: (Meeting *) meeting enURL: (NSURL *) urlInteres yURLOrigen: (NSURL *) urlOrigen {
 	id pathMeeting = nil;
     NSError *error = nil;
     
@@ -492,21 +582,13 @@
                 [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent: DIRECTORIOPENDIENTE] 
                        withIntermediateDirectories:YES attributes:nil error: &error];
                 
+                NSError * error = nil;
                 NSURL * pathDefinicion = [pathMeeting URLByAppendingPathComponent: ARCHIVODEFINICIONMEETING  isDirectory: NO];
-                Documento * definicionInteres = [[Documento alloc] initWithFileURL: pathDefinicion];
-                [definicionInteres setNoteContent: [meeting definicion]];
-                [definicionInteres saveToURL: [definicionInteres fileURL] 
-                            forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
-                           completionHandler:^(BOOL success) {
-                               
-                               NSLog(@"Definición: %@ salvada: %@", pathMeeting, success ? @"correctamente" : @"incorrectamente");
-                               if(success) {
-                                   // Se registra el meeting en funcion de su estructura final
-                                   [_meetingsPorPathDefinicion setObject: meeting forKey: [self obtenSubPath: pathDefinicion]];
-                               }
-                }];
                 
-                [definicionInteres release];
+                if([[NSFileManager defaultManager] copyItemAtURL: urlOrigen toURL: pathDefinicion error:&error ]) {
+                    [_meetingsPorPathDefinicion setObject: meeting forKey: [self obtenSubPath: pathDefinicion]];
+                }
+                
             } else {
                 NSLog(@"Error en creación de directorio");
             }

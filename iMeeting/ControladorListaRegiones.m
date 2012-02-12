@@ -9,7 +9,7 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "ControladorListaRegiones.h"
 #import "Entrevistador.h"
-#import "Meeting.h"
+
 
 @implementation ControladorListaRegiones
 
@@ -82,6 +82,8 @@
     //[[self view ] setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"fondo_txtu2.png"] ]];
     self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Atrás" style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
     self.cellNib = [UINib nibWithNibName:@"CeldaEncargadoPorRegion" bundle:nil];
+    
+    
 }
 
 - (void)viewDidUnload
@@ -178,12 +180,16 @@
 -(void) refrescarPantallas: (NSNotification *) notification {
     //TODO refactoring cambiar a todo modificar la infor por le meeting
     Meeting* meeting = [[notification userInfo] objectForKey:@"meeting"];
+    [self refrescarDatos:meeting];
+}
+
+-(void)refrescarDatos:(Meeting*) meeting
+{
     if(meeting)
     {
         self.encargadosPorRegion = [self establecerOriginDatos:[meeting personal]  bajoNombre:@"Jefes"];
         [[self tablaDatos] reloadData];
     }
-    
 }
 
 -(void) refrescarPantallasConEntrevistador: (NSNotification *) notification {

@@ -82,15 +82,16 @@
 
 -(void)crearVistAdministrador
 {
-    
     [ self setControladorPestanias: [[CustomTabBarController new] autorelease]  ];
-    [[self controladorPestanias] setDelegadoControladorScanner: controlMaestro];
+    [[self controladorPestanias] setDelegadoControladorScanner: self.controlMaestro];
     
     ControladorListaRegiones * controladorListaRegiones =  [[[ControladorListaRegiones alloc] initWithNibName:@"ControladorListaRegiones" bundle:[NSBundle mainBundle]] autorelease]; 
     [controladorListaRegiones setIdentificador:@"ListaRegiones"];
     controladorListaRegiones.tabBarItem.title = @"Personas";
     controladorListaRegiones.tabBarItem.image = [UIImage imageNamed:@"112-group.png"];
-    [controladorListaRegiones setDelegadoControladorNavegacion:controlMaestro];
+    [controladorListaRegiones setDelegadoControladorNavegacion:self.controlMaestro];
+    
+    
    
     //UIViewController * controlador = [[self controladorPestanias] viewControllerWithTabTitle:@"Scanner" image:nil];
     
@@ -106,6 +107,10 @@
     //[[self controladorPestanias] addCenterButtonWithImage:[UIImage imageNamed:@"cameraTabBarItem.png"] highlightImage:nil];
 
     [[self navigationController] pushViewController:self.controladorPestanias animated:YES];
+    
+    [controladorListaRegiones refrescarDatos:self.controlMaestro->_meeting];
+    [[self controladorPestanias] addCenterButtonWithImage:[UIImage imageNamed:@"cameraTabBarItem.png"] highlightImage:nil];
+    
 }
 
 - (IBAction)cmdScanner:(id)sender {
