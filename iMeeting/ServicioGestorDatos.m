@@ -151,6 +151,9 @@
     }
 }
 
+
+// TODO Revisar no descargar archivos que esten de manera local
+
 - (void) registraElementoTrabajadoPorURL: (NSURL *) urlElementoTrabajado {
 
     // Obtener elementos publicados por URL de manera singleton (evitar trabajo por cada llamada de iCloud)
