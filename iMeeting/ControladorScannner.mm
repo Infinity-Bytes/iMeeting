@@ -133,6 +133,7 @@
                 case 0:
                     self.esCapturador =YES;
                     texto1= @"Bienvenido Capturador";
+                    [widController restartServices];
                     break;
                 case 1:
                     texto1= @"Bienvenido Administrador";
@@ -144,6 +145,7 @@
                 default:
                     texto1= @"No Identificado";
                     self.esCapturador=NO;
+                    [widController restartServices];
                     break;
             }
             

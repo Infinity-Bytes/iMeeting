@@ -222,7 +222,7 @@
 {
     int resultado = 3;
     if(_meeting){
-        usuario = [[_meeting conjuntoEntrevistados] objectForKey: idenfificador];
+        usuario = [[_meeting conjuntoEntrevistadores] objectForKey: idenfificador];
         if(usuario)
           return ([usuario isKindOfClass:[JefeEntrevistadores class]])?1:0;
     }
