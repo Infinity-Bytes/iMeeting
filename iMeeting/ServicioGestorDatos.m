@@ -231,7 +231,9 @@
                                                                              options:0 
                                                                                error:&error];
             for(NSURL * urlElementoTrabajado in elementosTrabajados) {
-                [self registraElementoTrabajadoPorURL: urlElementoTrabajado];
+                if(![[urlElementoTrabajado lastPathComponent] hasPrefix: @".zip"]) {
+                    [self registraElementoTrabajadoPorURL: urlElementoTrabajado];
+                }
             }
         }
     }
@@ -443,9 +445,26 @@
     // Registrar Elementos trabajados
     if([[urlDirectorioPadreEnDocumentos lastPathComponent] isEqualToString: DIRECTORIOTRABAJADO]) {
         
-        // TODO Descomprimir elementos recibidos
-        // TODO Registrar cada elemento obtenido en el archivo compreso
-        [self registraElementoTrabajadoPorURL: urlArchivoEnDocumentos];
+        if([[urlArchivoEnDocumentos lastPathComponent] hasSuffix:@".zip"]) {
+            ZipFile * zipFile = [[ZipFile alloc] initWithFileName: [urlArchivoEnDocumentos path] mode: ZipFileModeUnzip];
+            
+            for(FileInZipInfo * zipInfo in [zipFile listFileInZipInfos]) {
+                // Registrar cada elemento obtenido en el archivo compreso
+                NSURL * urlElementoTrabajado = [urlDirectorioPadreEnDocumentos URLByAppendingPathComponent:[zipInfo name] isDirectory: NO];
+                
+                if([zipFile locateFileInZip: [zipInfo name]]) {
+                    ZipReadStream * readStream = [zipFile readCurrentFileInZip];
+                    NSData * data = [readStream readDataOfLength: [zipInfo length]];
+                    [readStream finishedReading];
+                    
+                    [data writeToURL: urlElementoTrabajado atomically: YES];
+                    [self registraElementoTrabajadoPorURL: urlElementoTrabajado];
+                }
+            }
+            
+            [zipFile close];
+            [zipFile release];
+        }
     }
 }
 
@@ -463,15 +482,23 @@
         // Borrar elementos pendientes para evitar envio multiple
         if([[urlElementoOrigen lastPathComponent] hasSuffix: @".zip"]) {
             NSURL * urlPendientes = [[[urlElementoOrigen URLByDeletingLastPathComponent] URLByDeletingLastPathComponent] URLByAppendingPathComponent:DIRECTORIOPENDIENTE isDirectory: NO];
+            NSURL * urlTrabajados = [[[urlElementoOrigen URLByDeletingLastPathComponent] URLByDeletingLastPathComponent] URLByAppendingPathComponent:DIRECTORIOTRABAJADO isDirectory: NO];
             
             ZipFile * zipFile= [[ZipFile alloc] initWithFileName: [urlElementoOrigen path] mode:ZipFileModeUnzip];
             for (FileInZipInfo * zipInfo in [zipFile listFileInZipInfos]) {
+
                 NSURL * urlElementoEliminar = [urlPendientes URLByAppendingPathComponent: [zipInfo name] isDirectory: NO];
+                NSURL * urlElementoTrabajado = [urlTrabajados URLByAppendingPathComponent: [zipInfo name] isDirectory: NO];
+                
                 NSError * error;
-                if(![[NSFileManager defaultManager] removeItemAtURL: urlElementoEliminar  error: &error]) {
-                    NSLog(@"Error en eliminado de archivo: %@ pendiente de envio con error: %@", urlElementoEliminar, error);
+                
+                if(![[NSFileManager defaultManager] moveItemAtURL:urlElementoEliminar toURL:urlElementoTrabajado error: &error]) {
+                    NSLog(@"Error en mover de archivo: %@ pendiente a trabajado con error: %@", urlElementoEliminar, error);
                 }
             }
+            
+            [zipFile close];
+            [zipFile release];
         } else {
             // Borrar elemento en pendiente
             NSError * error;
