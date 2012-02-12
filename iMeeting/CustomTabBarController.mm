@@ -33,6 +33,7 @@
 
 -(void)viewDidLoad
 {
+    [super viewDidLoad];
     widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
     
     [widController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
@@ -41,6 +42,9 @@
     [qrcodeReader release];
     widController.readers = readers;
     [readers release];
+    
+    [ self addCenterButtonWithImage:[UIImage imageNamed:@"cameraTabBarItem.png"] highlightImage:nil];
+   
 }
 
 -(void)dealloc
@@ -78,8 +82,8 @@
   }
   
   [button addTarget:self action:@selector(cmdScanner:) forControlEvents:UIControlEventTouchUpInside];  
-    
-  [self.view addSubview:button];
+  
+    [self.view addSubview:button];
 }
 
 

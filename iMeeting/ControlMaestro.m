@@ -224,7 +224,8 @@
     if(_meeting){
         usuario = [[_meeting conjuntoEntrevistadores] objectForKey: idenfificador];
         if(usuario)
-          return ([usuario isKindOfClass:[JefeEntrevistadores class]])?1:0;
+            if(![usuario isKindOfClass:[JefeEntrevistadoresOtro class]])
+                return ([usuario isKindOfClass:[JefeEntrevistadores class]])?1:0;
     }
     return resultado; 
 }

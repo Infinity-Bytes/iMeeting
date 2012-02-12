@@ -92,7 +92,7 @@
     controladorListaRegiones.tabBarItem.image = [UIImage imageNamed:@"112-group.png"];
     [controladorListaRegiones setDelegadoControladorNavegacion:controlMaestro];
    
-    UIViewController * controlador = [[[self controladorPestanias] viewControllerWithTabTitle:@"Scanner" image:nil] autorelease];
+    //UIViewController * controlador = [[self controladorPestanias] viewControllerWithTabTitle:@"Scanner" image:nil];
     
     ControladorSesion * controladorSesion =  [[[ControladorSesion alloc] initWithNibName:@"ControladorSesion" bundle:[NSBundle mainBundle]] autorelease]; 
     controladorSesion.tabBarItem.title = @"Detalles";
@@ -101,9 +101,9 @@
     
     [[self controladorPestanias] setViewControllers:
      
-     [NSArray arrayWithObjects:controladorListaRegiones, controlador, controladorSesion,nil]];
+     [NSArray arrayWithObjects:controladorListaRegiones, controladorSesion,nil]];
     
-    [[self controladorPestanias] addCenterButtonWithImage:[UIImage imageNamed:@"cameraTabBarItem.png"] highlightImage:nil];
+    //[[self controladorPestanias] addCenterButtonWithImage:[UIImage imageNamed:@"cameraTabBarItem.png"] highlightImage:nil];
 
     [[self navigationController] pushViewController:self.controladorPestanias animated:YES];
 }
