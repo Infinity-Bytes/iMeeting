@@ -54,6 +54,8 @@
 		F129874D14BFD3B50043C634 /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874C14BFD3B50043C634 /* Meeting.m */; };
 		F129875014BFD47C0043C634 /* Persona.m in Sources */ = {isa = PBXBuildFile; fileRef = F129874F14BFD47C0043C634 /* Persona.m */; };
 		F12C07BE14D701480014C2DC /* ProxyRefEntrevistado.m in Sources */ = {isa = PBXBuildFile; fileRef = F12C07BD14D701480014C2DC /* ProxyRefEntrevistado.m */; };
+		F1332BA314E5CE2D0022928A /* ControladorSesion.m in Sources */ = {isa = PBXBuildFile; fileRef = F1332BA114E5CE2D0022928A /* ControladorSesion.m */; };
+		F1332BA414E5CE2D0022928A /* ControladorSesion.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1332BA214E5CE2D0022928A /* ControladorSesion.xib */; };
 		F17EA15714D1E20000CB55DB /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17EA15614D1E20000CB55DB /* DropboxSDK.framework */; };
 		F17EA15914D1E21400CB55DB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17EA15814D1E21400CB55DB /* Security.framework */; };
 		F17EA1A314D354F800CB55DB /* JefeEntrevistadores.m in Sources */ = {isa = PBXBuildFile; fileRef = F17EA1A214D354F800CB55DB /* JefeEntrevistadores.m */; };
@@ -160,6 +162,7 @@
 		D78DD96514BE2E4400C6B0D3 /* CeldaDetalleGrafica.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CeldaDetalleGrafica.xib; sourceTree = "<group>"; };
 		D78DD96814BE2F5000C6B0D3 /* DetalleGrafica.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetalleGrafica.h; sourceTree = "<group>"; };
 		D78DD96914BE2F5000C6B0D3 /* DetalleGrafica.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DetalleGrafica.mm; sourceTree = "<group>"; };
+		D793F0B114E73A490002DCE9 /* iDelegadoLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iDelegadoLogin.h; sourceTree = "<group>"; };
 		D7951E2614BF4017003593E6 /* CustomTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTabBarController.h; sourceTree = "<group>"; };
 		D7951E2714BF4017003593E6 /* CustomTabBarController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CustomTabBarController.mm; sourceTree = "<group>"; };
 		D7951E3114BF46A3003593E6 /* 112-group.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "112-group.png"; path = "recursos/112-group.png"; sourceTree = SOURCE_ROOT; };
@@ -190,6 +193,9 @@
 		F12C07BC14D701480014C2DC /* ProxyRefEntrevistado.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProxyRefEntrevistado.h; sourceTree = "<group>"; };
 		F12C07BD14D701480014C2DC /* ProxyRefEntrevistado.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProxyRefEntrevistado.m; sourceTree = "<group>"; };
 		F12C07C014D7419C0014C2DC /* iControladorVista.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iControladorVista.h; sourceTree = "<group>"; };
+		F1332BA014E5CE2D0022928A /* ControladorSesion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControladorSesion.h; sourceTree = "<group>"; };
+		F1332BA114E5CE2D0022928A /* ControladorSesion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControladorSesion.m; sourceTree = "<group>"; };
+		F1332BA214E5CE2D0022928A /* ControladorSesion.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControladorSesion.xib; sourceTree = "<group>"; };
 		F17EA15614D1E20000CB55DB /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		F17EA15814D1E21400CB55DB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F17EA1A114D354F800CB55DB /* JefeEntrevistadores.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JefeEntrevistadores.h; sourceTree = "<group>"; };
@@ -331,6 +337,7 @@
 				838D516714BE62C500DF03BD /* CeldaEncargadoPorRegion.xib */,
 				838D516814BE62C500DF03BD /* ControladorListaRegiones.xib */,
 				83BFC5FF14BFAD6F00B0EE47 /* ControladorListaPersonas.xib */,
+				F1332BA214E5CE2D0022928A /* ControladorSesion.xib */,
 			);
 			name = Vista;
 			sourceTree = "<group>";
@@ -408,6 +415,8 @@
 		D78DD96214BE2D4600C6B0D3 /* Componentes */ = {
 			isa = PBXGroup;
 			children = (
+				F1332BA114E5CE2D0022928A /* ControladorSesion.m */,
+				F1332BA014E5CE2D0022928A /* ControladorSesion.h */,
 				D7951E2614BF4017003593E6 /* CustomTabBarController.h */,
 				D7951E2714BF4017003593E6 /* CustomTabBarController.mm */,
 				838D516514BE62C500DF03BD /* CeldaEncargadoPorRegion.h */,
@@ -426,6 +435,7 @@
 				D7951E4114BF7258003593E6 /* iDelegadoControladorNavegacion.h */,
 				D7951E4214BF731A003593E6 /* iDelegadoControladorLista.h */,
 				D7A5193314C0C499003AE69B /* iDelegadoControladorScanner.h */,
+				D793F0B114E73A490002DCE9 /* iDelegadoLogin.h */,
 			);
 			name = Protocolo;
 			sourceTree = "<group>";
@@ -585,6 +595,7 @@
 				D7951E3C14BF46A3003593E6 /* cameraTabBarItem@2x.png in Resources */,
 				83BFC60114BFAD6F00B0EE47 /* ControladorListaPersonas.xib in Resources */,
 				F11D97DC14C1FB1500ECAB12 /* 100pxl_invest.png in Resources */,
+				F1332BA414E5CE2D0022928A /* ControladorSesion.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -619,6 +630,7 @@
 				F17EA1A314D354F800CB55DB /* JefeEntrevistadores.m in Sources */,
 				F12C07BE14D701480014C2DC /* ProxyRefEntrevistado.m in Sources */,
 				F1F6AF6214DC87FD000D017E /* JefeEntrevistadoresOtro.m in Sources */,
+				F1332BA314E5CE2D0022928A /* ControladorSesion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

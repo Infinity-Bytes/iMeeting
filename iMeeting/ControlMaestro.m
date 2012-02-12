@@ -37,6 +37,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     
     [_meeting release]; _meeting = nil;
+    [usuario release]; usuario = nil;
     
     [self setServicioBusqueda: nil];
     [self setControlNavegacionPrincipal: nil];
@@ -76,7 +77,7 @@
             [controladorListaRegiones setDelegadoControladorNavegacion:self];
             [controladorListaRegiones setEncargadosPorRegion:[self establecerOriginDatos:personaAsuCargo bajoNombre:nombreLista]];
             [controladorListaRegiones setIdentificador:@"ListaRegiones"];
-            [controlNavegacion pushViewController:controladorListaRegiones animated:YES];
+            [self.controlNavegacionPrincipal pushViewController:controladorListaRegiones animated:YES];
             [controladorListaRegiones release];
         }
     } else {
@@ -87,7 +88,7 @@
             [controladorDetalle setDelegadoControladorNavegacion:self];
             [controladorDetalle establecerEntrevistador:entrevistador];
             
-            [controlNavegacion pushViewController:controladorDetalle animated:YES];
+            [self.controlNavegacionPrincipal pushViewController:controladorDetalle animated:YES];
             
             [controladorDetalle release];
             
@@ -103,7 +104,7 @@
             [controladorListaPersonas setEntrevistador: entrevistador];
             [controladorListaPersonas setOrigenDatos: origenDatos];
             
-            [controlNavegacion pushViewController:controladorListaPersonas animated: YES];
+            [self.controlNavegacionPrincipal pushViewController:controladorListaPersonas animated: YES];
             [controladorListaPersonas release];
         }
     }
@@ -215,6 +216,18 @@
     if(entrevistado) {
         [self procesaElementoTrabajado: entrevistado enMeeting:meeting];
     }
+}
+
+-(int)comprobarIdentidad:(NSString*)idenfificador
+{
+    int resultado = 3;
+    if(_meeting){
+        usuario = [[_meeting conjuntoEntrevistadores] objectForKey: idenfificador];
+        if(usuario)
+            if(![usuario isKindOfClass:[JefeEntrevistadoresOtro class]])
+                return ([usuario isKindOfClass:[JefeEntrevistadores class]])?1:0;
+    }
+    return resultado; 
 }
 
 @end

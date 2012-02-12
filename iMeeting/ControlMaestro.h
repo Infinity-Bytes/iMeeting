@@ -13,11 +13,13 @@
 #import "iDelegadoControladorNavegacion.h"
 #import "iDelegadoControladorScanner.h"
 #import "iServicioBusqueda.h"
+#import "iDelegadoLogin.h"
 
-@interface ControlMaestro : NSObject<iDelegadoControladorNavegacion, iDelegadoControladorScanner>
+@interface ControlMaestro : NSObject<iDelegadoControladorNavegacion, iDelegadoControladorScanner, iDelegadoLogin>
 {
     Meeting * _meeting;
     Entrevistado * _ultimoEntrevistado;
+    Entrevistado * usuario;
 }
 
 
@@ -34,6 +36,9 @@
 - (void) procesaElementoTrabajado: (Entrevistado *) entrevistado enMeeting: (Meeting *) meeting;
 - (void) obtenEntrevistadoresAcumulador:(NSMutableSet *) acumulador aPartir: (Entrevistador *) entrevistador;
 - (void) procesaAcumulado: (NSSet *) acumulador;
+
+#pragma Delegado Login
+-(int)comprobarIdentidad:(NSString*)idenfificador; 
 
 @property (nonatomic, retain) id<iServicioBusqueda> servicioBusqueda;
 @property (nonatomic, assign) UINavigationController * controlNavegacionPrincipal;

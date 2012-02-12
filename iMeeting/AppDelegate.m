@@ -18,17 +18,18 @@
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize controladorPestanias=_controladorPestanias;
+//@synthesize controladorPestanias=_controladorPestanias;
 
 - (void)dealloc
 {
-    [timerActualizacion invalidate];
+    
     
     [_window release];
-    [_controladorPestanias release];
+    [timerActualizacion invalidate];
+    //[_controladorPestanias release];
     [controlMaestro release];
     [servicioGestorDatos release];
-    
+    [controladorNavegacionPersonas release];
     [super dealloc];
 }
 
@@ -58,7 +59,7 @@
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     //ControladorScannner * controladorScanner =  [[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]]; 
     // Override point for customization after application launch.
-    [ self setControladorPestanias: [[CustomTabBarController new] autorelease]  ];
+   /* [ self setControladorPestanias: [[CustomTabBarController new] autorelease]  ];
     [[self controladorPestanias] setDelegadoControladorScanner: controlMaestro];
     
     ControladorListaRegiones * controladorListaRegiones =  [[[ControladorListaRegiones alloc] initWithNibName:@"ControladorListaRegiones" bundle:[NSBundle mainBundle]] autorelease]; 
@@ -85,7 +86,22 @@
     
     [[self controladorPestanias] addCenterButtonWithImage:[UIImage imageNamed:@"cameraTabBarItem.png"] highlightImage:nil];
     
-    [[self window] addSubview: [self.controladorPestanias view]];
+    [[self window] addSubview: [self.controladorPestanias view]];*/
+    
+     controlMaestro  = [ControlMaestro new];
+     ControladorScannner *controladorScanner = [[[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]] autorelease] ;
+    
+    
+    controladorNavegacionPersonas = [[UINavigationController alloc] initWithRootViewController:controladorScanner];
+    controladorNavegacionPersonas.navigationBar.tintColor=[UIColor blackColor];
+    
+    [controlMaestro setControlNavegacionPrincipal: controladorNavegacionPersonas];
+    
+    [controladorScanner setControlMaestro:controlMaestro];
+    [controladorScanner setDelegadoLogin:controlMaestro];
+    [controladorScanner setDelegadoControladorScanner:controlMaestro];
+    [[self window] addSubview: [controladorNavegacionPersonas view]];
+    
     [self.window makeKeyAndVisible];
     
     return YES;
