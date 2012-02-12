@@ -162,6 +162,7 @@
 		D78DD96514BE2E4400C6B0D3 /* CeldaDetalleGrafica.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CeldaDetalleGrafica.xib; sourceTree = "<group>"; };
 		D78DD96814BE2F5000C6B0D3 /* DetalleGrafica.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetalleGrafica.h; sourceTree = "<group>"; };
 		D78DD96914BE2F5000C6B0D3 /* DetalleGrafica.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DetalleGrafica.mm; sourceTree = "<group>"; };
+		D793F0B114E73A490002DCE9 /* iDelegadoLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iDelegadoLogin.h; sourceTree = "<group>"; };
 		D7951E2614BF4017003593E6 /* CustomTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTabBarController.h; sourceTree = "<group>"; };
 		D7951E2714BF4017003593E6 /* CustomTabBarController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CustomTabBarController.mm; sourceTree = "<group>"; };
 		D7951E3114BF46A3003593E6 /* 112-group.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "112-group.png"; path = "recursos/112-group.png"; sourceTree = SOURCE_ROOT; };
@@ -434,6 +435,7 @@
 				D7951E4114BF7258003593E6 /* iDelegadoControladorNavegacion.h */,
 				D7951E4214BF731A003593E6 /* iDelegadoControladorLista.h */,
 				D7A5193314C0C499003AE69B /* iDelegadoControladorScanner.h */,
+				D793F0B114E73A490002DCE9 /* iDelegadoLogin.h */,
 			);
 			name = Protocolo;
 			sourceTree = "<group>";

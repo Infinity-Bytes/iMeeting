@@ -10,14 +10,23 @@
 #import "ZXingWidgetController.h"
 #import "iDelegadoControladorScanner.h"
 
-@interface ControladorScannner : UIViewController <ZXingDelegate> 
+#import "ControlMaestro.h"
+#import "Meeting.h"
+#import "CustomTabBarController.h"
+#import "ServicioGestorDatos.h"
+#import <DropboxSDK/DropboxSDK.h>
+#import "iDelegadoLogin.h"
 
-@property (nonatomic, assign) NSString *identificador;
+@interface ControladorScannner : UIViewController <ZXingDelegate, UIAlertViewDelegate>
+{
+    ZXingWidgetController *widController;
+    CustomTabBarController *_controladorPestanias;
+}
 
 - (IBAction)cmdScanner:(id)sender;
 
 
-@property(nonatomic, assign) id<iDelegadoControladorScanner> delegadoControladorScanner;
+-(void)crearVistAdministrador;
 
 #pragma mark -
 #pragma mark ZXingDelegateMethods
@@ -25,5 +34,18 @@
 - (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result;
 
 - (void)zxingControllerDidCancel:(ZXingWidgetController*)controller;
+
+
+#pragma mark -
+#pragma mark UIAlertView
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+
+
+@property(nonatomic, assign) ControlMaestro* controlMaestro;
+@property(nonatomic, assign) id<iDelegadoControladorScanner> delegadoControladorScanner;
+@property(nonatomic, assign)id<iDelegadoLogin> delegadoLogin;
+@property (nonatomic, retain) CustomTabBarController *controladorPestanias;
+@property (nonatomic, assign) BOOL esCapturador;
 
 @end

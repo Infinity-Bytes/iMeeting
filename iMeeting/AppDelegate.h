@@ -16,16 +16,18 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, DBSessionDelegate>
 {
-    CustomTabBarController *_controladorPestanias;
+    //CustomTabBarController *_controladorPestanias;
     
     NSTimer * timerActualizacion;
     ControlMaestro * controlMaestro;
     ServicioGestorDatos * servicioGestorDatos;
+    UINavigationController *controladorNavegacionPersonas;
+    
 }
 
 -(void) procesaInformacionActual:(NSTimer *) timer;
 
 @property (strong, nonatomic) UIWindow *window;
-@property (nonatomic, retain) CustomTabBarController *controladorPestanias;
+//@property (nonatomic, retain) CustomTabBarController *controladorPestanias;
 
 @end

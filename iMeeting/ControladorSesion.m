@@ -8,7 +8,10 @@
 
 #import "ControladorSesion.h"
 
+
 @implementation ControladorSesion
+
+@synthesize controladorLogin;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,6 +49,12 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(IBAction)cmdCerrarSesion:(id)sender
+{
+    [[self controladorLogin] setEsCapturador:false];
+    [[[self controladorLogin] navigationController] popToRootViewControllerAnimated:YES];
 }
 
 @end

@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ControladorScannner.h"
 
 @interface ControladorSesion : UIViewController
 
+@property(nonatomic, assign) ControladorScannner * controladorLogin;
+
+-(IBAction)cmdCerrarSesion:(id)sender;
 @end
