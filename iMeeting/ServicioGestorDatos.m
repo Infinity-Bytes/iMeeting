@@ -51,6 +51,7 @@
         [_dateFormatter setDateFormat:@"yyyyMMdd_HHmmss"];
         
         enviarPendientes = NO;
+        recolectaInfo = NO;
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         [self setUrlDocumentos: [[[NSURL alloc] initFileURLWithPath: [paths objectAtIndex: 0]  isDirectory: YES] autorelease]];
@@ -58,6 +59,11 @@
         [[NSNotificationCenter defaultCenter] addObserver: self 
                                                  selector: @selector(procesaElementoTrabajado:) 
                                                      name: @"registraElementoTrabajado" 
+                                                   object: nil];
+
+        [[NSNotificationCenter defaultCenter] addObserver: self 
+                                                 selector: @selector(procesaElementoTrabajado:) 
+                                                     name: @"especificadoPermiso" 
                                                    object: nil];
         
     }
@@ -123,6 +129,13 @@
             NSLog(@"Error en generación de directorio pendiente %@, procesaElementoTrabajado:", error);
         }
     }
+}
+
+- (void) especificadoPermiso: (NSNotification *) theNotification {
+    recolectaInfo = NO;
+    NSNumber * number = [[theNotification userInfo] objectForKey: @"tipo"];
+    if([number intValue] == 1)
+        recolectaInfo = YES;
 }
 
 - (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlMeetingDocumentos yURLCloud: (NSURL *) urlMeetingiCloud {
@@ -403,8 +416,6 @@
                     [_archivoGestionadoPorPath addObject: file.path];
                     [_revisionPorPath setObject:file.rev forKey: file.path];
 
-                    NSLog(@"Solicitando descarga: %@", file.path);
-                    
                     NSURL * urlArchivoDocumentos = [self.urlDocumentos URLByAppendingPathComponent: [file.path substringFromIndex: 1]];
                     
                     
@@ -413,11 +424,13 @@
                                                                  attributes: nil
                                                                       error: &error]) {
                         
-                        // TODO Revisar si archivo es de tipo Definicion
-                        // TODO Si es archivo definicion y no existe localmente descargarle
-                        // TODO En caso contrario validar si el permiso es de Entrevistador o Jefe de Entrevistadores para proceder a la descarga (Solo Jefe de Entrevistadores)
-                        
-                        [[self restClient] loadFile: file.path intoPath: [urlArchivoDocumentos path]];
+                        if(recolectaInfo 
+                           || [[[file path] lastPathComponent] isEqualToString: ARCHIVODEFINICIONMEETING]) {
+
+                            NSLog(@"Solicitando descarga: %@", file.path);
+                            
+                            [[self restClient] loadFile: file.path intoPath: [urlArchivoDocumentos path]];
+                        }
                     } else {
                         NSLog( @"No es posible crear el directorio local para almacenar elemento en la nube: %@ con error: %@", [urlArchivoDocumentos URLByDeletingLastPathComponent], error);
                     }

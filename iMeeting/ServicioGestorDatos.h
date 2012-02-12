@@ -27,11 +27,13 @@
     BOOL enviarPendientes;
     
     NSDateFormatter *_dateFormatter;
+    BOOL recolectaInfo;
 }
 
 - (DBRestClient *) restClient;
 
 - (void) procesaElementoTrabajado: (NSNotification *) theNotification;
+- (void) especificadoPermiso: (NSNotification *) theNotification;
 
 - (void) registraMeeting: (Meeting *) meeting conURLDocumentos: (NSURL *) urlDocumentos yURLCloud: (NSURL *) urliCloud;
 - (void) registraElementoTrabajadoPorURL: (NSURL *) urlElementoTrabajado;

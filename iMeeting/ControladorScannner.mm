@@ -134,7 +134,8 @@
         {
             UIAlertView* alertView1;
             NSString * texto1;
-            switch ( [[self delegadoLogin] comprobarIdentidad:result]) {
+            int tipo = [[self delegadoLogin] comprobarIdentidad:result];
+            switch (tipo) {
                 case 0:
                     self.esCapturador =YES;
                     texto1= @"Bienvenido Capturador";
@@ -153,6 +154,11 @@
                     [widController restartServices];
                     break;
             }
+            
+            [[NSNotificationQueue defaultQueue] enqueueNotification: [NSNotification notificationWithName:@"especificadoPermiso" object:self userInfo: [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt: tipo], @"tipo", nil]]
+                                                       postingStyle: NSPostWhenIdle
+                                                       coalesceMask: NSNotificationNoCoalescing
+                                                           forModes: nil];
             
             alertView1= [[[UIAlertView alloc] initWithTitle:result message:texto1 delegate:nil cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Aceptar", nil] autorelease];
             [alertView1 show];

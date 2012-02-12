@@ -26,7 +26,6 @@
     
     [_window release];
     [timerActualizacion invalidate];
-    //[_controladorPestanias release];
     [controlMaestro release];
     [servicioGestorDatos release];
     [controladorNavegacionPersonas release];
@@ -46,12 +45,12 @@
     
     controlMaestro  = [ControlMaestro new];
     servicioGestorDatos = [ServicioGestorDatos new];
-
-    // TODO Establecer tiempo de actualizacion alto para evitar saturacion de llamadas al API
-    timerActualizacion = [NSTimer scheduledTimerWithTimeInterval:10.0 target: self selector: @selector(procesaInformacionActual:)  userInfo: nil repeats: YES];
+    
+    // Tiempo de actualizacion alto para evitar saturacion de llamadas al API
+    timerActualizacion = [NSTimer scheduledTimerWithTimeInterval: 5*60 target: self selector: @selector(procesaInformacionActual:)  userInfo: nil repeats: YES];
     
     [controlMaestro setServicioBusqueda:[[ServicioBusqueda new] autorelease]];
-
+    
     [servicioGestorDatos cargaMeetingsDeDocumentos];
     [servicioGestorDatos cargaMeetingsDeiTunesFileSharing];
     [servicioGestorDatos cargaMeetingsDeiCloud];
@@ -59,39 +58,8 @@
     [servicioGestorDatos cargaMeetingsDeiCloud];
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    //ControladorScannner * controladorScanner =  [[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]]; 
-    // Override point for customization after application launch.
-   /* [ self setControladorPestanias: [[CustomTabBarController new] autorelease]  ];
-    [[self controladorPestanias] setDelegadoControladorScanner: controlMaestro];
     
-    ControladorListaRegiones * controladorListaRegiones =  [[[ControladorListaRegiones alloc] initWithNibName:@"ControladorListaRegiones" bundle:[NSBundle mainBundle]] autorelease]; 
-    [controladorListaRegiones setIdentificador:@"ListaRegiones"];
-    controladorListaRegiones.tabBarItem.title = @"Personas";
-    controladorListaRegiones.tabBarItem.image = [UIImage imageNamed:@"112-group.png"];
-    [controladorListaRegiones setDelegadoControladorNavegacion:controlMaestro];
-    
-    UINavigationController *controladorNavegacionPersonas = [[[UINavigationController alloc] initWithRootViewController:controladorListaRegiones] autorelease];
-    controladorNavegacionPersonas.navigationBar.tintColor=[UIColor blackColor];
-
-    [controlMaestro setControlNavegacionPrincipal: controladorNavegacionPersonas];
-    
-    UIViewController * controlador = [[self controladorPestanias] viewControllerWithTabTitle:@"Scanner" image:nil];
-    
-    ControladorScannner * controladorScanner2 =  [[[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]] autorelease]; 
-    controladorScanner2.tabBarItem.title = @"Detalles";
-    controladorScanner2.tabBarItem.image = [UIImage imageNamed:@"123-id-card.png"];
-    
-    
-    [[self controladorPestanias] setViewControllers:
-     
-     [NSArray arrayWithObjects:controladorNavegacionPersonas, controlador, controladorScanner2,nil]];
-    
-    [[self controladorPestanias] addCenterButtonWithImage:[UIImage imageNamed:@"cameraTabBarItem.png"] highlightImage:nil];
-    
-    [[self window] addSubview: [self.controladorPestanias view]];*/
-    
-     controlMaestro  = [ControlMaestro new];
-     ControladorScannner *controladorScanner = [[[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]] autorelease] ;
+    ControladorScannner *controladorScanner = [[[ControladorScannner alloc] initWithNibName:@"ControladorScannner" bundle:[NSBundle mainBundle]] autorelease] ;
     
     
     controladorNavegacionPersonas = [[UINavigationController alloc] initWithRootViewController:controladorScanner];

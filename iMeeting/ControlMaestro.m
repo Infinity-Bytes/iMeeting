@@ -77,7 +77,7 @@
             [controladorListaRegiones setDelegadoControladorNavegacion:self];
             [controladorListaRegiones setEncargadosPorRegion:[self establecerOriginDatos:personaAsuCargo bajoNombre:nombreLista]];
             [controladorListaRegiones setIdentificador:@"ListaRegiones"];
-            [self.controlNavegacionPrincipal pushViewController:controladorListaRegiones animated:YES];
+            [controlNavegacion pushViewController:controladorListaRegiones animated:YES];
             [controladorListaRegiones release];
         }
     } else {
@@ -88,7 +88,7 @@
             [controladorDetalle setDelegadoControladorNavegacion:self];
             [controladorDetalle establecerEntrevistador:entrevistador];
             
-            [self.controlNavegacionPrincipal pushViewController:controladorDetalle animated:YES];
+            [controlNavegacion pushViewController:controladorDetalle animated:YES];
             
             [controladorDetalle release];
             
@@ -104,7 +104,7 @@
             [controladorListaPersonas setEntrevistador: entrevistador];
             [controladorListaPersonas setOrigenDatos: origenDatos];
             
-            [self.controlNavegacionPrincipal pushViewController:controladorListaPersonas animated: YES];
+            [controlNavegacion pushViewController:controladorListaPersonas animated: YES];
             [controladorListaPersonas release];
         }
     }
