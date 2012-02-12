@@ -48,8 +48,8 @@
 
 #pragma Cargado de Meetings a partir de definición dada por iTunes Shared Folder
 - (void) cargaMeetingsDeiTunesFileSharing;
-- (void) generaEstructuraDeMeeting: (Meeting *) meeting;
-- (id) cargaDirectorioMeeting: (Meeting *) meeting enURL: (NSURL *) urlInteres;
+- (void) generaEstructuraDeMeeting: (Meeting *) meeting conURLOrigen: (NSURL *) urlOrigen;
+- (id) cargaDirectorioMeeting: (Meeting *) meeting enURL: (NSURL *) urlInteres yURLOrigen: (NSURL *) urlOrigen;
 - (NSArray *) cargaDefinicionMeetings;
 - (Meeting *) generaMeetingDePOCOs: (NSDictionary *) objetoPlano;
 - (NSArray *) procesaPersonas: (NSDictionary *) objetoReferencia conIdentificadorDeConjunto: (NSString *) identificadorConjunto usandoAcumuladorEntrevistados: (NSMutableDictionary *) acumulador

@@ -196,7 +196,7 @@
     if(!(meetingInteres = [_meetingsPorPathDefinicion objectForKey: subPathArchivoDefinicion])) {
         
         NSStringEncoding encoding;
-        NSError * error;
+        NSError * error = nil;
         NSString * definicionMeeting = [NSString stringWithContentsOfURL: urlArchivoDefinicion usedEncoding:&encoding error:&error];
         id definicion = [definicionMeeting JSONValue];
         if([definicion isKindOfClass: [NSDictionary class]]) {
@@ -234,6 +234,9 @@
                                                                              options:0 
                                                                                error:&error];
             for(NSURL * urlElementoTrabajado in elementosTrabajados) {
+                NSString * subPathDefinicion = [@"/" stringByAppendingString:[self obtenSubPath: urlElementoTrabajado]];
+                [_archivoGestionadoPorPath addObject: subPathDefinicion];
+                
                 if(![[urlElementoTrabajado lastPathComponent] hasPrefix: @".zip"]) {
                     [self registraElementoTrabajadoPorURL: urlElementoTrabajado];
                 }
@@ -255,6 +258,9 @@
             BOOL directorio;
             if([defaultManager fileExistsAtPath: [urlDefinicion path] isDirectory: &directorio]) {
                 if(!directorio) {
+                    NSString * subPathDefinicion = [@"/" stringByAppendingString:[self obtenSubPath: urlDefinicion]];
+                    [_archivoGestionadoPorPath addObject: subPathDefinicion];
+                        
                     Meeting * meeting = [self obtenMeetingDeURL: urlDefinicion];
                     if(meeting) {
                         [self registraMeeting: meeting conURLDocumentos: url yURLCloud: nil];
@@ -393,11 +399,7 @@
             
             if(!file.isDirectory) {
                 
-                // Evitar descargar multiples veces el mismo documento
-                NSString * revisionActual = [_revisionPorPath objectForKey: file.path];
-                NSString * revisionNuevo = file.rev;
-                
-                if(![_archivoGestionadoPorPath containsObject: file.path] || ![revisionActual isEqualToString: revisionNuevo] ) {
+                if(![_archivoGestionadoPorPath containsObject: file.path]) {
                     [_archivoGestionadoPorPath addObject: file.path];
                     [_revisionPorPath setObject:file.rev forKey: file.path];
 
@@ -537,7 +539,7 @@
             NSURL * urlArchivo = [[[NSURL alloc] initFileURLWithPath: definicionMeetingFileSharing isDirectory: FALSE] autorelease];
             Meeting * meetingInteres = [self obtenMeetingDeURL: urlArchivo];
             if(meetingInteres) {
-                [self generaEstructuraDeMeeting: meetingInteres];
+                [self generaEstructuraDeMeeting: meetingInteres conURLOrigen: urlArchivo];
                 
                 if (BORRARDEFINICIONMEETING && !REGENERARESTRUCTURA) {
                     // Borrar definicion de iTunes File Sharing
@@ -551,12 +553,12 @@
     }
 }
 
-- (void) generaEstructuraDeMeeting: (Meeting *) meeting {
-    NSURL * urlDocumentosMeeting = [self cargaDirectorioMeeting: meeting enURL: [self urlDocumentos]];
+- (void) generaEstructuraDeMeeting: (Meeting *) meeting conURLOrigen: (NSURL *) urlOrigen {
+    NSURL * urlDocumentosMeeting = [self cargaDirectorioMeeting: meeting enURL: [self urlDocumentos] yURLOrigen: urlOrigen];
     [self registraMeeting: meeting conURLDocumentos: urlDocumentosMeeting yURLCloud: nil];
 }
 
-- (id) cargaDirectorioMeeting: (Meeting *) meeting enURL: (NSURL *) urlInteres {
+- (id) cargaDirectorioMeeting: (Meeting *) meeting enURL: (NSURL *) urlInteres yURLOrigen: (NSURL *) urlOrigen {
 	id pathMeeting = nil;
     NSError *error = nil;
     
@@ -580,21 +582,13 @@
                 [fileManager createDirectoryAtURL:[pathMeeting URLByAppendingPathComponent: DIRECTORIOPENDIENTE] 
                        withIntermediateDirectories:YES attributes:nil error: &error];
                 
+                NSError * error = nil;
                 NSURL * pathDefinicion = [pathMeeting URLByAppendingPathComponent: ARCHIVODEFINICIONMEETING  isDirectory: NO];
-                Documento * definicionInteres = [[Documento alloc] initWithFileURL: pathDefinicion];
-                [definicionInteres setNoteContent: [meeting definicion]];
-                [definicionInteres saveToURL: [definicionInteres fileURL] 
-                            forSaveOperation: REGENERARESTRUCTURA ? UIDocumentSaveForOverwriting : UIDocumentSaveForCreating
-                           completionHandler:^(BOOL success) {
-                               
-                               NSLog(@"Definición: %@ salvada: %@", pathMeeting, success ? @"correctamente" : @"incorrectamente");
-                               if(success) {
-                                   // Se registra el meeting en funcion de su estructura final
-                                   [_meetingsPorPathDefinicion setObject: meeting forKey: [self obtenSubPath: pathDefinicion]];
-                               }
-                }];
                 
-                [definicionInteres release];
+                if([[NSFileManager defaultManager] copyItemAtURL: urlOrigen toURL: pathDefinicion error:&error ]) {
+                    [_meetingsPorPathDefinicion setObject: meeting forKey: [self obtenSubPath: pathDefinicion]];
+                }
+                
             } else {
                 NSLog(@"Error en creación de directorio");
             }
