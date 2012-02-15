@@ -47,7 +47,7 @@
     servicioGestorDatos = [ServicioGestorDatos new];
     
     // Tiempo de actualizacion alto para evitar saturacion de llamadas al API
-    timerActualizacion = [NSTimer scheduledTimerWithTimeInterval: 5*60 target: self selector: @selector(procesaInformacionActual:)  userInfo: nil repeats: YES];
+    timerActualizacion = [NSTimer scheduledTimerWithTimeInterval: 10 target: self selector: @selector(procesaInformacionActual:)  userInfo: nil repeats: YES];
     
     [controlMaestro setServicioBusqueda:[[ServicioBusqueda new] autorelease]];
     

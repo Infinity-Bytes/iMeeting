@@ -62,7 +62,7 @@
                                                    object: nil];
 
         [[NSNotificationCenter defaultCenter] addObserver: self 
-                                                 selector: @selector(procesaElementoTrabajado:) 
+                                                 selector: @selector(especificadoPermiso:) 
                                                      name: @"especificadoPermiso" 
                                                    object: nil];
         
@@ -370,33 +370,40 @@
                         
                         NSString * nombreArchivo = [NSString stringWithFormat: @"%@.zip", dateString];
                         NSURL * urlArchivoZip = [urlTrabajado URLByAppendingPathComponent: nombreArchivo isDirectory: NO];
-                        ZipFile * zipFile = [[ZipFile alloc] initWithFileName: [urlArchivoZip path] mode: ZipFileModeCreate];
                         
+                        NSError * errorInteres;
+                        if([defaultManager createDirectoryAtURL:urlTrabajado withIntermediateDirectories: YES attributes: nil  error: &errorInteres]) {
                         
-                        
-                        for(NSURL * urlElementoEnDocumentosPendientes in elementosEnPendientes) {
-                            
-                            ZipWriteStream * stream = [zipFile writeFileInZipWithName: [urlElementoEnDocumentosPendientes lastPathComponent] 
-                                                                             fileDate: [NSDate dateWithTimeIntervalSinceNow:-86400.0] 
-                                                                     compressionLevel: ZipCompressionLevelBest];
+                            ZipFile * zipFile = [[ZipFile alloc] initWithFileName: [urlArchivoZip path] mode: ZipFileModeCreate];
                             
                             
-                            NSString * text = [NSString stringWithContentsOfURL:urlElementoEnDocumentosPendientes usedEncoding:&encoding error:&error];
-                            [stream writeData: [text dataUsingEncoding: encoding]];
-                            [stream finishedWriting];
+                            
+                            for(NSURL * urlElementoEnDocumentosPendientes in elementosEnPendientes) {
+                                
+                                ZipWriteStream * stream = [zipFile writeFileInZipWithName: [urlElementoEnDocumentosPendientes lastPathComponent] 
+                                                                                 fileDate: [NSDate dateWithTimeIntervalSinceNow:-86400.0] 
+                                                                         compressionLevel: ZipCompressionLevelBest];
+                                
+                                
+                                NSString * text = [NSString stringWithContentsOfURL:urlElementoEnDocumentosPendientes usedEncoding:&encoding error:&error];
+                                [stream writeData: [text dataUsingEncoding: encoding]];
+                                [stream finishedWriting];
+                            }
+                            
+                            [zipFile close];
+                            [zipFile release];
+                            
+                            // Generar Path de Pendientes a Trabajados y para iCloud
+                            NSString * subPath = [[self obtenSubPath: [urlArchivoZip URLByDeletingLastPathComponent]] 
+                                                  stringByReplacingOccurrencesOfString: DIRECTORIOPENDIENTE withString: DIRECTORIOTRABAJADO];
+                            NSString * localPath = [urlArchivoZip path];
+                            NSString * filename = [urlArchivoZip lastPathComponent];
+                            NSString * destDir = [@"/" stringByAppendingString: subPath];
+                            
+                            [[self restClient] uploadFile:filename toPath:destDir withParentRev:nil fromPath:localPath];
+                        } else {
+                            NSLog(@"Error en creacion de directorio trabajado para depositar Zip con error: %@", errorInteres);
                         }
-                        
-                        [zipFile close];
-                        [zipFile release];
-                        
-                        // Generar Path de Pendientes a Trabajados y para iCloud
-                        NSString * subPath = [[self obtenSubPath: [urlArchivoZip URLByDeletingLastPathComponent]] 
-                                              stringByReplacingOccurrencesOfString: DIRECTORIOPENDIENTE withString: DIRECTORIOTRABAJADO];
-                        NSString * localPath = [urlArchivoZip path];
-                        NSString * filename = [urlArchivoZip lastPathComponent];
-                        NSString * destDir = [@"/" stringByAppendingString: subPath];
-                        
-                        [[self restClient] uploadFile:filename toPath:destDir withParentRev:nil fromPath:localPath];
                     }
                 }
             }
@@ -411,11 +418,9 @@
         for (DBMetadata * file in metadata.contents) {
             
             if(!file.isDirectory) {
+                NSLog( @"Metadata archivo: %@", [file path]);
                 
                 if(![_archivoGestionadoPorPath containsObject: file.path]) {
-                    [_archivoGestionadoPorPath addObject: file.path];
-                    [_revisionPorPath setObject:file.rev forKey: file.path];
-
                     NSURL * urlArchivoDocumentos = [self.urlDocumentos URLByAppendingPathComponent: [file.path substringFromIndex: 1]];
                     
                     
@@ -428,6 +433,9 @@
                            || [[[file path] lastPathComponent] isEqualToString: ARCHIVODEFINICIONMEETING]) {
 
                             NSLog(@"Solicitando descarga: %@", file.path);
+                            
+                            [_archivoGestionadoPorPath addObject: file.path];
+                            [_revisionPorPath setObject:file.rev forKey: file.path];                            
                             
                             [[self restClient] loadFile: file.path intoPath: [urlArchivoDocumentos path]];
                         }

@@ -80,6 +80,14 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (![[DBSession sharedSession] isLinked]) {
+        [[DBSession sharedSession] link];
+    }
+}
+
 -(void)crearVistAdministrador
 {
     [ self setControladorPestanias: [[CustomTabBarController new] autorelease]  ];
@@ -132,7 +140,6 @@
             [alertView show];
         }else
         {
-            UIAlertView* alertView1;
             NSString * texto1;
             int tipo = [[self delegadoLogin] comprobarIdentidad:result];
             switch (tipo) {
@@ -160,7 +167,7 @@
                                                        coalesceMask: NSNotificationNoCoalescing
                                                            forModes: nil];
             
-            alertView1= [[[UIAlertView alloc] initWithTitle:result message:texto1 delegate:nil cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Aceptar", nil] autorelease];
+            UIAlertView * alertView1= [[[UIAlertView alloc] initWithTitle:result message:texto1 delegate:nil cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Aceptar", nil] autorelease];
             [alertView1 show];
 
         }
@@ -177,7 +184,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(self.esCapturador)
-        [delegadoControladorScanner notificarRespuesta: !buttonIndex];
+        [delegadoControladorScanner notificarRespuesta: buttonIndex];
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex;

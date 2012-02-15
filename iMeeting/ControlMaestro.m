@@ -124,7 +124,7 @@
 
 -(void) notificarRespuesta:(BOOL)respuesta
 {
-    if(_ultimoEntrevistado && ![_ultimoEntrevistado asistio]) {
+    if(respuesta && _ultimoEntrevistado && ![_ultimoEntrevistado asistio]) {
         
         [self procesaElementoTrabajado: _ultimoEntrevistado enMeeting: _meeting];
         
